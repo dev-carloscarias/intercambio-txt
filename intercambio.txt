@@ -1,1 +1,28 @@
-dssdfsfsa
+This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is ..\packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets.
+
+NuGet Package restore failed for project UnitTests\Walmart.FelGTSoft2000.Mvc.Tests: Unable to find version '4.3.1' of package 'System.ValueTuple'.
+  C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\: Package 'System.ValueTuple.4.3.1' is not found on source 'C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\'.
+  https://api.nuget.org/v3/index.json: Error downloading 'System.ValueTuple.4.3.1' from 'https://api.nuget.org/v3-flatcontainer/system.valuetuple/4.3.1/system.valuetuple.4.3.1.nupkg'.
+  Response status code does not indicate success: 403 (MediaTypeBlocked).
+  https://repo.wal-mart.com/service/local/nuget/nuget-walmart/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget-walmart/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/nuget-opensource/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget-opensource/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/nuget-shared/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget-shared/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/nuget3-gallery/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget3-gallery/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/choco-repo/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/choco-repo/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/nuget-snapshots/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget-snapshots/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/powershell-gallery/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/powershell-gallery/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repository.walmart.com/repository/nuget-hosted: Unable to load the service index for source https://repository.walmart.com/repository/nuget-hosted.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://repo.wal-mart.com/service/local/nuget/nuget-gallery/: Unable to load the service index for source https://repo.wal-mart.com/service/local/nuget/nuget-gallery/.
+  The ServicePointManager does not support proxies with the https scheme.
+  https://ciartifacts.walmart.com/artifactory/api/nuget/v3/devtools-testing-nuget: Unable to load the service index for source https://ciartifacts.walmart.com/artifactory/api/nuget/v3/devtools-testing-nuget.
+  An error occurred while sending the request.
+  The remote server returned an error: (503) Server Unavailable.
+. Please see Error List window for detailed warnings and errors.
