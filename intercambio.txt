@@ -1,204 +1,457 @@
-//-----------------------------------------------------------------------    
-// <copyright file="Index.cs" company="Walmart México y Centroamérica">    
+//---------------------------------------------------------------------------------------    
+// <copyright file="AppConfig.cs" company="Walmart México y Centroamérica">    
 //   Copyright (c) Deny to distribute this code.    
 // </copyright>    
 // <author>Carlos Agüero Fallas</author>    
-//----------------------------------------------------------------------- 
+//----------------------------------------------------------------------------------------
 namespace Walmart.FelGTSoft2000.Mvc.Components
 {
-    using Microsoft.AspNet.Identity;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.Collections.Generic;
     using System.Configuration;
-    using System.Net;
-    using System.Net.Http;
-    using System.Security.Claims;
-    using System.Web;
-    #region Using    
-    using System.Web.Mvc;
-    using Walmart.Common.MvcBreadcrumbs;
-    using static iTextSharp.text.pdf.AcroFields;
-    #endregion
+    using System.Diagnostics.CodeAnalysis;
+    using Walmart.Common.Helpers;
 
     /// <summary>
-    /// Home controller class
+    /// Application config class
     /// </summary>
-    public partial class HomeController : BaseController
+    [ExcludeFromCodeCoverage]
+    public class AppConfig
     {
+        #region Fields
         /// <summary>
-        /// Initial action result
+        /// Client key
         /// </summary>
-        /// <returns>View model</returns>
-        [Breadcrumb(Clear = true, Label = "Home", ResourceType = typeof(Resources.Breadcrumbs.Trail))]
-        //[Authorize]
-        public ActionResult Index(string code)
-        {
-           
+        private static string clientId;
 
-            if (code != null)
+        /// <summary>
+        /// Base service route
+        /// </summary>
+        private static string sts;
+
+        /// <summary>
+        /// Address site
+        /// </summary>
+        private static string siteAddress;
+
+        /// <summary>
+        /// Issuer address
+        /// </summary>
+        private static string issuerAddress;
+
+        /// <summary>
+        /// Client secret
+        /// </summary>
+        private static string clientSecret;
+
+        /// <summary>
+        /// Token endpoint
+        /// </summary>
+        private static string stsTokenEndpoint;
+
+        /// <summary>
+        /// Base service entity base address
+        /// </summary>
+        private static string webApiEntityAddress;
+
+        /// <summary>
+        /// User image information route
+        /// </summary>
+        private static string imageUserInfoPath;
+
+        /// <summary>
+        /// Service base address
+        /// </summary>
+        private static string webApiBaseAdress;
+
+        /// <summary>
+        /// Sitemap file name
+        /// </summary>
+        private static string mvcSiteMapKey;
+
+        /// <summary>
+        /// Active queue service key
+        /// </summary>
+        private static string activeMQServiceKey;
+
+        /// <summary>
+        /// Report server key
+        /// </summary>
+        private static string reportServer;
+
+        /// <summary>
+        /// Report viewer key
+        /// </summary>
+        private static string reportViewer;
+
+        /// <summary>
+        /// Report folder key
+        /// </summary>
+        private static string reportFolder;
+
+        /// <summary>
+        /// Base file transfer service address
+        /// </summary>
+        private static string webApiSftpBaseAddress;
+
+        /// <summary>
+        /// Service base file transfer address
+        /// </summary>
+        private static string webApiSftpEntityAddress;
+
+        /// <summary>
+        /// Report service user
+        /// </summary>
+        private string reportUser;
+
+        /// <summary>
+        /// Report service password
+        /// </summary>
+        private string reportPass;
+
+        /// <summary>
+        /// Report domain key
+        /// </summary>
+        private string reportDomain;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets application client key
+        /// </summary>
+        public static string ClientId
+        {
+            get
             {
-                if (!this.ContextSvc.IsLoggedIn())
+                //MemoryCacheHelper memory = new MemoryCacheHelper();
+                //if (memory.GetValue("stagingClientId") == null)
+                //{
+                //    clientId = Vault.FindValue("stagingClientId", clientId);
+                //}
+
+                if (string.IsNullOrEmpty(clientId))
                 {
-                    //Obtener el token de Pingfed
-                    var pingfedtk = HttpUtility.HtmlDecode(ObtenerPingfedTkn(code));
-                    if (!String.IsNullOrEmpty(pingfedtk))
-                    {
-                        JToken accessToken = "";
-                        JToken idToken = "";
-                        JToken expiresIn = "";
-                        JToken refreshToken = "";
-                        JObject jsonToken = JObject.Parse(pingfedtk);
-                        jsonToken.TryGetValue("access_token", out accessToken);
-                        jsonToken.TryGetValue("id_token", out idToken);
-                        jsonToken.TryGetValue("expires_in", out expiresIn);
-                        jsonToken.TryGetValue("refresh_token", out refreshToken);
-
-                        //Obtener los datos del usuario con el token
-                        //Obtener datos del Usuario
-
-                        var userInfo = HttpUtility.HtmlDecode(ObtenerUserInfo(accessToken.ToString()));
-
-                        JToken username = "";
-                        JToken givenName = "";
-                        JToken familyName = "";
-                        JToken title = "";
-                        JToken domain = "";
-                        JToken role = "";
-                        JToken email = "";
-
-                        JObject jsonUserInfo = JObject.Parse(userInfo);
-
-                        jsonUserInfo.TryGetValue("sAMAccountName", out username);
-                        jsonUserInfo.TryGetValue("given_name", out givenName);
-                        jsonUserInfo.TryGetValue("family_name", out familyName);
-                        jsonUserInfo.TryGetValue("title", out title);
-                        jsonUserInfo.TryGetValue("distinguishedName", out domain);
-                        jsonUserInfo.TryGetValue("memberOf", out role);
-                        jsonUserInfo.TryGetValue("mail", out email);
-
-                        string[] domains = domain.ToString().Split(',');
-                        string domainSplit = "";
-                        foreach (var word in domains)
-                        {
-                            if (word.Contains("DC"))
-                            {
-                                string[] componentes = word.ToString().Split('=');
-                                foreach (var key in componentes)
-                                {
-                                    if (!key.Contains("DC"))
-                                    {
-                                        domainSplit = domainSplit + key + ".";
-                                    }
-                                }
-                            }
-                        }
-
-                        string roles = "";
-                        bool accesRol = false;
-                        foreach (var item in role)
-                        {
-                            // Whenever we need to validate any new role, we must do it in this section
-                            if (item.ToString() == AppConfig.AdministradorRoleFromConfig)
-                            {
-                                roles = AppConfig.AdministradorRole;
-                                accesRol = true;
-                            } 
-                            else 
-                            if (item.ToString() == AppConfig.FacturadorRoleFromConfig)
-                            {
-                                roles = AppConfig.FacturadorRole;
-                                accesRol = true;
-                            } 
-                            else
-                            if (item.ToString() == AppConfig.ConsultaRoleFromConfig)
-                            {
-                                roles = AppConfig.ConsultaRole;
-                                accesRol = true;
-                            }
-                        }
-
-                        if (accesRol)
-                        {
-                            var claims = new List<Claim>()
-                            {
-                               new Claim(ClaimTypes.Name,  accessToken.ToString()),
-                               new Claim("accesstoken", accessToken.ToString()),
-                               new Claim("refreshtoken", refreshToken.ToString()),
-                               new Claim("name", username.ToString()),
-                               new Claim("username", username.ToString()),
-                               new Claim("given_name", givenName.ToString()),
-                               new Claim("family_name", familyName.ToString()),
-                               new Claim("title", title.ToString()),
-                               new Claim("domain", domainSplit.ToString()),
-                               new Claim("role", roles),
-                               new Claim("email", email.ToString()),
-                               new Claim("usercountry", "SV"),
-                               //new Claim("usercountry", "SV"),
-                            };
-
-                            var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                            var ctx = Request.GetOwinContext();
-                            var authenticationManager = ctx.Authentication;
-                            authenticationManager.SignIn(new Microsoft.Owin.Security.AuthenticationProperties() { IsPersistent = false }, claimIdenties);
-                            return Redirect(AppConfig.SiteAddress);
-                        }
-                    }
+                    clientId = ConfigurationManager.AppSettings[ConstantsHelper.ClientId];
                 }
-                else
+
+                return clientId;
+            }
+        }
+
+        /// <summary>
+        /// Gets application client key
+        /// </summary>
+        public static string Sts
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(sts))
                 {
-                    return this.View();
+                    sts = ConfigurationManager.AppSettings[ConstantsHelper.Sts];
                 }
-            }
-            
-            return Redirect(AppConfig.Sts + "/as/authorization.oauth2?redirect_uri=" + AppConfig.SiteAddress + "&client_id=" + AppConfig.ClientId + "&response_type=code&scope=openid%20profile%20full");
 
+                return sts;
+            }
         }
 
-        public static String ObtenerPingfedTkn(String code)
+        /// <summary>
+        /// Gets address site
+        /// </summary>
+        public static string SiteAddress
         {
-            string tokenEndpoint = AppConfig.Sts + "/as/token.oauth2";
-
-            var values = new Dictionary<string, string>
-             {
-                 { "grant_type", "authorization_code" },
-                 { "code" , code },
-                 { "client_id", AppConfig.ClientId},
-                 { "client_secret", AppConfig.ClientSecret },
-                 { "redirect_uri", AppConfig.SiteAddress}
-             };
-
-            HttpClient tokenClient = new HttpClient();
-            var content = new FormUrlEncodedContent(values);
-            var response = tokenClient.PostAsync(tokenEndpoint, content).Result;
-
-            if (response.IsSuccessStatusCode)
+            get
             {
-                var responseContent = response.Content;
-                return HttpUtility.HtmlEncode(responseContent.ReadAsStringAsync().Result);
+                if (string.IsNullOrEmpty(siteAddress))
+                {
+                    siteAddress = ConfigurationManager.AppSettings[ConstantsHelper.SiteAddress];
+                }
+
+                return siteAddress;
             }
-            return "";
         }
 
-        public static String ObtenerUserInfo(String accessToken)
+        /// <summary>
+        /// Gets issuer address site
+        /// </summary>
+        public static string IssuerAddress
         {
-            using (WebClient client = new WebClient())
+            get
             {
-                string addressOpenid = AppConfig.Sts + "/idp/userinfo.openid";
-                //somehow get token
-                client.Headers.Add("Authorization", "Bearer " + accessToken);
-                string userinfo = client.DownloadString(addressOpenid);
-                return HttpUtility.HtmlEncode(userinfo);
+                if (string.IsNullOrEmpty(issuerAddress))
+                {
+                    issuerAddress = ConfigurationManager.AppSettings[ConstantsHelper.IssuerUri];
+                }
+
+                return issuerAddress;
             }
         }
 
-        public ActionResult LogOff()
+        /// <summary>
+        /// Gets client secret key
+        /// </summary>
+        public static string ClientSecret
         {
-            //Crerrar la sesión borrar las cookies
+            get
+            {
+                //MemoryCacheHelper memory = new MemoryCacheHelper();
+                //if (memory.GetValue("stagingClientSecret") == null)
+                //{
+                //    clientSecret = Vault.FindValue("stagingClientSecret", clientSecret);
+                //}
 
-            return this.View();
+                if (string.IsNullOrEmpty(clientSecret))
+                {
+                    clientSecret = ConfigurationManager.AppSettings[ConstantsHelper.ClientSecret];
+                }
+
+                return clientSecret;
+            }
         }
 
+        /// <summary>
+        /// Gets client secret key
+        /// </summary>
+        public static string StsTokenEndpoint
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(stsTokenEndpoint))
+                {
+                    stsTokenEndpoint = ConfigurationManager.AppSettings[ConstantsHelper.StsTokenEndpoint];
+                }
 
+                return stsTokenEndpoint;
+            }
+        }
+
+        /// <summary>
+        /// Gets base service address
+        /// </summary>
+        public static string WebApiEntityAddress
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(webApiEntityAddress))
+                {
+                    webApiEntityAddress = ConfigurationManager.AppSettings[ConstantsHelper.WebApiEntityAddress];
+                }
+
+                return webApiEntityAddress;
+            }
+        }
+
+        /// <summary>
+        /// Gets image user information
+        /// </summary>
+        public static string ImageUserInfoPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(imageUserInfoPath))
+                {
+                    imageUserInfoPath = ConfigurationManager.AppSettings[ConstantsHelper.ImageUserInfoPath];
+                }
+
+                return imageUserInfoPath;
+            }
+        }
+
+        /// <summary>
+        /// Gets web service base address
+        /// </summary>
+        public static string WebApiBaseAdress
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(webApiBaseAdress))
+                {
+                    webApiBaseAdress = ConfigurationManager.AppSettings[ConstantsHelper.WebApiBaseAdress];
+                }
+
+                return webApiBaseAdress;
+            }
+        }
+
+        /// <summary>
+        /// Gets site map key
+        /// </summary>
+        public static string MvcSiteMapKey
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(mvcSiteMapKey))
+                {
+                    mvcSiteMapKey = ConfigurationManager.AppSettings[ConstantsHelper.MvcSiteMapKey];
+                }
+
+                return mvcSiteMapKey;
+            }
+        }
+
+        /// <summary>
+        /// Gets active message queue service file name
+        /// </summary>
+        public static string ActiveMQServiceKey
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(activeMQServiceKey))
+                {
+                    activeMQServiceKey = ConfigurationManager.AppSettings[ConstantsHelper.ActiveMQServiceKey];
+                }
+
+                return activeMQServiceKey;
+            }
+        }
+
+        /// <summary>
+        /// Gets report server name
+        /// </summary>
+        public static string ReportServer
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(reportServer))
+                {
+                    reportServer = ConfigurationManager.AppSettings[ConstantsHelper.ReportServer];
+                }
+
+                return reportServer;
+            }
+        }
+
+        /// <summary>
+        /// Gets report folder name
+        /// </summary>
+        public static string ReportFolder
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(reportFolder))
+                {
+                    reportFolder = ConfigurationManager.AppSettings[ConstantsHelper.ReportFolder];
+                }
+
+                return reportFolder;
+            }
+        }
+
+        /// <summary>
+        /// Gets report application name
+        /// </summary>
+        public static string ReportViewer
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(reportViewer))
+                {
+                    reportViewer = ConfigurationManager.AppSettings[ConstantsHelper.ReportViewer];
+                }
+
+                return reportViewer;
+            }
+        }
+
+        /// <summary>
+        /// Gets file transfer base address
+        /// </summary>
+        public static string WebApiSftpBaseAddress
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(webApiSftpBaseAddress))
+                {
+                    webApiSftpBaseAddress = ConfigurationManager.AppSettings[ConstantsHelper.WebApiSftpBaseAddress];
+                }
+
+                return webApiSftpBaseAddress;
+            }
+        }
+
+        /// <summary>
+        /// Gets web service address
+        /// </summary>
+        public static string WebApiSftpEntityAddress
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(webApiSftpEntityAddress))
+                {
+                    webApiSftpEntityAddress = ConfigurationManager.AppSettings[ConstantsHelper.WebApiSftpEntityAddress];
+                }
+
+                return webApiSftpEntityAddress;
+            }
+        }
+
+        /// <summary>
+        /// Gets report password
+        /// </summary>
+        public string ReportDomain
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.reportDomain))
+                {
+                    this.reportDomain = ConfigurationManager.AppSettings[ConstantsHelper.ReportDomain];
+                }
+
+                return this.reportDomain;
+            }
+        }
+
+        /// <summary>
+        /// Gets report user
+        /// </summary>
+        public string ReportUser
+        {
+            get
+            {
+                MemoryCacheHelper memory = new MemoryCacheHelper();
+                if (memory.GetValue("stagingReportUser") == null)
+                {
+                    reportUser = Vault.FindValue("stagingReportUser", reportUser);
+                }
+
+            //    if (string.IsNullOrEmpty(this.reportUser))
+            //    {
+            //        this.reportUser = ConfigurationManager.AppSettings[ConstantsHelper.ReportUser];
+            //    }
+
+                return this.reportUser;
+            }
+        }
+
+        /// <summary>
+        /// Gets report password
+        /// </summary>
+        public string ReportPass
+        {
+            get
+            {
+                MemoryCacheHelper memory = new MemoryCacheHelper();
+                if (memory.GetValue("stagingReportPassword") == null)
+                {
+                    reportPass = Vault.FindValue("stagingReportPassword", reportPass);
+                }
+
+                //if (string.IsNullOrEmpty(this.reportPass))
+                //{
+                //    this.reportPass = ConfigurationManager.AppSettings["ReportPassword"];
+                //}
+
+                return this.reportPass;
+            }
+        }
+
+        #endregion
+
+        // Getting the exact role from the config
+        public static string FacturadorRoleFromConfig { get; } = ConfigurationManager.AppSettings["FacturadorRole"];
+        public static string AdministradorRoleFromConfig { get; } = ConfigurationManager.AppSettings["AdministradorRole"];
+        public static string ConsultaRoleFromConfig { get; } = ConfigurationManager.AppSettings["ConsultaRole"];
+
+        //  Getting the role to handle it with the sitemap file
+        public static string FacturadorRole => "Facturador";
+        public static string AdministradorRole => "Administrador";
+        public static string ConsultaRole => "Consulta";
     }
 }
