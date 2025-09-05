@@ -1,1 +1,310 @@
+//Web.config
 
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For more information on how to configure your ASP.NET application, please visit -->
+<configuration>
+	<configSections>
+		<section name="CultureSection" type="Walmart.Common.Helpers.CultureSection, Walmart.Common.Helpers" />
+		<section name="ServiceSection" type="Walmart.Common.Helpers.ServiceSection, Walmart.Common.Helpers" />
+		<sectionGroup name="system.web.webPages.razor" type="System.Web.WebPages.Razor.Configuration.RazorWebSectionGroup, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
+			<section name="host" type="System.Web.WebPages.Razor.Configuration.HostSection, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" />
+			<section name="pages" type="System.Web.WebPages.Razor.Configuration.RazorPagesSection, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" />
+		</sectionGroup>
+	</configSections>
+	<appSettings>
+		<add key="webpages:Version" value="3.0.0.0" />
+		<add key="webpages:Enabled" value="false" />
+		<add key="ClientValidationEnabled" value="true" />
+		<add key="UnobtrusiveJavaScriptEnabled" value="true" />
+		<add key="UserDomainNamesCSV" value="CAM, MX, CL, Homeoffice, BR, AR" />
+		<!--Configuración timeout para API en segundos minutos de espera x 60-->
+		<add key="WsTimeout" value="300" />
+		<!--Configuración timeout para API en segundos minutos de espera x 60-->
+		<add key="DefaultPageSize" value="5" />
+		<add key="CustomAuthorizeController" value="Home" />
+		<add key="CustomAuthorizeAction" value="AccessDenied" />
+		<add key="ActiveMQServiceKey" value="Logger.WebApp.Template" />
+		<add key="log4net.Internal.Debug" value="true" />
+
+		<!--<add key="UrlSite" value="https://soft200024bqa.cam.wal-mart.com:4506/"/>-->
+		<!--Configuración Identity Server
+    <add key="ClientId" value="felgtsoft2000"/>
+    <add key="STS" value="https://walmartidentityservicesdev.cam.wal-mart.com:4451/walmart"/>
+    <add key="UrlSite" value="https://localhost:44304/"/>
+    <add key="IssuerUri" value="https://walmartidentityservicesdev.cam.wal-mart.com:4451/walmart"/>
+    <add key="STSTokenEndpoint" value="https://walmartidentityservicesdev.cam.wal-mart.com:4451/walmart/connect/token"/>
+    Configuración Identity Server-->
+
+		<!-- Akeyless default settings-->
+		<add key="useAkeyless" value="true" />
+		<add key="accessId" value="p-3w6qyk4p0kuscw" />
+		<add key="accessType" value="cert" />
+		<add key="debugAkeyless" value="true" />
+		<add key="baseUrlAkeyless" value="https://akeyless.gw.non-prod.glb.us.walmart.net:8080/v2" />
+		<add key="basePathAkeyless" value="Non-Prod/homeoffice" />
+		<add key="adGroup" value="CAM - FixUp Developers QA" />
+		<add key="app" value="eme-HTAI" />
+		<add key="envAkeyless" value="stage" />
+		<add key="certPath" value="C:\Akeyless\CarrierManagementAPIAkeyless\cert.pem" />
+		<add key="keyPath" value="C:\Akeyless\CarrierManagementAPIAkeyless\Private_key.pem" />
+		<!--Akeyless default settings-->
+
+		<!--Configuración App Vault-->
+		<add key="vaultCertFile" value="C:\Vault\CIMS\CajaChica\CertificdosDesarrollo\devCajaChicaAppVault@cam.wal-mart.com.pfx" />
+		<add key="vaultPemFile" value="C:\Vault\CIMS\CajaChica\CertificdosDesarrollo\private_key.pem" />
+		<add key="vaultBasePath" value="https://secvault.staging.walmart.com/vault-impl/rest/vault" />
+		<add key="vaultCertification" value="Walmart*2023" />
+		<add key="vaultClientName" value="cam-cims" />
+		<add key="vaultZone" value="NonPCI" />
+		<!--Configuración App Vault-->
+
+		<!--Configuración Pingfed DEV-->
+		<add key="ClientId" value="cam-sof-dfac19a6-09f8-11ec-9a03-0242ac130003" />
+		<add key="STS" value="https://pfeddev.wal-mart.com" />
+		<!--<add key="STS" value="https://pfedcert.wal-mart.com" />-->
+		<add key="UrlSite" value="https://localhost:44304" />
+		
+		<!--Configuración Pingfed DEV-->
+
+		<!--Configuración Pingfed QA
+    <add key="STS" value="https://pfeddev.wal-mart.com" />
+    <add key="ClientId" value="cam-sof-dfac19a6-09f8-11ec-9a03-0242ac130003" />
+    <add key="STS" value="https://pfedcert.wal-mart.com" />
+    <add key="UrlSite" value="https://soft200024bqa.cam.wal-mart.com:4506/" />
+	Configuración Pingfed QA-->
+
+		<add key="UrlServerGooSocket" value="https://developers.gosocket.net/sandbox/api/v1/" />
+		<add key="UserGosocket" value="3e85b284-11d8-4448-b74a-a8090858b35c" />
+		<!--LOCAL ENV-->
+		<add key="FacturadorRole" value="CAM - Sof2020 Facturador - LAB" />
+		<add key="AdministradorRole" value="CAM - Sof2020 Administrador - LAB" />
+		<add key="ConsultaRole" value="CAM - Sof2020 Consulta - LAB" />
+		<!--
+		QA ENV
+		<add key="FacturadorRole" value="CAM - Sof2020 Facturador - QA" />
+		<add key="AdministradorRole" value="CAM - Sof2020 Administrador - QA" />
+		<add key="ConsultaRole" value="CAM - Sof2020 Consulta - QA" />
+		-->
+		<!--
+		PROD ENV
+		<add key="FacturadorRole" value="CAM - Sof2020 Facturador" />
+		<add key="AdministradorRole" value="CAM - Sof2020 Administrador" />
+		<add key="ConsultaRole" value="CAM - Sof2020 Consulta" />
+		-->
+
+		<!--Configuración Report Server-->
+		<add key="ReportServer" value="https://camreportingdev.cam.wal-mart.com/Reportserver/" />
+		<add key="ReportViewer" value="ReportServer/Pages/ReportViewer.aspx?" />
+		<add key="ReportFolder" value="Mvc" />
+		<add key="ReportUser" value="USR_REPORTTAB" />
+		<add key="ReportDomain" value="CAM" />
+		<!--Configuración Report Server-->
+	</appSettings>
+	<system.diagnostics>
+		<trace autoflush="true">
+			<listeners>
+				<add name="textWriterTraceListener" type="System.Diagnostics.TextWriterTraceListener" initializeData="C:\tmp\log4net.txt" />
+			</listeners>
+		</trace>
+	</system.diagnostics>
+	<!--Configuración Servicios API-->
+	<ServiceSection>
+		<Services>
+
+
+			<!-- <Service ServiceKey="WalmartWebApi" BaseAddress="https://lcmnt20001gtqa.cam.wal-mart.com:4509/api/v1/" />
+      <Service ServiceKey="BusinessServices" BaseAddress="https://lcmnt20001gtqa.cam.wal-mart.com:4509/api/v1/" /> -->
+
+			<Service ServiceKey="WalmartWebApi" BaseAddress="https://localhost:44300/api/v1/" />
+			<Service ServiceKey="BusinessServices" BaseAddress="https://localhost:44300/api/v1/" />
+
+		</Services>
+	</ServiceSection>
+	<!--Configuración Servicios API-->
+	<!--Configuración de Multilenguage-->
+	<CultureSection>
+		<Cultures>
+			<Culture CultureFullName="Español" CultureName="es-ES" />
+			<Culture CultureFullName="English" CultureName="en-US" />
+		</Cultures>
+	</CultureSection>
+	<!--Configuración de Multilenguage-->
+	<!--
+    For a description of web.config changes see http://go.microsoft.com/fwlink/?LinkId=235367.
+
+    The following attributes can be set on the <httpRuntime> tag.
+      <system.Web>
+        <httpRuntime targetFramework="4.5.2" />
+      </system.Web>
+  -->
+	<system.web>
+		<customErrors mode="RemoteOnly" />
+		<compilation debug="true" targetFramework="4.6.1" defaultLanguage="c#">
+			<assemblies>
+				<add assembly="System.Runtime, Version=4.0.0.0, Culture=neutral,  PublicKeyToken=b03f5f7f11d50a3a" />
+				<add assembly="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
+			</assemblies>
+		</compilation>
+		<httpCookies httpOnlyCookies="true" />
+		<httpRuntime targetFramework="4.6.1" requestValidationMode="2.0" />
+		<pages validateRequest="false" />
+		<globalization culture="en-us" uiCulture="en-us" />
+		<authentication mode="None" />
+		<httpHandlers>
+			<!-- Required by Microsoft ReportViewer control -->
+			<add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false" />
+		</httpHandlers>
+	</system.web>
+	<system.web.webPages.razor>
+		<host factoryType="System.Web.Mvc.MvcWebRazorHostFactory, System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+		<pages pageBaseType="System.Web.Mvc.WebViewPage">
+			<namespaces>
+				<add namespace="System.Web.Mvc" />
+				<add namespace="System.Web.Mvc.Ajax" />
+				<add namespace="System.Web.Mvc.Html" />
+				<add namespace="System.Web.Routing" />
+				<add namespace="Walmart.FelGTSoft2000.Mvc" />
+				<add namespace="Walmart.FelGTSoft2000.Mvc.Resources" />
+				<add namespace="Walmart.Common.BootstrapTable" />
+			</namespaces>
+		</pages>
+	</system.web.webPages.razor>
+	<system.webServer>
+		<security>
+			<requestFiltering>
+				<requestLimits maxAllowedContentLength="104857600" />
+			</requestFiltering>
+		</security>
+		<staticContent>
+			<remove fileExtension=".woff2" />
+			<mimeMap fileExtension=".woff2" mimeType="font/woff2" />
+		</staticContent>
+		<modules runAllManagedModulesForAllRequests="true">
+			<remove name="WebDAVModule" />
+			<remove name="ApplicationInsightsWebTracking" />
+			<!--<add name="ApplicationInsightsWebTracking" type="Microsoft.ApplicationInsights.Web.ApplicationInsightsHttpModule, Microsoft.AI.Web" preCondition="managedHandler" />-->
+			<remove name="FormsAuthenticationModule" />
+		</modules>
+		<httpProtocol>
+			<customHeaders>
+				<add name="Access-Control-Allow-Origin" value="*" />
+				<add name="Access-Control-Allow-Headers" value="Content-Type" />
+				<add name="Access-Control-Allow-Methods" value="GET, POST, PUT, DELETE, OPTIONS" />
+				<add name="Strict-Transport-Security" value="max-age=31536000; includeSubDomains = true; redirectHttpToHttps = true" />
+			</customHeaders>
+		</httpProtocol>
+		<handlers>
+			<remove name="BlockViewHandler" />
+			<add name="BlockViewHandler" path="*.cshtml" verb="*" preCondition="integratedMode" type="System.Web.HttpNotFoundHandler" />
+			<remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" />
+			<remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" />
+			<remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+			<remove name="OPTIONSVerbHandler" />
+			<remove name="TRACEVerbHandler" />
+			<add name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" path="*." verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness32" responseBufferLimit="0" />
+			<add name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" path="*." verb="*" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness64" responseBufferLimit="0" />
+			<add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+			<add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+		</handlers>
+		<validation validateIntegratedModeConfiguration="false" />
+	</system.webServer>
+	<runtime>
+		<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.SqlServer.Types" publicKeyToken="89845DCD8080CC91" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.ReportViewer.DataVisualization" publicKeyToken="89845DCD8080CC91" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Owin.Security.OAuth" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Owin.Security.Cookies" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Newtonsoft.Json" culture="neutral" publicKeyToken="30ad4fe6b2a6aeed" />
+				<bindingRedirect oldVersion="0.0.0.0-13.0.0.0" newVersion="13.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Web.Optimization" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="1.0.0.0-1.1.0.0" newVersion="1.1.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="1.0.0.0-1.5.2.14234" newVersion="1.5.2.14234" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Web.Helpers" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.OData.Core" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-6.13.0.0" newVersion="6.13.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Net.Http" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-4.1.1.3" newVersion="4.1.1.3" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.ValueTuple" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-4.0.3.0" newVersion="4.0.3.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-5.0.0.0" newVersion="5.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.SqlServer.Types" publicKeyToken="89845dcd8080cc91" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+			</dependentAssembly>
+		</assemblyBinding>
+	</runtime>
+</configuration>
+
+
+//AuthConfig
+//-----------------------------------------------------------------------    
+// <copyright file="AuthConfig.cs" company="Walmart México y Centroamérica">    
+//   Copyright (c) Deny to distribute this code.    
+// </copyright>    
+// <author>Carlos Agüero Fallas</author>    
+//-----------------------------------------------------------------------
+namespace Walmart.FelGTSoft2000.Mvc.Configs
+{
+    using System.Diagnostics.CodeAnalysis;
+
+    /// <summary>
+    /// Authorization config
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public static class AuthConfig
+    {
+        /// <summary>
+        /// Register authorization
+        /// </summary>
+        public static void RegisterAuth()
+        {           
+        }
+    }
+}
