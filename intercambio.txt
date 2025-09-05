@@ -1,85 +1,204 @@
-@using Walmart.FelGTSoft2000.Mvc.Resources.Controls
-@using Walmart.FelGTSoft2000.Mvc.Resources.Notifications
-
-@if (@User.Identity.IsAuthenticated)
+//-----------------------------------------------------------------------    
+// <copyright file="Index.cs" company="Walmart México y Centroamérica">    
+//   Copyright (c) Deny to distribute this code.    
+// </copyright>    
+// <author>Carlos Agüero Fallas</author>    
+//----------------------------------------------------------------------- 
+namespace Walmart.FelGTSoft2000.Mvc.Components
 {
-    <div class="col-xl-6 col-lg-5 col-md-5 col-sm-4 col-xs-2 logged-user-container">
-        <span class="loggedUser">
-            @string.Format("{0}/{1}",
-           ((User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("domain") == null
-              ? string.Empty : (User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("domain").Value),
+    using Microsoft.AspNet.Identity;
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Net;
+    using System.Net.Http;
+    using System.Security.Claims;
+    using System.Web;
+    #region Using    
+    using System.Web.Mvc;
+    using Walmart.Common.MvcBreadcrumbs;
+    using static iTextSharp.text.pdf.AcroFields;
+    #endregion
 
-             ((User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("username") == null
-              ? string.Empty : (User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst("username").Value))
-        </span>
-        @*<a class="loggedUserIcon" style="text-align: left ">
-                <img src="~/Content/Images/header/icono_persona-01.svg" alt="" />
-            </a>*@
+    /// <summary>
+    /// Home controller class
+    /// </summary>
+    public partial class HomeController : BaseController
+    {
+        /// <summary>
+        /// Initial action result
+        /// </summary>
+        /// <returns>View model</returns>
+        [Breadcrumb(Clear = true, Label = "Home", ResourceType = typeof(Resources.Breadcrumbs.Trail))]
+        //[Authorize]
+        public ActionResult Index(string code)
+        {
+           
 
-    </div>
+            if (code != null)
+            {
+                if (!this.ContextSvc.IsLoggedIn())
+                {
+                    //Obtener el token de Pingfed
+                    var pingfedtk = HttpUtility.HtmlDecode(ObtenerPingfedTkn(code));
+                    if (!String.IsNullOrEmpty(pingfedtk))
+                    {
+                        JToken accessToken = "";
+                        JToken idToken = "";
+                        JToken expiresIn = "";
+                        JToken refreshToken = "";
+                        JObject jsonToken = JObject.Parse(pingfedtk);
+                        jsonToken.TryGetValue("access_token", out accessToken);
+                        jsonToken.TryGetValue("id_token", out idToken);
+                        jsonToken.TryGetValue("expires_in", out expiresIn);
+                        jsonToken.TryGetValue("refresh_token", out refreshToken);
 
-    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 col-xs-5">
-        <div class="help">
-            <select class="form-control form-control-lg mb-3 show-menu-arrow modal-input " style="font-size:18px;" id="countryCode" name="Country" onchange="CountryChange(this, event)">
-                <option value="EM" class="h4">@Label.CbCountry</option>
-                <option value="GT" class="h4">Guatemala</option>
-                <option value="HN" class="h4">Honduras</option>
-                <option value="SV" class="h4">El Salvador</option>
-                <option value="NI" class="h4">Nicaragua</option>
-                <option value="CR" class="h4">Costa Rica</option>
-            </select>
-        </div>
-    </div>
+                        //Obtener los datos del usuario con el token
+                        //Obtener datos del Usuario
 
+                        var userInfo = HttpUtility.HtmlDecode(ObtenerUserInfo(accessToken.ToString()));
 
+                        JToken username = "";
+                        JToken givenName = "";
+                        JToken familyName = "";
+                        JToken title = "";
+                        JToken domain = "";
+                        JToken role = "";
+                        JToken email = "";
 
-    <div class="col-md-2 col-sm-2 col-xs-5">
-        <div class="help">
-            <a href="">
-                <img src="~/Content/Images/header/ayuda.svg" alt="" />
-            </a>
-        </div>
-        <div class="exit">
-            <a style="display: inline" href="@Url.Action("LogOff", "UserAccount")">
-                <img src="~/Content/Images/header/salir.svg" alt="" />
-            </a>
-        </div>
-    </div>
-}
+                        JObject jsonUserInfo = JObject.Parse(userInfo);
 
+                        jsonUserInfo.TryGetValue("sAMAccountName", out username);
+                        jsonUserInfo.TryGetValue("given_name", out givenName);
+                        jsonUserInfo.TryGetValue("family_name", out familyName);
+                        jsonUserInfo.TryGetValue("title", out title);
+                        jsonUserInfo.TryGetValue("distinguishedName", out domain);
+                        jsonUserInfo.TryGetValue("memberOf", out role);
+                        jsonUserInfo.TryGetValue("mail", out email);
 
+                        string[] domains = domain.ToString().Split(',');
+                        string domainSplit = "";
+                        foreach (var word in domains)
+                        {
+                            if (word.Contains("DC"))
+                            {
+                                string[] componentes = word.ToString().Split('=');
+                                foreach (var key in componentes)
+                                {
+                                    if (!key.Contains("DC"))
+                                    {
+                                        domainSplit = domainSplit + key + ".";
+                                    }
+                                }
+                            }
+                        }
 
+                        string roles = "";
+                        bool accesRol = false;
+                        foreach (var item in role)
+                        {
+                            // Whenever we need to validate any new role, we must do it in this section
+                            if (item.ToString() == AppConfig.AdministradorRoleFromConfig)
+                            {
+                                roles = AppConfig.AdministradorRole;
+                                accesRol = true;
+                            } 
+                            else 
+                            if (item.ToString() == AppConfig.FacturadorRoleFromConfig)
+                            {
+                                roles = AppConfig.FacturadorRole;
+                                accesRol = true;
+                            } 
+                            else
+                            if (item.ToString() == AppConfig.ConsultaRoleFromConfig)
+                            {
+                                roles = AppConfig.ConsultaRole;
+                                accesRol = true;
+                            }
+                        }
 
-<script>
+                        if (accesRol)
+                        {
+                            var claims = new List<Claim>()
+                            {
+                               new Claim(ClaimTypes.Name,  accessToken.ToString()),
+                               new Claim("accesstoken", accessToken.ToString()),
+                               new Claim("refreshtoken", refreshToken.ToString()),
+                               new Claim("name", username.ToString()),
+                               new Claim("username", username.ToString()),
+                               new Claim("given_name", givenName.ToString()),
+                               new Claim("family_name", familyName.ToString()),
+                               new Claim("title", title.ToString()),
+                               new Claim("domain", domainSplit.ToString()),
+                               new Claim("role", roles),
+                               new Claim("email", email.ToString()),
+                               new Claim("usercountry", "SV"),
+                               //new Claim("usercountry", "SV"),
+                            };
 
-    var countryzip = '@Session["Country"]';
-    $(document).ready(function () {
-        if (countryzip == '' || countryzip == 'EM') {
-            document.getElementById("countryCode").value = "EM";
-             swal({
-                title: @Html.Raw(Json.Encode(Messages.SwalSelectCountryTitle)),
-                text: @Html.Raw(Json.Encode(Messages.SwalSelectCountryDescip)),
-                type: "warning",
-                cancelButtonClass: "btn-primary",
-                confirmButtonClass: "btn-success",
-                confirmButtonText: @Html.Raw(Json.Encode(Messages.SwalConfirmButtonText)),
-                closeOnConfirm: true
-            });
-        } else {
-            document.getElementById("countryCode").value = countryzip;
-        }
-    });
-
-    function CountryChange(ctl, event) {
-        var country = document.getElementById("countryCode").value;
-
-        $.ajax({
-            url: '@Url.Action("SetCountry", "Base")',
-            data: { country : country},
-            type: 'POST',
-            success: function (response) {
-                location.reload();
+                            var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+                            var ctx = Request.GetOwinContext();
+                            var authenticationManager = ctx.Authentication;
+                            authenticationManager.SignIn(new Microsoft.Owin.Security.AuthenticationProperties() { IsPersistent = false }, claimIdenties);
+                            return Redirect(AppConfig.SiteAddress);
+                        }
+                    }
+                }
+                else
+                {
+                    return this.View();
+                }
             }
-        });
+            
+            return Redirect(AppConfig.Sts + "/as/authorization.oauth2?redirect_uri=" + AppConfig.SiteAddress + "&client_id=" + AppConfig.ClientId + "&response_type=code&scope=openid%20profile%20full");
+
+        }
+
+        public static String ObtenerPingfedTkn(String code)
+        {
+            string tokenEndpoint = AppConfig.Sts + "/as/token.oauth2";
+
+            var values = new Dictionary<string, string>
+             {
+                 { "grant_type", "authorization_code" },
+                 { "code" , code },
+                 { "client_id", AppConfig.ClientId},
+                 { "client_secret", AppConfig.ClientSecret },
+                 { "redirect_uri", AppConfig.SiteAddress}
+             };
+
+            HttpClient tokenClient = new HttpClient();
+            var content = new FormUrlEncodedContent(values);
+            var response = tokenClient.PostAsync(tokenEndpoint, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = response.Content;
+                return HttpUtility.HtmlEncode(responseContent.ReadAsStringAsync().Result);
+            }
+            return "";
+        }
+
+        public static String ObtenerUserInfo(String accessToken)
+        {
+            using (WebClient client = new WebClient())
+            {
+                string addressOpenid = AppConfig.Sts + "/idp/userinfo.openid";
+                //somehow get token
+                client.Headers.Add("Authorization", "Bearer " + accessToken);
+                string userinfo = client.DownloadString(addressOpenid);
+                return HttpUtility.HtmlEncode(userinfo);
+            }
+        }
+
+        public ActionResult LogOff()
+        {
+            //Crerrar la sesión borrar las cookies
+
+            return this.View();
+        }
+
+
     }
-</script>
+}
