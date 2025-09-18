@@ -1,0 +1,10 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.referral-create-bottomsheet {
+    height: 80px;
+    bottom: 0;
+    top: auto;
+}
