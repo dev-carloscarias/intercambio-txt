@@ -9,11 +9,12 @@ import {
     DropdownPicker,
     CONST
 } from '@provider-portal/components';
-import { HEALTH_PLANS } from './mock-data';
+import Select from 'react-select';
+import CustomDateInput from './components/CustomDateInput';
 import { Collapse } from 'reactstrap';
 import BottomSheetCancelNext from './BottomSheetCancelNext/BottomSheetCancelNext';
 import { IconPlus, IconMinus } from '@provider-portal/icons';
-import ClinicalConsultationService, { AdditionalHealthPlan, AdditionalHealthPlans, BeneficiaryInformation, ConsultationConfigurations } from './services/ClinicalConsultationService';
+import ClinicalConsultationService, { BeneficiaryInformation, ConsultationConfigurations } from './services/ClinicalConsultationService';
 import { AuditEventTypes } from './models/AuditEventTypes';
 import { AuditEventGroups } from './models/AuditEventGroups';
 
@@ -35,17 +36,16 @@ function App({
     const [isOpenCollapse, setIsOpenCollapse] = useState(false);
     const [isOpenSheet, setIsOpenSheet] = useState(false);
     const [isValidForm, setIsValidForm] = useState(false);
-    const [healthPlans, setHealthPlans] = useState<AdditionalHealthPlan[]>();
-    const [filteredHealthPlans, setFilteredHealthPlans] = useState<AdditionalHealthPlan[]>();
-    const [searchText, setSearchText] = useState<string>(''); 
-    const [selectedHealthPlan, setSelectedHealthPlan] = useState<string>();
+    const [healthPlans, setHealthPlans] = useState<string[]>([]);
+    const [healthPlanOptions, setHealthPlanOptions] = useState<{value: string, label: string}[]>([]); 
+    const [selectedHealthPlan, setSelectedHealthPlan] = useState<string>('');
     const [isLoadingHealthPlans, setIsLoadingHealthPlans] = useState<boolean>(false);
     const [healthPlansError, setHealthPlansError] = useState<string>('');
     const [healthPlanValidationError, setHealthPlanValidationError] = useState<string>('');
     const [daysBackAllowed, setDaysBackAllowed] = useState<number>(1);
     const [consultationMaximumAllowedMessage, setconsultationMaximumAllowedMessage] = useState<string>('');
     const [consultationMaximumAllowedValue, setconsultationMaximumAllowedValue] = useState<number>(400);
-    const [selectedDate, setSelectedDate] = useState<Date>();
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedReason, setSelectedReason] = useState('');
     const [reasonValue, setReasonValue] = useState('');
     const [wasUpdated, setWasUpdated] = useState(false);
@@ -53,28 +53,52 @@ function App({
         useState<BeneficiaryInformation>(null);
     const [dateError, setDateError] = useState('');
     const [reasonCount, setReasonCount] = useState<number>(0);
+    const [reasonError, setReasonError] = useState<string>('');
 
     const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
 
-    const onSelectHealthPlan = (planName: string) => {
-        setSelectedHealthPlan(planName);
+    // Estilos personalizados para react-select
+    const customSelectStyles = {
+        control: (provided: any, state: any) => ({
+            ...provided,
+            minHeight: '38px',
+            borderColor: state.isFocused ? '#007bff' : '#ced4da',
+            boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(0, 123, 255, 0.25)' : 'none',
+            '&:hover': {
+                borderColor: '#007bff'
+            }
+        }),
+        placeholder: (provided: any) => ({
+            ...provided,
+            color: '#6c757d'
+        }),
+        option: (provided: any, state: any) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? '#007bff' : state.isFocused ? '#f8f9fa' : 'white',
+            color: state.isSelected ? 'white' : '#212529'
+        })
     };
 
-    const handleSearchChange = (text: string) => {
-        setSearchText(text);
-        if(text.trim() === '') {
-            setFilteredHealthPlans(healthPlans);
-        }else{
-            const filtered = healthPlans.filter(plan =>
-                plan.AdditionalHealthPlanName.toLowerCase().includes(text.toLowerCase())
-            );
-            setFilteredHealthPlans(filtered);
+
+    const onSelectHealthPlan = (selectedOption: {value: string, label: string} | null) => {
+        if (selectedOption) {
+            setSelectedHealthPlan(selectedOption.value);
+        } else {
+            setSelectedHealthPlan('');
         }
     };
 
 
-    const handleOnChangeDate = (value: Date) => {
-        setSelectedDate(value);
+
+    const handleOnChangeDate = (value: Date | null) => {
+        // Validar que el valor no sea null y sea una fecha válida
+        if (value && value instanceof Date && !isNaN(value.getTime())) {
+            setSelectedDate(value);
+        } else {
+            // Si el valor es inválido, mantener la fecha actual o establecer null
+            console.warn('Invalid date value received:', value);
+            setSelectedDate(null);
+        }
     };
 
     const handleOnClearDate = () => {
@@ -83,12 +107,17 @@ function App({
 
     const handleOnChangeReason = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const text = e.currentTarget.value;
-        if (text.length <= consultationMaximumAllowedValue) {
-            setReasonValue(text);
-            setReasonCount(text.length);
+        
+        
+        // Siempre actualizar el estado para permitir borrado
+        setReasonValue(text);
+        setReasonCount(text.length);
+        
+        // Mostrar error si alcanza o excede el límite
+        if (text.length >= consultationMaximumAllowedValue) {
+            setReasonError(consultationMaximumAllowedMessage);
         } else {
-            setReasonValue(text.slice(0, consultationMaximumAllowedValue));
-            setReasonCount(consultationMaximumAllowedValue);
+            setReasonError('');
         }
     }; 
 
@@ -115,12 +144,13 @@ function App({
         let valid = true;
 
         if (!selectedHealthPlan || selectedHealthPlan === 'No Health Plan') {
-         valid = false;
+            valid = false;
+            setHealthPlanValidationError('Please select a valid health plan');
         } else {
-          setHealthPlanValidationError('');
+            setHealthPlanValidationError('');
         }
     
-        if (!selectedDate){
+        if (!selectedDate || !(selectedDate instanceof Date) || isNaN(selectedDate.getTime())){
             valid = false;
             setDateError('*Consultation Date is Invalid');
         }
@@ -136,9 +166,14 @@ function App({
             }
         }
 
-        if (reasonValue && reasonValue.length > consultationMaximumAllowedValue) valid = false;
+        if (reasonValue && reasonValue.length >= consultationMaximumAllowedValue) {
+            valid = false;
+            setReasonError(consultationMaximumAllowedMessage);
+        } else {
+            setReasonError('');
+        }
 
-        setIsValidForm(true);
+        setIsValidForm(valid);
     };
 
     useEffect(() => {
@@ -181,10 +216,12 @@ function App({
 
 
     useEffect(() => {
-        if (active)
+        if (active) {
+            // Solo validar si hay valores válidos
             if (selectedDate || selectedHealthPlan || selectedReason) {
                 validateForm();
             }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDate, selectedHealthPlan, selectedReason]);
 
@@ -213,8 +250,14 @@ function App({
                 console.log("health plans: ", response.data)
                 const healthPlansData = response.data;
                 console.log("health plansDATA: ", healthPlansData)
-                setHealthPlans(healthPlansData.healthPlans);
-                setFilteredHealthPlans(healthPlansData.healthPlans);
+                
+                setHealthPlans(healthPlansData);
+                // Crear opciones para react-select
+                const options = healthPlansData.map(plan => ({
+                    value: plan,
+                    label: plan
+                }));
+                setHealthPlanOptions(options);
 
             }catch (error){
                 setHealthPlansError('Error loading health plans');
@@ -230,7 +273,7 @@ function App({
         if (consultation) {
             const { reason, healthPlan, date } = consultation;
             setSelectedReason(reason);
-            setSelectedHealthPlan(healthPlan);
+            setSelectedHealthPlan(healthPlan || '');
             setSelectedDate(date);
             setReasonCount((reason || '').length);
         }
@@ -302,7 +345,7 @@ function App({
                     <div className="col-12 col-xxl-8">
                         <div className="row mt-3">
                             <div className="col-mobile-5">
-                                <FlexInputDate
+                                <CustomDateInput
                                     label="Consultation Date"
                                     placeholder="Select Date"
                                     onChangeDate={handleOnChangeDate}
@@ -312,32 +355,38 @@ function App({
                             </div>
                             <div className="col-mobile-7">
                                 <div className="d-none d-mobile-block">
-                                    <DropdownPicker
-                                        label="Additional Health Plan"
-                                        title="Health Plan"
-                                        selected={selectedHealthPlan}
-                                        items={filteredHealthPlans}
-                                        onSelect={onSelectHealthPlan}
-                                        placeholder="No Health Plan"
-                                        searchable={true}
-                                        searchPlaceholder="Search health plans..."
-                                        searchText={searchText} 
-                                        onSearchChange={handleSearchChange}
-                                    />
+                                    <div className="form-group">
+                                        <label className="form-label fw-bold text-primary">Additional Health Plan</label>
+                                        <Select
+                                            options={healthPlanOptions}
+                                            value={healthPlanOptions.find(option => option.value === selectedHealthPlan) || null}
+                                            onChange={onSelectHealthPlan}
+                                            placeholder="No Health Plan"
+                                            isSearchable={true}
+                                            isClearable={true}
+                                            styles={customSelectStyles}
+                                            noOptionsMessage={() => "No health plans found"}
+                                            loadingMessage={() => "Loading health plans..."}
+                                            isLoading={isLoadingHealthPlans}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="d-mobile-none mt-3">
-                                    <BottomSheetSelect
-                                        label="Additional Health Plan"
-                                        title="Health Plan"
-                                        selected={selectedHealthPlan}
-                                        items={healthPlans}
-                                        onSelect={onSelectHealthPlan}
-                                        placeholder="No Health Plan"
-                                        searchable={true}
-                                        searchPlaceholder="Search health plans..."
-                                        searchText={searchText}
-                                        onSearchChange={handleSearchChange}
-                                    />
+                                    <div className="form-group">
+                                        <label className="form-label fw-bold text-primary">Additional Health Plan</label>
+                                        <Select
+                                            options={healthPlanOptions}
+                                            value={healthPlanOptions.find(option => option.value === selectedHealthPlan) || null}
+                                            onChange={onSelectHealthPlan}
+                                            placeholder="No Health Plan"
+                                            isSearchable={true}
+                                            isClearable={true}
+                                            styles={customSelectStyles}
+                                            noOptionsMessage={() => "No health plans found"}
+                                            loadingMessage={() => "Loading health plans..."}
+                                            isLoading={isLoadingHealthPlans}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -350,14 +399,20 @@ function App({
                                     onChange={handleOnChangeReason}
                                     value={reasonValue}
                                     onBlur={handleSelectedReason}
+                                    maxLength={consultationMaximumAllowedValue}
                                 />
                                 <div id="create-additional-info-disclaimer" className="text-muted mt-2">
                                     In case of rule outs (R/O) include signs & symptoms and do not code the R/O condition; you may describe it in a narrative way example: seeing flashes, hearing hissing noises, vomiting R/O epilepsy.
 
                                 </div>
-                                {reasonCount === consultationMaximumAllowedValue && (
+                                {reasonError && (
                                     <div id="create-additional-info-reason-max-msg" className="text-danger text-sm mt-1">
-                                        {consultationMaximumAllowedMessage}
+                                        {reasonError}
+                                    </div>
+                                )}
+                                {dateError && (
+                                    <div id="create-additional-info-date-error" className="text-danger text-sm mt-1">
+                                        {dateError}
                                     </div>
                                 )}
                             </div>
@@ -370,9 +425,15 @@ function App({
                     </div>
                 ) : null}
                 {
-                    dateError && (
-                        <div id="create-additional-info-date-error" className="d-none d-mobile-block text-danger text-sm pl-2 pt-2">
-                            {dateError}
+                    reasonError && (
+                        <div id="create-additional-info-reason-error" className="d-none d-mobile-block text-danger text-sm pl-2 pt-2">
+                            {reasonError}
+                        </div>
+                )}
+                {
+                    healthPlanValidationError && (
+                        <div id="create-additional-info-health-plan-error" className="d-none d-mobile-block text-danger text-sm pl-2 pt-2">
+                            {healthPlanValidationError}
                         </div>
                 )}
                 <div className="d-none d-mobile-block mt-3">

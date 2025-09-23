@@ -28,7 +28,7 @@ export default class ClinicalConsultationService {
 
     
     getHealthPlans() {
-        return API.get<AdditionalHealthPlans>(
+        return API.get<string[]>(
             `api/clinicalconsultation/healthplans`
         );
     }
@@ -70,12 +70,4 @@ export interface ConsultationConfigurations {
     ConsultationDaysBackAllowed:number;
     CreateRequestConsultationMaximumAllowedMessage:string;
     RequestConsultationMaximumAllowedValue:number;
-}
-
-export interface AdditionalHealthPlan {
-    AdditionalHealthPlanId:string;
-    AdditionalHealthPlanName:string;
-}
-export interface AdditionalHealthPlans{
-    healthPlans: AdditionalHealthPlan[];
 }

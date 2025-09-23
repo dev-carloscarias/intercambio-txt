@@ -1,0 +1,44 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.card-filter-panel {
+    min-height: 100%;
+    border-radius: 0;
+    padding: 1rem;
+    @include media-breakpoint-up(mobile) {
+        padding: 1.5rem;
+    }
+    .card-filter-panel-content-search {
+        font-size: 0.875rem;
+        color: $palette1;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    .card-filter-panel-content-applied {
+        color: $palette18;
+        font-size: 0.875rem;
+    }
+    .card-filter-panel-footer {
+        position: relative;
+        padding-top: 1rem;
+        z-index: 100;
+        box-shadow: -0.125rem -1rem 0.5rem -1rem rgba(0, 0, 0, 0.1);
+    }
+}
+
+.filter-panel-heading {
+    display: flex;
+    align-items: center;
+    .filter-panel-modal-title {
+        color: $palette1;
+        font-size: 1.1875rem;
+        font-weight: $font-weight-semibold;
+    }
+    .filter-panel-modal-close {
+        font-size: 1.5rem;
+        color: $palette13;
+        margin-left: auto;
+    }
+}

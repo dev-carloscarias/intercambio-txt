@@ -1,0 +1,100 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.smartprofile-referral-provider {
+    > .dropdown-input {
+        .dropdown-input-item {
+            padding: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid $palette11;
+            &:last-child {
+                border-bottom: 0;
+                margin-bottom: 0;
+            }
+            &:hover {
+                background-color: $palette21;
+            }
+        }
+
+        .smartprofile-referral-provider-dropdown-menu {
+            width: 100%;
+            max-height: 350px;
+            overflow: auto;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .custom-checkbox {
+            .custom-control-input {
+                ~ .custom-control-label {
+                    width: 100%;
+                    &::before {
+                        border-color: $palette2;
+                    }
+                }
+                &:checked ~ .custom-control-label::before {
+                    color: #fff;
+                    background-color: $palette2;
+                    box-shadow: 0 0 0 2px rgba($palette2, 0.25);
+                }
+            }
+        }
+    }
+
+    .smartprofile-referral-provider-search {
+        width: 100%;
+        @include media-breakpoint-up(sm) {
+            margin-right: 1rem;
+        }
+        @include media-breakpoint-up(xl) {
+            min-width: 400px;
+        }
+    }
+    .dd-picker {
+        min-width: 240px;
+    }
+    .btn-smartprofile-referral-provider-filter {
+        color: $palette2;
+        border: $input-border-width solid $input-border-color;
+        flex-shrink: 0;
+        font-size: 0.9375rem;
+        font-weight: $font-weight-semibold;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        &.btn-outline-secondary:not(:disabled):not(.disabled):hover,
+        &.btn-outline-secondary:not(:disabled):not(.disabled):active,
+        &.btn-outline-secondary:not(:disabled):not(.disabled):focus {
+            color: $palette2;
+        }
+
+        .fade-toggle-icon {
+            position: relative;
+            min-height: 1rem;
+            width: 0.5rem;
+            margin-bottom: 0.25rem;
+            > div {
+                position: absolute;
+            }
+        }
+    }
+}
+
+.dropdown-input-results {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem 1rem 1rem;
+    &-total {
+        font-size: 0.75rem;
+        color: $palette20;
+    }
+    &-filter {
+        font-size: 1rem;
+        color: $palette2;
+        margin-left: auto;
+        font-weight: $font-weight-semibold;
+    }
+}
