@@ -98,3 +98,10 @@
         font-weight: $font-weight-semibold;
     }
 }
+
+// Espaciado específico para móvil del botón More Filter
+.more-filter-mobile-spacing {
+    @include media-breakpoint-down(md) {
+        margin-top: 0.5rem;
+    }
+}

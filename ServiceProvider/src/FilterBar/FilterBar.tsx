@@ -52,8 +52,10 @@ const FilterBar: React.FC<FilterBarProps> = ({
         loadFilterValues();
     }, []);
 
+    console.log('FilterBar component rendering, isOpen:', isOpen);
+    
     return (
-        <Collapse isOpen={isOpen}>
+        <div style={{ display: isOpen ? 'block' : 'none' }}>
             <div className="filter-bar">
                 <DropdownPicker
                     title={t('clinicalconsultation:servicing-provider.CITIES')}
@@ -102,7 +104,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
                     id={`${id}-zipcode`}
                 />
             </div>
-        </Collapse>
+        </div>
     );
 };
 

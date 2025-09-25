@@ -28,7 +28,8 @@ import { Consultation } from './models/Consultation';
 import {
     ProviderInterface,
     CityInterface,
-    ServicingProviderInterface
+    ServicingProviderInterface,
+    SpecialtyInterface
 } from './models/ProviderInterface';
 import ClinicalConsultationService, {
     BeneficiaryInformation
@@ -185,7 +186,7 @@ function App({
     };
 
     const isMultipleCity = (provider: ServicingProviderInterface) => {
-        return provider.cities?.length > 1;
+        return (provider.cities?.length || 0) > 1;
     };
 
     const isMultipleSpecialty = (provider: ServicingProviderInterface) => {
@@ -193,11 +194,19 @@ function App({
     };
 
     const handleOnCheck = (item: ServicingProviderInterface) => {
+        console.log('App - handleOnCheck called with item:', item);
+        console.log('App - item.specialties:', item.specialties);
+        console.log('App - isMultipleSpecialty:', isMultipleSpecialty(item));
+        
         if (item) {
-            if (!isMultipleCity(item)) item.selectedCity = item.cities[0];
-            if (!isMultipleSpecialty(item))
-                item.selectedSpecialty = item.specialties[0];
-            setSelectedProvider(item);
+            const updatedItem = { ...item };
+            if (!isMultipleCity(item)) updatedItem.selectedCity = item.cities?.[0];
+            if (!isMultipleSpecialty(item)) {
+                console.log('App - Setting first specialty:', item.specialties?.[0]);
+                updatedItem.selectedSpecialty = item.specialties?.[0];
+            }
+            console.log('App - Final updatedItem:', updatedItem);
+            setSelectedProvider(updatedItem);
         } else {
             setSelectedProvider(null);
         }
@@ -298,16 +307,33 @@ function App({
 
     const handleSelectCity = (city: CityInterface) => {
         setSelectedProvider(sp => {
+            if (!sp) return sp;
             const p = { ...sp };
             p.selectedCity = city;
             return p;
         });
     };
 
-    const toggleFilterBar = (e: React.MouseEvent) => {
-        e.stopPropagation(); // prevent button toggle drodpown
+    const handleSelectSpecialty = (specialty: SpecialtyInterface) => {
+        console.log('App - handleSelectSpecialty called with specialty:', specialty);
+        setSelectedProvider(sp => {
+            if (!sp) return sp;
+            const p = { ...sp };
+            p.selectedSpecialty = specialty;
+            console.log('App - Updated provider with specialty:', p);
+            return p;
+        });
+    };
+
+    const toggleFilterBar = (e: any) => {
+        console.log('toggleFilterBar called, current isFilterBarOpen:', isFilterBarOpen);
+        if (e && e.stopPropagation) {
+            e.stopPropagation(); // prevent button toggle drodpown
+        }
         setIsOpenDropdown(false); // click always close dropdown dropdown results
-        setIsFilterBarOpen(!isFilterBarOpen);
+        const newValue = !isFilterBarOpen;
+        setIsFilterBarOpen(newValue);
+        console.log('toggleFilterBar setting isFilterBarOpen to:', newValue);
     };
 
     const handleClickSpecialties = (e: React.MouseEvent) => {
@@ -319,8 +345,12 @@ function App({
         if (consultation?.consultationProvider?.renderingProviderId) {
             const { consultationProvider: provider } = consultation;
             // update selected from recreate if not one selected before
-            provider.selectedCity = provider.selectedCity ?? provider.cities[0];
-            setSelectedProvider(provider);
+            const updatedProvider = { 
+                ...provider,
+                selectedCity: provider.selectedCity ?? provider.cities?.[0],
+                selectedSpecialty: provider.selectedSpecialty ?? provider.specialties?.[0]
+            };
+            setSelectedProvider(updatedProvider);
         }
     }, [consultation]);
 
@@ -487,9 +517,9 @@ function App({
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="d-none d-mobile-block flex-shrink-0">
+                                            <div className="flex-shrink-0">
                                                 <button
-                                                    className="btn btn-smartprofile-referral-provider-filter"
+                                                    className="btn btn-smartprofile-referral-provider-filter w-100 d-mobile-block more-filter-mobile-spacing"
                                                     onClick={toggleFilterBar}
                                                     id="consultation-servicing-provider-search-morefilters"
                                                 >
@@ -636,13 +666,18 @@ function App({
                     </div>
                 </div>
 
-                <div className="d-none d-mobile-block px-3">
-                    <FilterBar
-                        isOpen={isFilterBarOpen}
-                        onApply={handleOnApply}
-                        disabled={isSearchLoading}
-                        id="consultation-servicing-provider-filterbar"
-                    />
+                <div className="px-3">
+                    {(() => {
+                        console.log('FilterBar render - isFilterBarOpen:', isFilterBarOpen);
+                        return (
+                            <FilterBar
+                                isOpen={isFilterBarOpen}
+                                onApply={handleOnApply}
+                                disabled={isSearchLoading}
+                                id="consultation-servicing-provider-filterbar"
+                            />
+                        );
+                    })()}
                 </div>
 
                 <div className="mt-3 px-3">
@@ -661,11 +696,17 @@ function App({
                             <tbody>
                                 <tr>
                                     <td>
-                                        <ServicingProviderSelectedItem
-                                            item={selectedProvider}
-                                            onSelectCity={handleSelectCity}
-                                            id="consultation-servicing-provider-selected-item"
-                                        />
+                                        {(() => {
+                                            console.log('App - About to render ServicingProviderSelectedItem with selectedProvider:', selectedProvider);
+                                            return (
+                                                <ServicingProviderSelectedItem
+                                                    item={selectedProvider}
+                                                    onSelectCity={handleSelectCity}
+                                                    onSelectSpecialty={handleSelectSpecialty}
+                                                    id="consultation-servicing-provider-selected-item"
+                                                />
+                                            );
+                                        })()}
                                     </td>
                                 </tr>
                             </tbody>

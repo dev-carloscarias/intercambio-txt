@@ -5,28 +5,42 @@ import { DropdownPicker } from '@provider-portal/components';
 import {
     CityInterface,
     ProviderInterface,
-    ServicingProviderInterface
+    ServicingProviderInterface,
+    SpecialtyInterface
 } from '../models/ProviderInterface';
 import { useTranslation } from 'react-i18next';
 
 export type ServicingProviderSelectedItemProps = {
     item: ProviderInterface;
     onSelectCity: (c: CityInterface) => void;
+    onSelectSpecialty?: (s: SpecialtyInterface) => void;
     id: string;
 };
 
 const ServicingProviderSelectedItem: React.FC<
     ServicingProviderSelectedItemProps
-> = ({ item, onSelectCity, id }) => {
+> = ({ item, onSelectCity, onSelectSpecialty, id }) => {
+    console.log('ServicingProviderSelectedItem - Component started rendering');
+    console.log('ServicingProviderSelectedItem - Props received:', { item, onSelectCity, onSelectSpecialty, id });
+    
     const { t } = useTranslation();
     const [selectedCity, setSelectedCity] = useState<CityInterface>();
+    const [selectedSpecialty, setSelectedSpecialty] = useState<SpecialtyInterface>();
 
-    const handleOnSelect = (city: CityInterface) => {
+    const handleOnSelectCity = (city: CityInterface) => {
         setSelectedCity(city);
     };
 
+    const handleOnSelectSpecialty = (specialty: SpecialtyInterface) => {
+        setSelectedSpecialty(specialty);
+    };
+
     const isMultipleCity = (provider: ServicingProviderInterface) => {
-        return provider.cities?.length > 1;
+        return (provider.cities?.length || 0) > 1;
+    };
+
+    const isMultipleSpecialty = (provider: ServicingProviderInterface) => {
+        return (provider.specialties?.length || 0) > 1;
     };
 
     useEffect(() => {
@@ -35,9 +49,35 @@ const ServicingProviderSelectedItem: React.FC<
     }, [selectedCity]);
 
     useEffect(() => {
-        if (item) setSelectedCity(item.selectedCity);
+        if (selectedSpecialty && onSelectSpecialty) onSelectSpecialty(selectedSpecialty);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedSpecialty]);
+
+    useEffect(() => {
+        if (item){
+            console.log('ITEM: ',item);
+            console.log('Specialities: ',item.specialties);
+            console.log('Cities: ',item.cities);
+            console.log('SelectedCity: ',item.selectedCity);
+            
+            // Si no hay ciudad seleccionada pero hay ciudades disponibles, seleccionar la primera
+            if (!item.selectedCity && item.cities?.length > 0) {
+                console.log('Setting first city:', item.cities[0]);
+                setSelectedCity(item.cities[0]);
+            } else {
+                setSelectedCity(item.selectedCity);
+            }
+            
+            if(!item.selectedSpecialty && item.specialties?.length > 0){
+                setSelectedSpecialty(item.specialties[0]);
+            }else {
+                setSelectedSpecialty(item.selectedSpecialty);
+            }
+        } 
     }, [item]);
 
+    console.log('ServicingProviderSelectedItem - About to return JSX');
+    
     return (
         <>
             <div className="servicing-provider-item">
@@ -46,21 +86,70 @@ const ServicingProviderSelectedItem: React.FC<
                 </div>
                 <div className="d-mobile-flex ">
                     <div className="mr-mobile-5">
-                        <div className="servicing-provider-item-data">
+                        <div className="servicing-provider-item-data d-flex align-items-center">
                             <div
-                                className="servicing-provider-item-data-name"
+                                className="servicing-provider-item-data-name flex-shrink-0"
                                 id={`${id}-specialties-label`}
                             >
                                 {t(
                                     'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY'
                                 )}
                             </div>
-                            <div
-                                className="servicing-provider-item-data-value"
-                                id={`${id}-specialties`}
-                            >
-                                {item.specialties?.map(s => s.name).join(' | ')}
-                            </div>
+                            {(() => {
+                                console.log('Rendering specialties - item.specialties:', item.specialties);
+                                console.log('Rendering specialties - isMultipleSpecialty:', isMultipleSpecialty(item));
+                                console.log('Rendering specialties - selectedSpecialty:', selectedSpecialty);
+
+                                if(!item.specialties || item.specialties.length === 0 ){
+                                    return (
+                                        <div
+                                            className="servicing-provider-item-data-value flex-grow-1"
+                                            id={`${id}-specialties`}
+                                        >
+                                            {'No Specialty Selected'}
+                                        </div>
+                                    );
+                                }else if (!isMultipleSpecialty(item)){
+                                    const specialtyName = item.specialties[0]?.name || '';
+                                    console.log('Rendering single specialty name', specialtyName);
+                                    return (
+                                    <div
+                                        className="servicing-provider-item-data-value flex-grow-1"
+                                        id={`${id}-specialties`}
+                                    >
+                                        {specialtyName}
+                                    </div>
+                                    );
+                                }else{
+                                    console.log('Rendering dropdown with items: ', item.specialties);
+                                    console.log('Rendering dropdown with selected: ', selectedSpecialty);
+                                    
+                                    return (
+                                        <div className="servicing-provider-item-data-value flex-grow-1">
+                                            <div className="dd-picker-specialty">
+                                                <DropdownPicker
+                                                    title={t(
+                                                        'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY'
+                                                    )}
+                                                    selected={selectedSpecialty || null}
+                                                    items={item.specialties}
+                                                    onSelect={handleOnSelectSpecialty}
+                                                    formatItem={(s: SpecialtyInterface) => s.name}
+                                                    formatSelected={(s: SpecialtyInterface) => s.name}
+                                                    placeholder={t(
+                                                        'clinicalconsultation:servicing-provider.PROVIDER-SELECT-SPECIALTY'
+                                                    )}
+                                                    autoOpen={false}
+                                                    id={`${id}-specialty-dropdown`}
+                                                />
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                            })()}
+                            
+
+
                         </div>
                         <div className="d-flex align-items-center flex-wrap">
                             <div className="servicing-provider-item-data">
@@ -98,22 +187,6 @@ const ServicingProviderSelectedItem: React.FC<
                         </div>
                     </div>
                     <div>
-                        <div className="servicing-provider-item-data d-mobile-none">
-                            <div
-                                className="servicing-provider-item-data-name"
-                                id={`${id}-city-mobile-label`}
-                            >
-                                {t(
-                                    'clinicalconsultation:servicing-provider.PROVIDER-CITY'
-                                )}
-                            </div>
-                            <div
-                                className="servicing-provider-item-data-value"
-                                id={`${id}-city-mobile`}
-                            >
-                                {item.selectedCity?.name}
-                            </div>
-                        </div>
                         {!isMultipleCity(item) ? (
                             <>
                                 <div className="servicing-provider-item-data">
@@ -125,12 +198,12 @@ const ServicingProviderSelectedItem: React.FC<
                                             'clinicalconsultation:servicing-provider.PROVIDER-CITY'
                                         )}
                                     </div>
-                                    <div
-                                        className="servicing-provider-item-data-value"
-                                        id={`${id}-city`}
-                                    >
-                                        {item.selectedCity?.name}
-                                    </div>
+                                     <div
+                                         className="servicing-provider-item-data-value"
+                                         id={`${id}-city`}
+                                     >
+                                         {item.selectedCity?.name || item.cities?.[0]?.name || 'No city selected'}
+                                     </div>
                                 </div>
                                 <div className="servicing-provider-item-data">
                                     <div className="servicing-provider-item-data-name flex-shrink-0"></div>
@@ -147,7 +220,7 @@ const ServicingProviderSelectedItem: React.FC<
                                             )}
                                             selected={selectedCity}
                                             items={item.cities}
-                                            onSelect={handleOnSelect}
+                                            onSelect={handleOnSelectCity}
                                             formatItem={(c: CityInterface) =>
                                                 c.name + ' - ' + c.zipCode
                                             }
