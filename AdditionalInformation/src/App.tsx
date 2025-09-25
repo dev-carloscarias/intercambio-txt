@@ -19,7 +19,7 @@ import ClinicalConsultationService, {
     ConsultationConfigurations,
     HealthPlanDto
 } from './services/ClinicalConsultationService';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { AuditEventTypes } from './models/AuditEventTypes';
 import { AuditEventGroups } from './models/AuditEventGroups';
 import CustomDateInput from './components/CustomDateInput';
@@ -39,6 +39,7 @@ function App({
     beneficiaryId: string;
     stepAlertMessage: string;
 }) {
+    const { t } = useTranslation();
     const [isOpenCollapse, setIsOpenCollapse] = useState(false);
     const [isOpenSheet, setIsOpenSheet] = useState(false);
     const [isValidForm, setIsValidForm] = useState(false);
@@ -134,6 +135,10 @@ function App({
 
         if (!selectedHealthPlan) {
             valid = false;
+            if (wasUpdated) {
+                setSelectedHealthPlan(null);
+                updateWizardProgress();
+            }
         } else {
             setHealthPlanValidationError('');
         }
@@ -144,13 +149,29 @@ function App({
             isNaN(selectedDate.getTime())
         ) {
             valid = false;
-            setDateError('*Consultation Date is Invalid');
+            setDateError(
+                t(
+                    'clinicalconsultation:additional-information.CONSULTATION-DATE-INVALID'
+                )
+            );
+            if (wasUpdated) {
+                setSelectedDate(null);
+                updateWizardProgress();
+            }
         } else {
             const earliest = new Date();
             earliest.setDate(earliest.getDate() - daysBackAllowed);
             if (selectedDate < earliest) {
                 valid = false;
-                setDateError('*Consultation Date is invalid');
+                setDateError(
+                    t(
+                        'clinicalconsultation:additional-information.CONSULTATION-DATE-INVALID'
+                    )
+                );
+                if (wasUpdated) {
+                    setSelectedDate(null);
+                    updateWizardProgress();
+                }
             } else {
                 setDateError('');
             }
@@ -162,6 +183,10 @@ function App({
         ) {
             valid = false;
             setReasonError(consultationMaximumAllowedMessage);
+            if (wasUpdated) {
+                setSelectedReason(null);
+                updateWizardProgress();
+            }
         } else {
             setReasonError('');
         }
