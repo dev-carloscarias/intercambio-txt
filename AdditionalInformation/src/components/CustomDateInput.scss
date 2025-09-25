@@ -1,0 +1,177 @@
+.custom-date-input {
+    position: relative;
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #007bff;
+    }
+
+    .input-container {
+        position: relative;
+        width: 100%;
+
+        .date-input {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 2rem 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+
+            &:focus {
+                color: #495057;
+                background-color: #fff;
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+            &::placeholder {
+                color: #6c757d;
+                opacity: 1;
+            }
+        }
+
+        .input-icons {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+
+            .calendar-icon {
+                background: none;
+                border: none;
+                padding: 0.25rem;
+                cursor: pointer;
+                color: #6c757d;
+                transition: color 0.15s ease-in-out;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    color: #495057;
+                }
+
+                &:focus {
+                    outline: none;
+                    color: #007bff;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
+    }
+
+    .custom-calendar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: white;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        margin-top: 0.25rem;
+        padding: 1rem;
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+
+            .calendar-month {
+                font-weight: 600;
+                font-size: 1.1rem;
+                color: #495057;
+            }
+
+            .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 1rem;
+                line-height: 1;
+                border-radius: 0.25rem;
+            }
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+
+            .weekday {
+                text-align: center;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: #6c757d;
+                padding: 0.5rem 0;
+            }
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.25rem;
+
+            .calendar-day {
+                border: none;
+                background: transparent;
+                padding: 0.5rem;
+                text-align: center;
+                border-radius: 0.25rem;
+                cursor: pointer;
+                transition: all 0.15s ease-in-out;
+                font-size: 0.875rem;
+
+                &:hover:not(.empty):not(:disabled) {
+                    background-color: #e9ecef;
+                }
+
+                &.selected {
+                    background-color: #007bff;
+                    color: white;
+                }
+
+                &.empty {
+                    cursor: default;
+                }
+
+                &:disabled {
+                    cursor: not-allowed;
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-date-input {
+        .custom-calendar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 300px;
+            z-index: 1050;
+        }
+    }
+}
