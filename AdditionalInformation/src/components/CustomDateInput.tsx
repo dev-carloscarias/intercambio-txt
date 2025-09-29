@@ -19,6 +19,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [displayValue, setDisplayValue] = useState('');
+    const [calendarDate, setCalendarDate] = useState<Date>(new Date());
     const inputRef = useRef<HTMLInputElement>(null);
     const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -40,9 +41,11 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
         if (value) {
             setDisplayValue(formatDateForDisplay(value));
             setInputValue(formatDateForInput(value));
+            setCalendarDate(value); // Sincronizar el calendario con la fecha seleccionada
         } else {
             setDisplayValue('');
             setInputValue('');
+            setCalendarDate(new Date()); // Resetear al mes actual si no hay fecha
         }
     }, [value]);
 
@@ -54,6 +57,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
             const date = new Date(text);
             if (!isNaN(date.getTime())) {
                 setDisplayValue(formatDateForDisplay(date));
+                setCalendarDate(date); // Sincronizar el calendario con la fecha ingresada
                 onChangeDate(date);
             }
         } else {
@@ -64,6 +68,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
     const handleDateSelect = (date: Date) => {
         setDisplayValue(formatDateForDisplay(date));
         setInputValue(formatDateForInput(date));
+        setCalendarDate(date); // Sincronizar el calendario con la fecha seleccionada
         onChangeDate(date);
         setIsOpen(false);
     };
@@ -75,8 +80,22 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
     const handleClear = () => {
         setDisplayValue('');
         setInputValue('');
+        setCalendarDate(new Date()); // Resetear al mes actual
         onChangeDate(null);
         onClear();
+    };
+
+    // Navegación del calendario
+    const handlePreviousMonth = () => {
+        const newDate = new Date(calendarDate);
+        newDate.setMonth(newDate.getMonth() - 1);
+        setCalendarDate(newDate);
+    };
+
+    const handleNextMonth = () => {
+        const newDate = new Date(calendarDate);
+        newDate.setMonth(newDate.getMonth() + 1);
+        setCalendarDate(newDate);
     };
 
     useEffect(() => {
@@ -115,9 +134,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
 
         return days;
     };
-
-    const currentDate = value || new Date();
-    const calendarDays = generateCalendarDays(currentDate);
+    const calendarDays = generateCalendarDays(calendarDate);
 
     return (
         <div className="custom-date-input">
@@ -160,16 +177,12 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
                         <button
                             type="button"
                             className="btn btn-sm btn-outline-secondary"
-                            onClick={() => {
-                                const newDate = new Date(currentDate);
-                                newDate.setMonth(newDate.getMonth() - 1);
-                                setDisplayValue(formatDateForDisplay(newDate));
-                            }}
+                            onClick={handlePreviousMonth}
                         >
                             ‹
                         </button>
                         <span className="calendar-month">
-                            {currentDate.toLocaleDateString('en-US', {
+                            {calendarDate.toLocaleDateString('en-US', {
                                 month: 'long',
                                 year: 'numeric'
                             })}
@@ -177,11 +190,7 @@ const CustomDateInput: React.FC<CustomDateInputProps> = ({
                         <button
                             type="button"
                             className="btn btn-sm btn-outline-secondary"
-                            onClick={() => {
-                                const newDate = new Date(currentDate);
-                                newDate.setMonth(newDate.getMonth() + 1);
-                                setDisplayValue(formatDateForDisplay(newDate));
-                            }}
+                            onClick={handleNextMonth}
                         >
                             ›
                         </button>

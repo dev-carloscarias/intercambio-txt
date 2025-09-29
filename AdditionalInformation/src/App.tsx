@@ -71,6 +71,7 @@ function App({
     const [dateError, setDateError] = useState('');
     const [reasonCount, setReasonCount] = useState<number>(0);
     const [reasonError, setReasonError] = useState<string>('');
+    const [ruleOutsMessage, setRuleOutsMessage] = useState<string>('');
 
     const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
 
@@ -218,6 +219,7 @@ function App({
                     configData.requestConsultationMaximumAllowedValue
                 );
                 setDaysBackAllowed(configData.consultationDaysBackAllowed);
+                setRuleOutsMessage(configData.ruleOutsMessage );
             } catch (error) {}
         };
 
@@ -370,8 +372,8 @@ function App({
                         <div className="row mt-3">
                             <div className="col-mobile-5">
                                 <CustomDateInput
-                                    label="Consultation Date"
-                                    placeholder="Select Date"
+                                    label={t('clinicalconsultation:additional-information.CONSULTATION-DATE')}
+                                    placeholder={t('clinicalconsultation:additional-information.SELECT-DATE')}
                                     onChangeDate={handleOnChangeDate}
                                     value={selectedDate || undefined}
                                     onClear={handleOnClearDate}
@@ -383,8 +385,7 @@ function App({
                                         htmlFor="health-plan-select-mobile"
                                         className="flex-input-label"
                                     >
-                                        {' '}
-                                        Additional Health Plan{' '}
+                                        {t('clinicalconsultation:additional-information.ADDITIONAL-HEALTH-PLAN')}
                                     </label>
                                     <Select
                                         inputId="health-plan-select-mobile"
@@ -397,14 +398,11 @@ function App({
                                             ) || null
                                         }
                                         onChange={onSelectHealthPlan}
-                                        placeholder="No Health Plan"
+                                        placeholder={t('clinicalconsultation:additional-information.NO-HEALTH-PLAN')}
                                         isSearchable={true}
                                         isClearable={true}
                                         noOptionsMessage={() =>
-                                            'No health plans found'
-                                        }
-                                        loadingMessage={() =>
-                                            'Loading health plans...'
+                                            t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')
                                         }
                                         isLoading={isLoadingHealthPlans}
                                     />
@@ -414,8 +412,7 @@ function App({
                                         htmlFor="health-plan-select-desktop"
                                         className="flex-input-label"
                                     >
-                                        {' '}
-                                        Additional Health Plan{' '}
+                                        {t('clinicalconsultation:additional-information.ADDITIONAL-HEALTH-PLAN')}
                                     </label>
                                     <Select
                                         inputId="health-plan-select-desktop"
@@ -428,14 +425,11 @@ function App({
                                             ) || null
                                         }
                                         onChange={onSelectHealthPlan}
-                                        placeholder="No Health Plan"
+                                        placeholder={t('clinicalconsultation:additional-information.NO-HEALTH-PLAN')}
                                         isSearchable={true}
                                         isClearable={true}
                                         noOptionsMessage={() =>
-                                            'No health plans found'
-                                        }
-                                        loadingMessage={() =>
-                                            'Loading health plans...'
+                                            t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')
                                         }
                                         isLoading={isLoadingHealthPlans}
                                     />
@@ -445,8 +439,8 @@ function App({
                         <div className="row">
                             <div className="col-12 mt-3">
                                 <FlexInputArea
-                                    label="Reason to request a consultation"
-                                    placeholder="Reason"
+                                    label={t('clinicalconsultation:additional-information.REASON-TO-REQUEST')}
+                                    placeholder={t('clinicalconsultation:additional-information.REASON')}
                                     rows="5"
                                     onChange={handleOnChangeReason}
                                     value={reasonValue}
@@ -457,11 +451,7 @@ function App({
                                     id="create-additional-info-disclaimer"
                                     className="text-muted mt-2"
                                 >
-                                    In case of rule outs (R/O) include signs &
-                                    symptoms and do not code the R/O condition;
-                                    you may describe it in a narrative way
-                                    example: seeing flashes, hearing hissing
-                                    noises, vomiting R/O epilepsy.
+                                    {ruleOutsMessage}
                                 </div>
                                 {reasonError && (
                                     <div
