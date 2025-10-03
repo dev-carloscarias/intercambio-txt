@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './App.scss';
-import Select from 'react-select';
+import FormDropdownSelect from '../../FormDropdownSelect/FormDropdownSelect';
 import {
     CardWidgetHeading,
     CardWidgetSubheading,
@@ -47,6 +47,10 @@ function App({
     const [healthPlanOptions, setHealthPlanOptions] = useState<
         { value: string; label: string }[]
     >([]);
+    const [selectedHealthPlanItem, setSelectedHealthPlanItem] = useState<{
+        value: string;
+        label: string;
+    } | null>(null);
     const [selectedHealthPlan, setSelectedHealthPlan] = useState<string>('');
     const [isLoadingHealthPlans, setIsLoadingHealthPlans] =
         useState<boolean>(true);
@@ -75,14 +79,10 @@ function App({
 
     const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
 
-    const onSelectHealthPlan = (
-        selectedOption: { value: string; label: string } | null
-    ) => {
-        if (selectedOption) {
-            setSelectedHealthPlan(selectedOption.value);
-        } else {
-            setSelectedHealthPlan('');
-        }
+    const onSelectHealthPlan = (selectedItem: { value: string; label: string }) => {
+        setSelectedHealthPlan(selectedItem.value);
+        setSelectedHealthPlanItem(selectedItem);
+        setHealthPlanValidationError('');
     };
 
     const handleOnChangeDate = (value: Date | null | undefined) => {
@@ -134,12 +134,10 @@ function App({
     const validateForm = () => {
         let valid = true;
 
-        if (!selectedHealthPlan) {
+        if (selectedHealthPlan === undefined || selectedHealthPlan === null) {
             valid = false;
-            if (wasUpdated) {
-                setSelectedHealthPlan(null);
-                updateWizardProgress();
-            }
+            // No ejecutar updateWizardProgress cuando se limpia el health plan
+            // para evitar que se abra el modal de cancelación
         } else {
             setHealthPlanValidationError('');
         }
@@ -270,11 +268,18 @@ function App({
                 const healthPlansData =
                     response.data as unknown as HealthPlanDto[];
                 setHealthPlans(healthPlansData);
-                const options = healthPlansData.map(plan => ({
-                    value: String(plan.additionalHealthPlanId),
-                    label: plan.additionalHealthPlanName
-                }));
+                const options = [
+                    {
+                        value: '',
+                        label: t('clinicalconsultation:additional-information.NO-HEALTH-PLAN')
+                    },
+                    ...healthPlansData.map(plan => ({
+                        value: String(plan.additionalHealthPlanId),
+                        label: plan.additionalHealthPlanName
+                    }))
+                ];
                 setHealthPlanOptions(options);
+                // No establecer selectedHealthPlanItem aquí, se manejará en el useEffect
             } catch (error) {
                 setHealthPlansError('Error loading health plans');
             } finally {
@@ -295,6 +300,21 @@ function App({
         }
     }, [consultation]);
 
+    // Sincronizar selectedHealthPlanItem con selectedHealthPlan
+    useEffect(() => {
+        if (healthPlanOptions.length > 0) {
+            const foundItem = healthPlanOptions.find(option => option.value === selectedHealthPlan);
+            if (foundItem) {
+                setSelectedHealthPlanItem(foundItem);
+            } else {
+                // Si no se encuentra, usar el primer elemento (No health plan) como placeholder
+                setSelectedHealthPlanItem(healthPlanOptions[0]);
+                // También actualizar selectedHealthPlan para mantener consistencia
+                setSelectedHealthPlan(healthPlanOptions[0].value);
+            }
+        }
+    }, [selectedHealthPlan, healthPlanOptions]);
+
     const handleOnCancel = () => {
         setIsOpenSheet(false);
         eventBus.emit('cancel-consultation-create', {
@@ -314,7 +334,9 @@ function App({
                 }
             );
         }
+    };
 
+    const handleOnCloseSheet = () => {
         setIsOpenSheet(false);
     };
 
@@ -325,6 +347,7 @@ function App({
     }, [active]);
 
     useEffect(() => {
+        // Solo abrir el BottomSheet en móvil cuando el formulario es válido
         const shouldOpen = isMobile() && isOpenCollapse && isValidForm;
         setIsOpenSheet(shouldOpen);
     }, [isValidForm, isOpenCollapse]);
@@ -339,7 +362,7 @@ function App({
         if (wasUpdated) {
             validateForm();
         }
-    }, [selectedHealthPlan, wasUpdated, validateForm]);
+    }, [selectedDate, selectedReason, wasUpdated, validateForm]); // Removido selectedHealthPlan
 
     return (
         <div className="px-3">
@@ -378,6 +401,14 @@ function App({
                                     value={selectedDate || undefined}
                                     onClear={handleOnClearDate}
                                 />
+                                {dateError && (
+                                    <div
+                                        id="create-additional-info-date-error-msg"
+                                        className="text-danger text-sm mt-1"
+                                    >
+                                        {dateError}
+                                    </div>
+                                )}
                             </div>
                             <div className="col-mobile-7">
                                 <div className="d-none d-mobile-block">
@@ -387,24 +418,16 @@ function App({
                                     >
                                         {t('clinicalconsultation:additional-information.ADDITIONAL-HEALTH-PLAN')}
                                     </label>
-                                    <Select
-                                        inputId="health-plan-select-mobile"
-                                        options={healthPlanOptions}
-                                        value={
-                                            healthPlanOptions.find(
-                                                option =>
-                                                    option.value ===
-                                                    selectedHealthPlan
-                                            ) || null
-                                        }
+                                    <FormDropdownSelect
+                                        key={`health-plan-${healthPlanOptions.length}`}
+                                        items={healthPlanOptions}
+                                        value={selectedHealthPlanItem}
                                         onChange={onSelectHealthPlan}
-                                        placeholder={t('clinicalconsultation:additional-information.NO-HEALTH-PLAN')}
-                                        isSearchable={true}
-                                        isClearable={true}
-                                        noOptionsMessage={() =>
-                                            t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')
-                                        }
-                                        isLoading={isLoadingHealthPlans}
+                                        formatItem={(item: { value: string; label: string }) => item?.label || ''}
+                                        formatSelected={(item: { value: string; label: string }) => item?.label || ''}
+                                        filterable={true}
+                                        disabled={isLoadingHealthPlans}
+                                        noItemsText={t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')}
                                     />
                                 </div>
                                 <div className="d-mobile-none mt-3">
@@ -414,24 +437,16 @@ function App({
                                     >
                                         {t('clinicalconsultation:additional-information.ADDITIONAL-HEALTH-PLAN')}
                                     </label>
-                                    <Select
-                                        inputId="health-plan-select-desktop"
-                                        options={healthPlanOptions}
-                                        value={
-                                            healthPlanOptions.find(
-                                                option =>
-                                                    option.value ===
-                                                    selectedHealthPlan
-                                            ) || null
-                                        }
+                                    <FormDropdownSelect
+                                        key={`health-plan-${healthPlanOptions.length}`}
+                                        items={healthPlanOptions}
+                                        value={selectedHealthPlanItem}
                                         onChange={onSelectHealthPlan}
-                                        placeholder={t('clinicalconsultation:additional-information.NO-HEALTH-PLAN')}
-                                        isSearchable={true}
-                                        isClearable={true}
-                                        noOptionsMessage={() =>
-                                            t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')
-                                        }
-                                        isLoading={isLoadingHealthPlans}
+                                        formatItem={(item: { value: string; label: string }) => item?.label || ''}
+                                        formatSelected={(item: { value: string; label: string }) => item?.label || ''}
+                                        filterable={true}
+                                        disabled={isLoadingHealthPlans}
+                                        noItemsText={t('clinicalconsultation:additional-information.NO-HEALTH-PLANS-FOUND')}
                                     />
                                 </div>
                             </div>
@@ -446,6 +461,7 @@ function App({
                                     value={reasonValue}
                                     onBlur={handleSelectedReason}
                                     maxLength={consultationMaximumAllowedValue}
+                                    className={reasonValue.length >= consultationMaximumAllowedValue ? 'border-danger' : ''}
                                 />
                                 <div
                                     id="create-additional-info-disclaimer"
@@ -459,14 +475,6 @@ function App({
                                         className="text-danger text-sm mt-1"
                                     >
                                         {reasonError}
-                                    </div>
-                                )}
-                                {dateError && (
-                                    <div
-                                        id="create-additional-info-reason-max-msg"
-                                        className="text-danger text-sm mt-1"
-                                    >
-                                        {dateError}
                                     </div>
                                 )}
                             </div>
@@ -508,7 +516,7 @@ function App({
             <BottomSheetCancelNext
                 isOpen={isOpenSheet}
                 id="clinical-consultation-additional-information-mobile"
-                onClose={handleOnCancel}
+                onClose={handleOnCloseSheet}
                 onCancel={handleOnCancel}
                 onNext={handleClickNext}
             />
@@ -516,4 +524,4 @@ function App({
     );
 }
 
-export default App;
+export default App; 

@@ -106,7 +106,7 @@ const ServicingProviderSelectedItem: React.FC<
                                             className="servicing-provider-item-data-value flex-grow-1"
                                             id={`${id}-specialties`}
                                         >
-                                            {'No Specialty Selected'}
+                                                {t('clinicalconsultation:servicing-provider.NO-SPECIALTY-SELECTED')}
                                         </div>
                                     );
                                 }else if (!isMultipleSpecialty(item)){
@@ -180,9 +180,25 @@ const ServicingProviderSelectedItem: React.FC<
                             </div>
                             <div
                                 className="servicing-provider-item-data-value"
-                                id={`${id}-email`}
+                                id={`${id}-email`}  
                             >
                                 {item.email}
+                            </div>
+                        </div>
+                        <div className="servicing-provider-item-data">
+                            <div
+                                className="servicing-provider-item-data-name"
+                                id={`${id}-npi-label`}
+                            >
+                                {t(
+                                    'clinicalconsultation:servicing-provider.PROVIDER-NPI'
+                                )}
+                            </div>
+                            <div
+                                className="servicing-provider-item-data-value"
+                                id={`${id}-npi`}
+                            >
+                                {item.renderingProviderNPI || t('clinicalconsultation:servicing-provider.NO-NPI-AVAILABLE')}
                             </div>
                         </div>
                     </div>
@@ -202,7 +218,7 @@ const ServicingProviderSelectedItem: React.FC<
                                          className="servicing-provider-item-data-value"
                                          id={`${id}-city`}
                                      >
-                                         {item.selectedCity?.name || item.cities?.[0]?.name || 'No city selected'}
+                                         {item.selectedCity?.name || item.cities?.[0]?.name || t('clinicalconsultation:servicing-provider.NO-CITY-SELECTED')}
                                      </div>
                                 </div>
                                 <div className="servicing-provider-item-data">

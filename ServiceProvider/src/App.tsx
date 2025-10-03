@@ -356,6 +356,10 @@ function App({
 
     const handleOnCancel = () => setIsOpenSheet(false);
 
+    const handleOnCloseSheet = () => {
+        setIsOpenSheet(false);
+    };
+
     const toggleCollapse = () => setIsOpenCollapse(!isOpenCollapse);
 
     useEffect(() => {
@@ -761,7 +765,7 @@ function App({
             <BottomSheetCancelNext
                 isOpen={isOpenSheet}
                 id="consultation-servicing-provider-nextcancel-mobile"
-                onClose={handleOnCancel}
+                onClose={handleOnCloseSheet}
                 onCancel={handleOnCancel}
                 onNext={handleClickNext}
                 isValid={!isValidForm}
