@@ -1,0 +1,74 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.form-dd-select {
+    position: relative;
+    font-size: 0.875rem;
+    background-color: #fff;
+    border-radius: $input-border-radius;
+    padding: 0.5rem 1.25rem;
+    padding-right: 2rem;
+    border: $input-border-width solid $input-border-color;
+    + .dropdown-menu {
+        font-size: 0.875rem;
+        left: 0 !important;
+        transform: translate(0, 36px) !important;
+        border-radius: 0.625rem;
+        .dropdown-item {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
+
+    .form-dd-select-placeholder {
+        color: $input-placeholder-color;
+    }
+
+    .form-dd-select-selected {
+        color: $input-color;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .form-dd-select-caret {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+    }
+
+    &:focus:not([disabled], .is-invalid) {
+        border-color: $input-focus-border-color;
+    }
+    &.is-invalid {
+        border-color: $palette15;
+    }
+}
+
+.form-dd-filter {
+    position: relative;
+    border-bottom: 1px solid $palette10;
+    margin-bottom: 0.5rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    margin-top: -0.5rem;
+    .form-control {
+        padding-left: 3rem;
+        border: 0 !important;
+    }
+    &-icon {
+        position: absolute;
+        left: 1rem;
+        top: 0.6rem;
+        color: $palette13;
+    }
+}
+
+.dropdown-items-wrapper {
+    position: relative;
+    max-height: 230px;
+    overflow: hidden;
+}

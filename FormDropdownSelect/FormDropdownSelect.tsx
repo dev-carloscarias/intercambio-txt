@@ -1,0 +1,232 @@
+import React, { useEffect, useRef, useState } from 'react';
+import {
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Tooltip
+} from 'reactstrap';
+import { IconAngleDown, IconSearch } from '@provider-portal/icons';
+import { nanoid } from 'nanoid';
+import './FormDropdownSelect.scss';
+import classnames from 'classnames';
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+export interface FormDropdownSelectInterface {
+    value: any;
+    // list of items to display in select
+    items: Array<any>;
+    // format method to display text
+    formatItem?: (item: any) => string | React.ReactNode;
+    formatSelected?: (item: any) => string | React.ReactNode;
+    // callabck for selected item
+    onChange?: (item: any) => void;
+    // show input for filter
+    filterable?: boolean;
+    // disabled
+    disabled?: boolean;
+    className?: string;
+    noItemsText?: string;
+    showToolTipWithMaxLength?: number;
+}
+
+const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
+    React.forwardRef(
+        (
+            {
+                items,
+                value,
+                onChange = () => {},
+                formatItem = v => v,
+                formatSelected,
+                filterable = true,
+                disabled = false,
+                className = '',
+                noItemsText = 'No items',
+                showToolTipWithMaxLength = 9999
+            },
+            ref
+        ) => {
+            const [selected, setSelected] = useState();
+            const [isOpen, setIsOpen] = useState(false);
+            const [isVisiblePlaceholder, setIsVisiblePlaceholder] =
+                useState(false);
+            const [filterText, setFilterText] = useState('');
+            const [filteredItems, setFilteredItems] = useState(items);
+            const filterInputRef = useRef<HTMLInputElement>();
+            // reference to sidebar
+            const dropdownItemsWrapperRef = useRef<HTMLDivElement>();
+            // reference to scrollbar instance
+            const ps = useRef<any>(null);
+
+            const [tooltipOpen, setTooltipOpen] = useState<{
+                [key: number]: boolean;
+            }>({});
+
+            const onChangeFilterText = (
+                e: React.ChangeEvent<HTMLInputElement>
+            ) => setFilterText(e.target.value);
+
+            useEffect(() => {
+                if (value) setSelected(value);
+                else setSelected(items[0]);
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [value]);
+
+            useEffect(() => {
+                // by convention the first item is used as placeholder
+                setIsVisiblePlaceholder(selected === items[0]);
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [selected]);
+
+            useEffect(() => {
+                setFilteredItems(
+                    items.filter(i =>
+                        formatItem(i)
+                            .toLowerCase()
+                            .includes(filterText.toLowerCase())
+                    )
+                );
+                // update on filter due to height change
+                if (ps && ps.current) ps.current.update();
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [filterText]);
+
+            useEffect(() => {
+                if (filterInputRef?.current)
+                    if (isOpen)
+                        setTimeout(() => {
+                            filterInputRef.current.focus();
+                        }, 100);
+
+                // activate scrollbar when open
+                if (isOpen) {
+                    if (!ps.current) {
+                        if (dropdownItemsWrapperRef.current)
+                            ps.current = new PerfectScrollbar(
+                                dropdownItemsWrapperRef.current,
+                                {
+                                    suppressScrollX: true,
+                                    wheelPropagation: false
+                                }
+                            );
+                    }
+                } else {
+                    // clean filter text && destroy when close dropdown
+                    if (ps && ps.current) {
+                        setFilterText('');
+                        ps.current.destroy();
+                        ps.current = null;
+                    }
+                }
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [isOpen]);
+
+            const toggleToolTip = (index: number) => {
+                setTooltipOpen(prev => ({
+                    ...prev,
+                    [index]: !prev[index]
+                }));
+            };
+
+            const handleToggle = () => setIsOpen(!isOpen);
+
+            return (
+                <Dropdown tag="div" isOpen={isOpen} toggle={handleToggle}>
+                    <DropdownToggle
+                        className={classnames('form-dd-select', className)}
+                        id={`FormDropdownSelect-${nanoid()}`}
+                        tag="div"
+                        innerRef={ref}
+                        role="button"
+                        tabIndex={0}
+                        disabled={disabled}
+                    >
+                        <div
+                            className={classnames(
+                                isVisiblePlaceholder
+                                    ? 'form-dd-select-placeholder'
+                                    : 'form-dd-select-selected',
+                                ' mr-2'
+                            )}
+                        >
+                            {formatSelected
+                                ? formatSelected(selected)
+                                : formatItem(selected)}
+                        </div>
+                        {items && items.length > 1 ? (
+                            <div className="form-dd-select-caret">
+                                <IconAngleDown width="1rem" height="1rem" />
+                            </div>
+                        ) : null}
+                    </DropdownToggle>
+
+                    {items && items.length > 1 ? (
+                        <DropdownMenu className="animated fadeIn w-100">
+                            {filterable ? (
+                                <div className="form-dd-filter">
+                                    <IconSearch
+                                        className="form-dd-filter-icon"
+                                        width="1.25rem"
+                                        height="1.25rem"
+                                    />
+                                    <input
+                                        ref={filterInputRef}
+                                        className="form-control"
+                                        name=""
+                                        type="text"
+                                        value={filterText}
+                                        onChange={onChangeFilterText}
+                                        placeholder="Search"
+                                        role="button"
+                                        tabIndex={0}
+                                    />
+                                </div>
+                            ) : null}
+                            <div
+                                className="dropdown-items-wrapper"
+                                ref={dropdownItemsWrapperRef}
+                            >
+                                {filteredItems.length ? (
+                                    filteredItems.map((i: any, k: number) => (
+                                        <DropdownItem
+                                            key={k}
+                                            id={`dropdownSelect-tooltip-${k}`}
+                                            onClick={() => {
+                                                setSelected(i);
+                                                onChange(i);
+                                                toggleToolTip(k);
+                                            }}
+                                        >
+                                            {formatItem(i).length >=
+                                                showToolTipWithMaxLength && (
+                                                <Tooltip
+                                                    placement="top"
+                                                    isOpen={tooltipOpen[k]}
+                                                    target={`dropdownSelect-tooltip-${k}`}
+                                                    toggle={() =>
+                                                        toggleToolTip(k)
+                                                    }
+                                                    trigger="hover focus"
+                                                >
+                                                    {formatItem(i)}
+                                                </Tooltip>
+                                            )}
+                                            {formatItem(i)}
+                                        </DropdownItem>
+                                    ))
+                                ) : (
+                                    <div>
+                                        <div>{noItemsText}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </DropdownMenu>
+                    ) : null}
+                </Dropdown>
+            );
+        }
+    );
+
+export default FormDropdownSelect;
