@@ -1,15 +1,1 @@
-{
-    "version": "2.0.1", //Autogenerado por la librería, la versión utilizada debe ser mínimo 2.0.1
-    "timestamp": "2025-02-09T03:30:00.9572551", //Autogenerado por la librería
-    "node": "LEUS32314090596", //Autogenerado por la librería
-    "document": {
-        "logType": "default", //Enum gestionada en cada componente
-        "action": "Read from Kafka", //Proceso o subproceso donde se generó el error
-        "appName": "API Minimal Template", //Nombre del componente
-        "message": "Error getting messages from kafka", //Resumen / Título del error
-        "timestamp": "1739093400", //Fecha y hora en formato de solo dígitos
-        "logOriginal": "Message.InnerException", //Detalle del error, procurar nunca guardar el stacktrace completo ya que podría ser problemático. Sería válido guardar el Message.InnerException
-        "hostname": "LEUS32314090596", //La plantilla incluye un método para obtener el hostname.
-        "sourceIp": "10.76.219.184" //La plantilla incluye un método para obtener la IP
-    }
-}
+var log = log4net.LogManager.GetLogger(LogDescriptionKey); log.Error("{\"version\":\"2.0.1\",\"timestamp\":\"" + DateTime.UtcNow.ToString("o") + "\",\"node\":\"" + Environment.MachineName + "\",\"document\":{\"logType\":\"default\",\"action\":\"GetGenerarBpm\",\"appName\":\"Walmart.FelGTSoft2000.Mvc\",\"message\":\"Error en GetGenerarBpm\",\"timestamp\":\"" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff") + "\",\"logOriginal\":\"" + (ex.InnerException != null ? ex.InnerException.Message.Replace("\"", "'") : ex.Message.Replace("\"", "'")) + "\",\"hostname\":\"" + Environment.MachineName + "\",\"sourceIp\":\"" + (Request != null ? (Request.UserHostAddress ?? string.Empty) : string.Empty) + "\"}}" );
