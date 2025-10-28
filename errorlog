@@ -1,1 +1,22 @@
-var log = log4net.LogManager.GetLogger(LogDescriptionKey); log.Error("{\"version\":\"2.0.1\",\"timestamp\":\"" + DateTime.UtcNow.ToString("o") + "\",\"node\":\"" + Environment.MachineName + "\",\"document\":{\"logType\":\"default\",\"action\":\"GetGenerarBpm\",\"appName\":\"Walmart.FelGTSoft2000.Mvc\",\"message\":\"Error en GetGenerarBpm\",\"timestamp\":\"" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff") + "\",\"logOriginal\":\"" + (ex.InnerException != null ? ex.InnerException.Message.Replace("\"", "'") : ex.Message.Replace("\"", "'")) + "\",\"hostname\":\"" + Environment.MachineName + "\",\"sourceIp\":\"" + (Request != null ? (Request.UserHostAddress ?? string.Empty) : string.Empty) + "\"}}" );
+ if (item.specialties?.length > 0) {
+                if (!isMultipleSpecialty(item)) {
+                    setSelectedSpecialty(item.specialties[0]);
+                } else {
+                    if (activeFilters?.specialty) {
+                        const matchingSpecialty = item.specialties?.find(
+                            specialty =>
+                                specialty.specialtyId ===
+                                activeFilters.specialty.specialtyId
+                        );
+                        if (matchingSpecialty) {
+                            setSelectedSpecialty(matchingSpecialty);
+                        } else {
+                            setSelectedSpecialty(undefined);
+                        }
+                    } else {
+                        setSelectedSpecialty(undefined);
+                    }
+                }
+            } else {
+                setSelectedSpecialty(undefined);
+            }
