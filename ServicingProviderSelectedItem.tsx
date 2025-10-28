@@ -1,0 +1,341 @@
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import './ServicingProviderSelectedItem.scss';
+import { DropdownPicker } from '@provider-portal/components';
+
+import {
+    CityInterface,
+    ProviderInterface,
+    ServicingProviderInterface,
+    SpecialtyInterface
+} from '../models/ProviderInterface';
+import { useTranslation } from 'react-i18next';
+
+export type ServicingProviderSelectedItemProps = {
+    item: ProviderInterface;
+    onSelectCity: (c: CityInterface) => void;
+    onSelectSpecialty?: (s: SpecialtyInterface) => void;
+    activeFilters?: any;
+    id: string;
+    onCityDropdownOpenChange?: (open: boolean) => void;
+};
+
+const ServicingProviderSelectedItem: React.FC<
+    ServicingProviderSelectedItemProps
+> = ({ item, onSelectCity, onSelectSpecialty, activeFilters, id, onCityDropdownOpenChange}) => {
+    const { t } = useTranslation();
+    const [selectedCity, setSelectedCity] = useState<CityInterface>();
+    const [selectedSpecialty, setSelectedSpecialty] =
+        useState<SpecialtyInterface>();
+    const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+    const cityDropdownRef = useRef<HTMLDivElement>(null);
+    const cityObserverRef = useRef<MutationObserver | null>(null);
+    const cityPreviousStateRef = useRef<boolean>(false);
+    
+    const handleOnSelectCity = useCallback((city: CityInterface) => {
+        setSelectedCity(city);
+    }, []);
+
+    useEffect(() => {
+        if (!cityDropdownRef.current) return;
+        
+        const checkCityDropdownState = () => {
+            if (!cityDropdownRef.current) return;
+
+            const isOpen = cityDropdownRef.current.querySelector('[class*="show"]') !== null ||
+                            cityDropdownRef.current.querySelector('[class*="open"]') !== null ||
+                            cityDropdownRef.current.getAttribute('aria-expanded') === 'true';
+            if(isOpen !== cityPreviousStateRef.current){
+                cityPreviousStateRef.current = isOpen;
+                if(isOpen){
+                    setIsCityDropdownOpen(true);
+                }else{
+                    setIsCityDropdownOpen(false);
+                }
+            }
+        };
+
+        cityObserverRef.current = new MutationObserver(checkCityDropdownState);
+
+        cityObserverRef.current.observe(cityDropdownRef.current, {
+            attributes: true,
+            attributeFilter: ['class', 'aria-expanded'],
+            subtree: true,
+            childList: true
+        });
+
+        return () => {
+            if (cityObserverRef.current){
+                cityObserverRef.current.disconnect();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (onCityDropdownOpenChange) onCityDropdownOpenChange(isCityDropdownOpen);
+    }, [isCityDropdownOpen]);
+
+    const handleOnSelectSpecialty = (specialty: SpecialtyInterface) => {
+        setSelectedSpecialty(specialty);
+    };
+
+    const isMultipleCity = (provider: ServicingProviderInterface) => {
+        return (provider.cities?.length || 0) > 1;
+    };
+
+    const isMultipleSpecialty = (provider: ServicingProviderInterface) => {
+        return (provider.specialties?.length || 0) > 1;
+    };
+
+    useEffect(() => {
+        if (selectedCity) onSelectCity(selectedCity);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedCity]);
+
+    useEffect(() => {
+        if (selectedSpecialty && onSelectSpecialty)
+            onSelectSpecialty(selectedSpecialty);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedSpecialty]);
+
+    useEffect(() => {
+        if (item) {
+            if (item.cities?.length > 0) {
+                if (!isMultipleCity(item)) setSelectedCity(item.cities[0]);
+                else {
+                    if (activeFilters?.city) {
+                        const matchingCity = item.cities?.find(
+                            city => city.name === activeFilters.city.name
+                        );
+                        if (matchingCity) {
+                            setSelectedCity(matchingCity);
+                        } else {
+                            setSelectedCity(null);
+                        }
+                    } else {
+                        setSelectedCity(null);
+                    }
+                }
+            } else {
+                setSelectedCity(item.selectedCity);
+            }
+            if (item.specialties?.length > 0) {
+                console.log("no deberia entrar aca al else tes t");
+                console.log("item.selectedSpecialty", item.selectedSpecialty);
+                console.log("!item.selectedSpecialty.isPrimarySpecialty", !item.selectedSpecialty.isPrimarySpecialty);
+                console.log("activeFilters?.specialty", activeFilters?.specialty);  
+                if (
+                    item.selectedSpecialty &&
+                    (!item.selectedSpecialty.isPrimarySpecialty ||
+                        activeFilters?.specialty)
+                ) {
+                    console.log("no deberia entrar aca al else 2");
+                    setSelectedSpecialty(item.selectedSpecialty);
+                } else {
+                    console.log("TTEST deberia entrar aca al else")
+                    if (!isMultipleSpecialty(item)) {
+                        setSelectedSpecialty(item.specialties[0]);
+                    } else {
+                        console.log("deberia entrar aca al else")
+                        if (activeFilters?.specialty) {
+                            console.log("NO deberia entrar aca")
+                                const matchingSpecialty = item.specialties?.find(
+                                    specialty =>
+                                        specialty.specialtyId ===
+                                        activeFilters.specialty.specialtyId
+                                );
+
+                                if (matchingSpecialty) {
+                                    setSelectedSpecialty(matchingSpecialty);
+                                } else {
+                                    setSelectedSpecialty(undefined);
+                                }
+                        } else {
+                            console.log("deberia entrar aca");
+                            if (!selectedSpecialty) {
+                                console.log("deberia entrar aca 2")
+                                setSelectedSpecialty(undefined);
+                            }
+                        }
+                    }
+                }
+            } else {
+                setSelectedSpecialty(undefined);
+            }
+        }
+    }, [item, activeFilters]);
+
+    useEffect(() =>{
+        setSelectedCity(undefined);
+        setSelectedSpecialty(undefined);
+    }, [item]);
+
+    return (
+        <>
+            <div className="servicing-provider-item">
+                <div className="servicing-provider-item-name" id={`${id}-name`}>
+                    {item.renderingProviderName}
+                </div>
+                <div className="d-mobile-flex ">
+                    <div className="mr-mobile-5">
+                        <div className="servicing-provider-item-data d-flex align-items-center">
+                            <div
+                                className="servicing-provider-item-data-name flex-shrink-0"
+                                id={`${id}-specialties-label`}
+                            >
+                                {t(
+                                    'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY'
+                                )}
+                            </div>
+                            {(() => {
+                                if (
+                                    !item.specialties ||
+                                    item.specialties.length === 0
+                                ) {
+                                    return (
+                                        <div
+                                            className="servicing-provider-item-data-value flex-grow-1"
+                                            id={`${id}-specialties`}
+                                        >
+                                            {t(
+                                                'clinicalconsultation:servicing-provider.NO-SPECIALTY-SELECTED'
+                                            )}
+                                        </div>
+                                    );
+                                } else if (!isMultipleSpecialty(item)) {
+                                    const specialtyName =
+                                        item.specialties[0]?.name || '';
+                                    return (
+                                        <div
+                                            className="servicing-provider-item-data-value flex-grow-1"
+                                            id={`${id}-specialties`}
+                                        >
+                                            {specialtyName}
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <div className="servicing-provider-item-data-value flex-grow-1">
+                                            <div className="dd-picker-specialty">
+                                                <DropdownPicker
+                                                    title={t(
+                                                        'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY'
+                                                    )}
+                                                    selected={
+                                                        selectedSpecialty ||
+                                                        undefined
+                                                    }
+                                                    items={item.specialties}
+                                                    onSelect={
+                                                        handleOnSelectSpecialty
+                                                    }
+                                                    formatItem={(
+                                                        s: SpecialtyInterface
+                                                    ) => s.name}
+                                                    formatSelected={(
+                                                        s: SpecialtyInterface
+                                                    ) => s.name}
+                                                    placeholder={t(
+                                                        'clinicalconsultation:servicing-provider.SPECIALIST'
+                                                    )}
+                                                    autoOpen={true}
+                                                    id={`${id}-specialty-dropdown`}
+                                                />
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                            })()}
+                        </div>
+                        <div className="d-flex align-items-center flex-wrap">
+                            <div className="servicing-provider-item-data">
+                                <div
+                                    className="servicing-provider-item-data-name"
+                                    id={`${id}-phone-label`}
+                                >
+                                    {t(
+                                        'clinicalconsultation:servicing-provider.PROVIDER-PHONE'
+                                    )}
+                                </div>
+                                <div
+                                    className="servicing-provider-item-data-value"
+                                    id={`${id}-phone`}
+                                >
+                                    {item.phoneNumber}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="servicing-provider-item-data">
+                            <div
+                                className="servicing-provider-item-data-name"
+                                id={`${id}-email-label`}
+                            >
+                                {t(
+                                    'clinicalconsultation:servicing-provider.PROVIDER-EMAIL'
+                                )}
+                            </div>
+                            <div
+                                className="servicing-provider-item-data-value"
+                                id={`${id}-email`}
+                            >
+                                {item.email}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="servicing-provider-item-data d-flex align-items-center">
+                            <div
+                                className="servicing-provider-item-data-name flex-shrink-0"
+                                id={`${id}-city-label`}
+                            >
+                                {t(
+                                    'clinicalconsultation:servicing-provider.PROVIDER-CITY'
+                                )}
+                            </div>
+                            {!isMultipleCity(item) ? (
+                                <div
+                                    className="servicing-provider-item-data-value flex-grow-1"
+                                    id={`${id}-city`}
+                                >
+                                    {item.selectedCity?.name ||
+                                        item.cities?.[0]?.name ||
+                                        t(
+                                            'clinicalconsultation:servicing-provider.NO-CITY-SELECTED'
+                                        )}
+                                </div>
+                            ) : (
+                                <div className="servicing-provider-item-data-value flex-grow-1">
+                                    <div className="dd-picker-city d-none d-mobile-block" ref={cityDropdownRef}>
+                                        <DropdownPicker
+                                            title={t(
+                                                'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY'
+                                            )}
+                                            selected={selectedCity}
+                                            items={item.cities}
+                                            onSelect={handleOnSelectCity}
+                                            onOpen={() => setIsCityDropdownOpen(true)}
+                                            onClose={() => setIsCityDropdownOpen(false)}
+                                            formatItem={(c: CityInterface) =>
+                                                c.name + ' - ' + c.zipCode
+                                            }
+                                            formatSelected={(
+                                                c: CityInterface
+                                            ) => c.name + ' - ' + c.zipCode}
+                                            placeholder={t(
+                                                'clinicalconsultation:servicing-provider.PROVIDER-SELECT-CITY'
+                                            )}
+                                            autoOpen={true}
+                                            id={`${id}-city-dropdown`}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default ServicingProviderSelectedItem;
