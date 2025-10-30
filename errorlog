@@ -616,6 +616,36 @@ function App({
         }
     };
 
+    const handleSearchInputBlur = (e: React.FocusEvent) => {
+        // Usar setTimeout para permitir que los clicks en el dropdown se procesen primero
+        setTimeout(() => {
+            // Verificar si el elemento activo actual es parte del dropdown de resultados
+            const activeElement = document.activeElement;
+            const dropdownContainer = document.getElementById('consultation-servicing-provider-search-results-container');
+            
+            // Si el foco está en el dropdown o sus elementos hijos, no cancelar la búsqueda
+            if (activeElement && dropdownContainer && dropdownContainer.contains(activeElement)) {
+                return;
+            }
+            
+            // Si hay una búsqueda en curso, cancelarla y limpiar resultados
+            if (controllerRef.current && isSearchLoading) {
+                controllerRef.current.abort();
+                controllerRef.current = null;
+                setIsSearchLoading(false);
+                
+                // Limpiar resultados si estaban cargando cuando se perdió el foco
+                setProviders([]);
+                setTotalRows(0);
+            }
+            
+            // Cerrar el dropdown si está abierto y estaba cargando
+            if (isOpenDropdown && isSearchLoading) {
+                setIsOpenDropdown(false);
+            }
+        }, 150);
+    };
+
     useEffect(() => {
         setHasMore(totalRows > providers?.length);
     }, [providers, totalRows]);
@@ -748,6 +778,7 @@ function App({
                                                     onClear={
                                                         handleOnClearSearch
                                                     }
+                                                    onBlur={handleSearchInputBlur}
                                                     id="consultation-servicing-provider-search-input-text"
                                                     debounceSearch={true}
                                                     onClick={
