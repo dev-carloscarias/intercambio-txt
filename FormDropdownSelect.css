@@ -71,4 +71,12 @@
     position: relative;
     max-height: 230px;
     overflow: hidden;
+
+    .ps__rail-y {
+        opacity: 1 !important;
+    }
+
+    .ps__thumb-y {
+        min-height: 20px;
+    }
 }
