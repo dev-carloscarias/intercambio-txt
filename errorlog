@@ -35,6 +35,8 @@ const ServicingProviderSelectedItem: React.FC<
     const cityPreviousStateRef = useRef<boolean>(false);
     const specialtyPreviousStateRef = useRef<boolean>(false);
     const autoOpenSequenceDoneRef = useRef<boolean>(false);
+    const lastProviderIdRef = useRef<number | undefined>(undefined);
+    const autoOpenTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [shouldAutoOpenSpecialty, setShouldAutoOpenSpecialty] = useState(false);
     const [shouldAutoOpenCity, setShouldAutoOpenCity] = useState(false);
     
@@ -178,10 +180,27 @@ const ServicingProviderSelectedItem: React.FC<
 
     useEffect(() => {
         if (item) {
-            // Resetear la secuencia cuando cambia el provider
-            autoOpenSequenceDoneRef.current = false;
-            setShouldAutoOpenSpecialty(false);
-            setShouldAutoOpenCity(false);
+            const currentProviderId = item.providerAffiliationId;
+            const isNewProvider = currentProviderId !== lastProviderIdRef.current;
+            
+            // Cancelar cualquier timeout pendiente de auto-open
+            if (autoOpenTimeoutRef.current) {
+                clearTimeout(autoOpenTimeoutRef.current);
+                autoOpenTimeoutRef.current = null;
+            }
+            
+            // Solo resetear la secuencia cuando cambia el provider (no cuando cambian los filtros)
+            if (isNewProvider) {
+                autoOpenSequenceDoneRef.current = false;
+                setShouldAutoOpenSpecialty(false);
+                setShouldAutoOpenCity(false);
+                lastProviderIdRef.current = currentProviderId;
+            } else {
+                // Si no es un nuevo provider, asegurarse de que los flags de auto-open estén en false
+                // Esto previene que se abran cuando solo cambian los filtros o se resetea
+                setShouldAutoOpenSpecialty(false);
+                setShouldAutoOpenCity(false);
+            }
             
             if (!item.selectedCity && item.cities?.length > 0) {
                 if (!isMultipleCity(item)) setSelectedCity(item.cities[0]);
@@ -236,18 +255,41 @@ const ServicingProviderSelectedItem: React.FC<
                 setSelectedSpecialty(undefined);
             }
             
-            // Si hay múltiples especialidades y múltiples ciudades, iniciar secuencia automática
-            if (isMultipleSpecialty(item) && isMultipleCity(item)) {
-                // Primero abrir specialty
-                setTimeout(() => {
-                    setShouldAutoOpenSpecialty(true);
-                    setShouldAutoOpenCity(true); // Preparar para abrir city después
+            // Solo iniciar secuencia automática si es un nuevo provider y hay múltiples opciones
+            // No activar cuando solo cambian los filtros o se resetea
+            if (isNewProvider && isMultipleSpecialty(item) && isMultipleCity(item)) {
+                // Capturar el ID del provider para verificar en el timeout
+                const providerIdToCheck = currentProviderId;
+                // Primero abrir specialty solo cuando es un provider completamente nuevo
+                autoOpenTimeoutRef.current = setTimeout(() => {
+                    // Verificar nuevamente que sigue siendo el mismo provider antes de abrir
+                    if (providerIdToCheck === lastProviderIdRef.current) {
+                        setShouldAutoOpenSpecialty(true);
+                        setShouldAutoOpenCity(true); // Preparar para abrir city después
+                    }
+                    autoOpenTimeoutRef.current = null;
                 }, 300);
             }
         }else{
+            // Cancelar timeout si el item se deselecciona
+            if (autoOpenTimeoutRef.current) {
+                clearTimeout(autoOpenTimeoutRef.current);
+                autoOpenTimeoutRef.current = null;
+            }
             setSelectedCity(undefined);
             setSelectedSpecialty(undefined);
+            setShouldAutoOpenSpecialty(false);
+            setShouldAutoOpenCity(false);
+            lastProviderIdRef.current = undefined;
         }
+        
+        // Cleanup: cancelar timeout al desmontar o cuando cambian las dependencias
+        return () => {
+            if (autoOpenTimeoutRef.current) {
+                clearTimeout(autoOpenTimeoutRef.current);
+                autoOpenTimeoutRef.current = null;
+            }
+        };
 
     }, [item?.providerAffiliationId, activeFilters]);
 
