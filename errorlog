@@ -1,14 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './ServicingProviderSelectedItem.scss';
-import { 
-    DropdownPicker,
-    BottomSheet,
-    BottomSheetList,
-    BottomSheetListItem,
-    BottomSheetTitle,
-    BottomSheetSubtitle,
-    CONST
-} from '@provider-portal/components';
+import { DropdownPicker } from '@provider-portal/components';
 
 import {
     CityInterface,
@@ -25,7 +17,7 @@ export type ServicingProviderSelectedItemProps = {
     activeFilters?: any;
     id: string;
     onCityDropdownOpenChange?: (open: boolean) => void;
- };
+};
 
 const ServicingProviderSelectedItem: React.FC<
     ServicingProviderSelectedItemProps
@@ -35,31 +27,13 @@ const ServicingProviderSelectedItem: React.FC<
     const [selectedSpecialty, setSelectedSpecialty] =
         useState<SpecialtyInterface>();
     const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
-    const [isCityBottomSheetOpen, setIsCityBottomSheetOpen] = useState(false);
     const cityDropdownRef = useRef<HTMLDivElement>(null);
     const cityObserverRef = useRef<MutationObserver | null>(null);
     const cityPreviousStateRef = useRef<boolean>(false);
-    const isUserSelectingCityRef = useRef<boolean>(false);
-    
-    const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
     
     const handleOnSelectCity = useCallback((city: CityInterface) => {
-        isUserSelectingCityRef.current = true;
         setSelectedCity(city);
-        if (isMobile()) {
-            setIsCityBottomSheetOpen(false);
-        }
     }, []);
-    
-    const handleCityClick = () => {
-        if (isMobile() && item.cities && item.cities.length > 0) {
-            setIsCityBottomSheetOpen(true);
-        }
-    };
-    
-    const handleCloseBottomSheet = () => {
-        setIsCityBottomSheetOpen(false);
-    };
 
     useEffect(() => {
         if (!cityDropdownRef.current) return;
@@ -100,11 +74,7 @@ const ServicingProviderSelectedItem: React.FC<
         if (onCityDropdownOpenChange) onCityDropdownOpenChange(isCityDropdownOpen);
     }, [isCityDropdownOpen]);
 
-    const isUserSelectingSpecialtyRef = useRef<boolean>(false);
-    
     const handleOnSelectSpecialty = (specialty: SpecialtyInterface) => {
-        console.log('🎯 Usuario seleccionó especialidad:', specialty);
-        isUserSelectingSpecialtyRef.current = true;
         setSelectedSpecialty(specialty);
     };
 
@@ -117,112 +87,76 @@ const ServicingProviderSelectedItem: React.FC<
     };
 
     useEffect(() => {
-        // Solo propagar al padre si el cambio viene del usuario (selección desde BottomSheet o DropdownPicker)
-        if (selectedCity && isUserSelectingCityRef.current) {
-            isUserSelectingCityRef.current = false;
-            onSelectCity(selectedCity);
-        }
+        if (selectedCity) onSelectCity(selectedCity);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCity]);
 
     useEffect(() => {
-        // Solo propagar al padre si el cambio viene del usuario (selección desde DropdownPicker)
-        if (selectedSpecialty && onSelectSpecialty && isUserSelectingSpecialtyRef.current) {
-            isUserSelectingSpecialtyRef.current = false;
+        if (selectedSpecialty && onSelectSpecialty)
             onSelectSpecialty(selectedSpecialty);
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedSpecialty]);
 
-    // Sincronizar selecciones cuando cambia el provider (item), inicializando valores por defecto
     useEffect(() => {
         if (item) {
-            // Para la ciudad: inicializar solo cuando cambia el provider o cuando item.selectedCity cambia desde fuera
-            if (item.selectedCity) {
-                // Si el item tiene una ciudad seleccionada, usarla
-                const currentCityId = selectedCity?.cityId;
-                const itemCityId = item.selectedCity?.cityId;
-                if (itemCityId !== currentCityId) {
-                    setSelectedCity(item.selectedCity);
-                }
-            } else if (item.cities?.length > 0) {
-                // Si no hay ciudad seleccionada en el item, establecer por defecto
-                if (!isMultipleCity(item)) {
-                    // Una sola ciudad: seleccionarla automáticamente
-                    if (!selectedCity || selectedCity.cityId !== item.cities[0].cityId) {
-                        setSelectedCity(item.cities[0]);
-                    }
-                } else {
-                    // Múltiples ciudades: buscar match con filtros o dejar undefined
+            if (!item.selectedCity && item.cities?.length > 0) {
+                if (!isMultipleCity(item)) setSelectedCity(item.cities[0]);
+                else {
                     if (activeFilters?.city) {
                         const matchingCity = item.cities?.find(
                             city => city.name === activeFilters.city.name
                         );
                         if (matchingCity) {
-                            const currentCityId = selectedCity?.cityId;
-                            if (matchingCity.cityId !== currentCityId) {
-                                setSelectedCity(matchingCity);
-                            }
-                        } else if (selectedCity) {
-                            // Si había una selección pero ya no coincide, limpiar
-                            setSelectedCity(undefined);
+                            setSelectedCity(matchingCity);
+                        } else {
+                            setSelectedCity(null);
                         }
-                    } else if (selectedCity) {
-                        // Si había una selección pero ya no hay filtro, mantenerla solo si aún existe en las ciudades
-                        const stillExists = item.cities.some(c => c.cityId === selectedCity.cityId);
-                        if (!stillExists) {
-                            setSelectedCity(undefined);
-                        }
+                    } else {
+                        setSelectedCity(null);
                     }
                 }
-            } else if (selectedCity) {
-                // Si no hay ciudades disponibles pero había una selección, limpiar
-                setSelectedCity(undefined);
+            } else {
+                setSelectedCity(item.selectedCity);
             }
-            
-            // Para la especialidad: inicializar solo cuando cambia el provider o cuando item.selectedSpecialty cambia desde fuera
-            if (item.selectedSpecialty) {
-                const currentSpecialtyId = selectedSpecialty?.specialtyId;
-                const itemSpecialtyId = item.selectedSpecialty?.specialtyId;
-                if (itemSpecialtyId !== currentSpecialtyId) {
+            if (item.specialties?.length > 0) {
+                if (
+                    item.selectedSpecialty &&
+                    (!item.selectedSpecialty.isPrimarySpecialty ||
+                        activeFilters?.specialty)
+                ) {
                     setSelectedSpecialty(item.selectedSpecialty);
-                }
-            } else if (item.specialties?.length > 0) {
-                if (!isMultipleSpecialty(item)) {
-                    // Una sola especialidad: seleccionarla automáticamente
-                    if (!selectedSpecialty || selectedSpecialty.specialtyId !== item.specialties[0].specialtyId) {
+                } else {
+                    if (!isMultipleSpecialty(item)) {
                         setSelectedSpecialty(item.specialties[0]);
+                    } else {
+                        if (activeFilters?.specialty) {
+                    const matchingSpecialty = item.specialties?.find(
+                        specialty =>
+                            specialty.specialtyId ===
+                            activeFilters.specialty.specialtyId
+                    );
+
+                    if (matchingSpecialty) {
+                        setSelectedSpecialty(matchingSpecialty);
+                    } else {
+                        setSelectedSpecialty(undefined);
                     }
                 } else {
-                    // Múltiples especialidades: buscar match con filtros o dejar undefined
-                    if (activeFilters?.specialty) {
-                        const matchingSpecialty = item.specialties?.find(
-                            specialty =>
-                                specialty.specialtyId ===
-                                activeFilters.specialty.specialtyId
-                        );
-                        if (matchingSpecialty) {
-                            const currentSpecialtyId = selectedSpecialty?.specialtyId;
-                            if (matchingSpecialty.specialtyId !== currentSpecialtyId) {
-                                setSelectedSpecialty(matchingSpecialty);
+                            if (!selectedSpecialty) {
+                        setSelectedSpecialty(undefined);
                             }
-                        } else if (selectedSpecialty) {
-                            setSelectedSpecialty(undefined);
-                        }
-                    } else if (selectedSpecialty) {
-                        // Mantener selección solo si aún existe en las especialidades
-                        const stillExists = item.specialties.some(s => s.specialtyId === selectedSpecialty.specialtyId);
-                        if (!stillExists) {
-                            setSelectedSpecialty(undefined);
                         }
                     }
                 }
-            } else if (selectedSpecialty) {
+            } else {
                 setSelectedSpecialty(undefined);
             }
+        }else{
+            setSelectedCity(undefined);
+            setSelectedSpecialty(undefined);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [item?.providerAffiliationId, item?.selectedCity, item?.selectedSpecialty, activeFilters]);
+
+    }, [item?.providerAffiliationId, activeFilters]);
 
     return (
         <>
@@ -347,118 +281,48 @@ const ServicingProviderSelectedItem: React.FC<
                                     'clinicalconsultation:servicing-provider.PROVIDER-CITY'
                                 )}
                             </div>
-                            {(() => {
-                                const currentCity = selectedCity || item.selectedCity || item.cities?.[0];
-                                const cityDisplayText = currentCity 
-                                    ? `${currentCity.name} - ${currentCity.zipCode}`
-                                    : t('clinicalconsultation:servicing-provider.NO-CITY-SELECTED');
-                                
-                                // Desktop: texto plano cuando hay una sola ciudad, dropdown cuando hay múltiples
-                                if (!isMultipleCity(item)) {
-                                    return (
-                                        <>
-                                            <div
-                                                className="servicing-provider-item-data-value flex-grow-1 d-mobile-none"
-                                                id={`${id}-city`}
-                                            >
-                                                {cityDisplayText}
-                                            </div>
-                                            {/* Mobile: texto clickeable que abre BottomSheet incluso con una sola ciudad */}
-                                            <div 
-                                                className="servicing-provider-item-data-value flex-grow-1 d-none d-mobile-block"
-                                                onClick={handleCityClick}
-                                                style={{ cursor: 'pointer' }}
-                                                role="button"
-                                                tabIndex={0}
-                                                id={`${id}-city-mobile`}
-                                            >
-                                                {cityDisplayText}
-                                            </div>
-                                        </>
-                                    );
-                                }
-                                // Múltiples ciudades: dropdown para desktop, texto clickeable + BottomSheet para móvil
-                                return (
-                                    <>
-                                        {/* Desktop: dropdown */}
-                                        <div className="servicing-provider-item-data-value flex-grow-1 d-mobile-none">
-                                            <div className="dd-picker-city" ref={cityDropdownRef}>
-                                                <DropdownPicker
-                                                    title={t(
-                                                        'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY'
-                                                    )}
-                                                    selected={selectedCity}
-                                                    items={item.cities}
-                                                    onSelect={handleOnSelectCity}
-                                                    onOpen={() => setIsCityDropdownOpen(true)}
-                                                    onClose={() => setIsCityDropdownOpen(false)}
-                                                    formatItem={(c: CityInterface) =>
-                                                        c.name + ' - ' + c.zipCode
-                                                    }
-                                                    formatSelected={(c: CityInterface) =>
-                                                        c.name + ' - ' + c.zipCode}
-                                                    placeholder={t(
-                                                        'clinicalconsultation:servicing-provider.PROVIDER-SELECT-CITY'
-                                                    )}
-                                                    autoOpen={true}
-                                                    id={`${id}-city-dropdown`}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* Mobile: texto clickeable que abre BottomSheet */}
-                                        <div 
-                                            className="servicing-provider-item-data-value flex-grow-1 d-none d-mobile-block"
-                                            onClick={handleCityClick}
-                                            style={{ cursor: 'pointer' }}
-                                            role="button"
-                                            tabIndex={0}
-                                            id={`${id}-city-mobile`}
-                                        >
-                                            {cityDisplayText}
-                                        </div>
-                                    </>
-                                );
-                            })()}
+                            {!isMultipleCity(item) ? (
+                                <div
+                                    className="servicing-provider-item-data-value flex-grow-1"
+                                    id={`${id}-city`}
+                                >
+                                    {item.selectedCity?.name ||
+                                        item.cities?.[0]?.name ||
+                                        t(
+                                            'clinicalconsultation:servicing-provider.NO-CITY-SELECTED'
+                                        )}
+                                </div>
+                            ) : (
+                                <div className="servicing-provider-item-data-value flex-grow-1">
+                                    <div className="dd-picker-city" ref={cityDropdownRef}>
+                                        <DropdownPicker
+                                            title={t(
+                                                'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY'
+                                            )}
+                                            selected={selectedCity}
+                                            items={item.cities}
+                                            onSelect={handleOnSelectCity}
+                                            onOpen={() => setIsCityDropdownOpen(true)}
+                                            onClose={() => setIsCityDropdownOpen(false)}
+                                            formatItem={(c: CityInterface) =>
+                                                c.name + ' - ' + c.zipCode
+                                            }
+                                            formatSelected={(
+                                                c: CityInterface
+                                            ) => c.name + ' - ' + c.zipCode}
+                                            placeholder={t(
+                                                'clinicalconsultation:servicing-provider.PROVIDER-SELECT-CITY'
+                                            )}
+                                            autoOpen={true}
+                                            id={`${id}-city-dropdown`}
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-            {/* BottomSheet para selección de ciudad en móvil */}
-            {item.cities && item.cities.length > 0 && (
-                <BottomSheet isOpen={isCityBottomSheetOpen} onClose={handleCloseBottomSheet}>
-                    <BottomSheetTitle>
-                        {t(
-                            'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY'
-                        )}
-                    </BottomSheetTitle>
-                    <BottomSheetSubtitle>
-                        {t(
-                            'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY-MESSAGE'
-                        )}
-                    </BottomSheetSubtitle>
-                    <BottomSheetList>
-                        {item.cities?.map((c, i: number) => {
-                            const currentCity = selectedCity || item.selectedCity;
-                            const isActive = currentCity && (
-                                c.cityId === currentCity.cityId ||
-                                (c.cityId === undefined && c.name === currentCity.name && c.zipCode === currentCity.zipCode)
-                            );
-                            
-                            return (
-                                <BottomSheetListItem
-                                    key={i}
-                                    name={c.name + ' - ' + c.zipCode}
-                                    onClick={() => handleOnSelectCity(c)}
-                                    formatItem={(c: CityInterface) =>
-                                        c.name + ' - ' + c.zipCode
-                                    }
-                                    isActive={!!isActive}
-                                />
-                            );
-                        })}
-                    </BottomSheetList>
-                </BottomSheet>
-            )}
         </>
     );
 };
