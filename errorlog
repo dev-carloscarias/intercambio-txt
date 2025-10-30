@@ -115,6 +115,7 @@ function App({
     const [resetSearchBar, setResetSearchBar] = useState(false);
     const [searchBarKey, setSearchBarKey] = useState(0);
     const [isCityDropdownOpen, setIsDropdownOpen] = useState(false);
+    const specialtyDropdownRef = useRef<HTMLDivElement | null>(null);
 
     // Ref to store the current AbortController
     const controllerRef = useRef<AbortController | null>(null);
@@ -682,6 +683,95 @@ function App({
         forceBodyScroll();
     }, [selectedSpecialty, selectedProvider, isOpenDropdown, providers]);
 
+    // Observer para actualizar el scrollbar cuando se filtran los resultados del dropdown de specialty
+    useEffect(() => {
+        if (!specialtyDropdownRef.current) return;
+
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
+        let searchInput: HTMLInputElement | null = null;
+
+        const updateScrollbar = () => {
+            // Buscar el contenedor del dropdown que tiene el scrollbar
+            const dropdownContainer = specialtyDropdownRef.current?.querySelector(
+                '.dropdown-menu, .dropdown-content, [class*="dropdown-menu"], [class*="dropdown-content"], ul[class*="dropdown"], div[class*="dropdown-list"]'
+            ) as HTMLElement;
+            
+            if (dropdownContainer) {
+                // Forzar recálculo del scrollbar accediendo a propiedades que causan reflow
+                void dropdownContainer.offsetHeight;
+                void dropdownContainer.scrollHeight;
+                
+                // Si el contenedor tiene overflow, forzar actualización del scrollbar
+                const style = window.getComputedStyle(dropdownContainer);
+                if (style.overflow === 'auto' || style.overflowY === 'auto' || style.overflow === 'scroll' || style.overflowY === 'scroll') {
+                    // Forzar actualización accediendo a scrollHeight y luego a clientHeight
+                    void dropdownContainer.scrollHeight;
+                    void dropdownContainer.clientHeight;
+                }
+            }
+        };
+
+        const handleInput = () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(() => {
+                updateScrollbar();
+                timeoutId = null;
+            }, 100);
+        };
+
+        const attachInputListener = () => {
+            // Buscar el input de búsqueda dentro del dropdown (puede aparecer cuando se abre)
+            const foundInput = specialtyDropdownRef.current?.querySelector('input[type="text"], input[type="search"]') as HTMLInputElement;
+            if (foundInput && foundInput !== searchInput) {
+                // Remover listener anterior si existe
+                if (searchInput) {
+                    searchInput.removeEventListener('input', handleInput);
+                }
+                // Agregar nuevo listener
+                searchInput = foundInput;
+                searchInput.addEventListener('input', handleInput);
+            }
+        };
+
+        const observer = new MutationObserver(() => {
+            // Debounce para evitar demasiadas actualizaciones
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            
+            // Intentar adjuntar listener al input si está disponible
+            attachInputListener();
+            
+            timeoutId = setTimeout(() => {
+                updateScrollbar();
+                timeoutId = null;
+            }, 50);
+        });
+
+        // Observar cambios en el contenido del dropdown (cuando se filtran los resultados)
+        observer.observe(specialtyDropdownRef.current, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+
+        // Intentar adjuntar listener inicialmente
+        attachInputListener();
+
+        return () => {
+            observer.disconnect();
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            if (searchInput) {
+                searchInput.removeEventListener('input', handleInput);
+            }
+        };
+    }, [specialties]);
+
     useEffect(() => {
         if (isMobile()) {
             const interval = setInterval(() => {
@@ -823,42 +913,44 @@ function App({
                                                 </div>
 
                                                 <div className="d-none d-mobile-block">
-                                                    <FormDropdownSelect
-                                                        key={`specialty-${
-                                                            selectedSpecialty?.specialtyId ??
-                                                            specialties?.length
-                                                        }`}
-                                                        items={specialties}
-                                                        value={
-                                                            selectedSpecialty
-                                                        }
-                                                        onChange={
-                                                            onSelectSpecialty
-                                                        }
-                                                        formatItem={(
-                                                            s: Specialty
-                                                        ) => s?.name}
-                                                        formatSelected={(
-                                                            s: Specialty
-                                                        ) => s?.name}
-                                                        filterable={true}
-                                                        disabled={false}
-                                                        noItemsText={t(
-                                                            'clinicalconsultation:servicing-provider.NO-RESULTS'
-                                                        )}
-                                                        placeHolder={t(
-                                                            'clinicalconsultation:servicing-provider.SPECIALIST'
-                                                        )}
-                                                        className={
-                                                            'filter-dropdown '
-                                                        }
-                                                        requiredVisiblePlaceHolder={
-                                                            true
-                                                        }
-                                                        blockRegex={
-                                                            /[^A-Za-zÝÉÝÓÚÜÑáéíóúüñ\s]/g
-                                                        }
-                                                    />
+                                                    <div ref={specialtyDropdownRef}>
+                                                        <FormDropdownSelect
+                                                            key={`specialty-${
+                                                                selectedSpecialty?.specialtyId ??
+                                                                specialties?.length
+                                                            }`}
+                                                            items={specialties}
+                                                            value={
+                                                                selectedSpecialty
+                                                            }
+                                                            onChange={
+                                                                onSelectSpecialty
+                                                            }
+                                                            formatItem={(
+                                                                s: Specialty
+                                                            ) => s?.name}
+                                                            formatSelected={(
+                                                                s: Specialty
+                                                            ) => s?.name}
+                                                            filterable={true}
+                                                            disabled={false}
+                                                            noItemsText={t(
+                                                                'clinicalconsultation:servicing-provider.NO-RESULTS'
+                                                            )}
+                                                            placeHolder={t(
+                                                                'clinicalconsultation:servicing-provider.SPECIALIST'
+                                                            )}
+                                                            className={
+                                                                'filter-dropdown '
+                                                            }
+                                                            requiredVisiblePlaceHolder={
+                                                                true
+                                                            }
+                                                            blockRegex={
+                                                                /[^A-Za-zÝÉÝÓÚÜÑáéíóúüñ\s]/g
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="flex-shrink-0">
