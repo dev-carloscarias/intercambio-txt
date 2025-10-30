@@ -39,10 +39,12 @@ const ServicingProviderSelectedItem: React.FC<
     const cityDropdownRef = useRef<HTMLDivElement>(null);
     const cityObserverRef = useRef<MutationObserver | null>(null);
     const cityPreviousStateRef = useRef<boolean>(false);
+    const isUserSelectingCityRef = useRef<boolean>(false);
     
     const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
     
     const handleOnSelectCity = useCallback((city: CityInterface) => {
+        isUserSelectingCityRef.current = true;
         setSelectedCity(city);
         if (isMobile()) {
             setIsCityBottomSheetOpen(false);
@@ -98,8 +100,11 @@ const ServicingProviderSelectedItem: React.FC<
         if (onCityDropdownOpenChange) onCityDropdownOpenChange(isCityDropdownOpen);
     }, [isCityDropdownOpen]);
 
+    const isUserSelectingSpecialtyRef = useRef<boolean>(false);
+    
     const handleOnSelectSpecialty = (specialty: SpecialtyInterface) => {
         console.log('🎯 Usuario seleccionó especialidad:', specialty);
+        isUserSelectingSpecialtyRef.current = true;
         setSelectedSpecialty(specialty);
     };
 
@@ -112,46 +117,84 @@ const ServicingProviderSelectedItem: React.FC<
     };
 
     useEffect(() => {
-        if (selectedCity) onSelectCity(selectedCity);
+        // Solo propagar al padre si el cambio viene del usuario (selección desde BottomSheet o DropdownPicker)
+        if (selectedCity && isUserSelectingCityRef.current) {
+            isUserSelectingCityRef.current = false;
+            onSelectCity(selectedCity);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCity]);
 
     useEffect(() => {
-        if (selectedSpecialty && onSelectSpecialty)
+        // Solo propagar al padre si el cambio viene del usuario (selección desde DropdownPicker)
+        if (selectedSpecialty && onSelectSpecialty && isUserSelectingSpecialtyRef.current) {
+            isUserSelectingSpecialtyRef.current = false;
             onSelectSpecialty(selectedSpecialty);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedSpecialty]);
 
-    // Solo establecer selecciones automáticas cuando cambia el provider, no cuando el usuario interactúa
+    // Sincronizar selecciones cuando cambia el provider (item), inicializando valores por defecto
     useEffect(() => {
         if (item) {
-            // Limpiar selecciones previas
-            setSelectedCity(undefined);
-            setSelectedSpecialty(undefined);
-            
-            if (item.cities?.length > 0) {
-                if (!isMultipleCity(item)) setSelectedCity(item.cities[0]);
-                else {
+            // Para la ciudad: inicializar solo cuando cambia el provider o cuando item.selectedCity cambia desde fuera
+            if (item.selectedCity) {
+                // Si el item tiene una ciudad seleccionada, usarla
+                const currentCityId = selectedCity?.cityId;
+                const itemCityId = item.selectedCity?.cityId;
+                if (itemCityId !== currentCityId) {
+                    setSelectedCity(item.selectedCity);
+                }
+            } else if (item.cities?.length > 0) {
+                // Si no hay ciudad seleccionada en el item, establecer por defecto
+                if (!isMultipleCity(item)) {
+                    // Una sola ciudad: seleccionarla automáticamente
+                    if (!selectedCity || selectedCity.cityId !== item.cities[0].cityId) {
+                        setSelectedCity(item.cities[0]);
+                    }
+                } else {
+                    // Múltiples ciudades: buscar match con filtros o dejar undefined
                     if (activeFilters?.city) {
                         const matchingCity = item.cities?.find(
                             city => city.name === activeFilters.city.name
                         );
                         if (matchingCity) {
-                            setSelectedCity(matchingCity);
-                        } else {
-                            setSelectedCity(null);
+                            const currentCityId = selectedCity?.cityId;
+                            if (matchingCity.cityId !== currentCityId) {
+                                setSelectedCity(matchingCity);
+                            }
+                        } else if (selectedCity) {
+                            // Si había una selección pero ya no coincide, limpiar
+                            setSelectedCity(undefined);
                         }
-                    } else {
-                        setSelectedCity(null);
+                    } else if (selectedCity) {
+                        // Si había una selección pero ya no hay filtro, mantenerla solo si aún existe en las ciudades
+                        const stillExists = item.cities.some(c => c.cityId === selectedCity.cityId);
+                        if (!stillExists) {
+                            setSelectedCity(undefined);
+                        }
                     }
                 }
-            } else {
-                setSelectedCity(item.selectedCity);
+            } else if (selectedCity) {
+                // Si no hay ciudades disponibles pero había una selección, limpiar
+                setSelectedCity(undefined);
             }
-            if (item.specialties?.length > 0) {
+            
+            // Para la especialidad: inicializar solo cuando cambia el provider o cuando item.selectedSpecialty cambia desde fuera
+            if (item.selectedSpecialty) {
+                const currentSpecialtyId = selectedSpecialty?.specialtyId;
+                const itemSpecialtyId = item.selectedSpecialty?.specialtyId;
+                if (itemSpecialtyId !== currentSpecialtyId) {
+                    setSelectedSpecialty(item.selectedSpecialty);
+                }
+            } else if (item.specialties?.length > 0) {
                 if (!isMultipleSpecialty(item)) {
-                    setSelectedSpecialty(item.specialties[0]);
+                    // Una sola especialidad: seleccionarla automáticamente
+                    if (!selectedSpecialty || selectedSpecialty.specialtyId !== item.specialties[0].specialtyId) {
+                        setSelectedSpecialty(item.specialties[0]);
+                    }
                 } else {
+                    // Múltiples especialidades: buscar match con filtros o dejar undefined
                     if (activeFilters?.specialty) {
                         const matchingSpecialty = item.specialties?.find(
                             specialty =>
@@ -159,19 +202,27 @@ const ServicingProviderSelectedItem: React.FC<
                                 activeFilters.specialty.specialtyId
                         );
                         if (matchingSpecialty) {
-                            setSelectedSpecialty(matchingSpecialty);
-                        } else {
+                            const currentSpecialtyId = selectedSpecialty?.specialtyId;
+                            if (matchingSpecialty.specialtyId !== currentSpecialtyId) {
+                                setSelectedSpecialty(matchingSpecialty);
+                            }
+                        } else if (selectedSpecialty) {
                             setSelectedSpecialty(undefined);
                         }
-                    } else {
-                        setSelectedSpecialty(undefined);
+                    } else if (selectedSpecialty) {
+                        // Mantener selección solo si aún existe en las especialidades
+                        const stillExists = item.specialties.some(s => s.specialtyId === selectedSpecialty.specialtyId);
+                        if (!stillExists) {
+                            setSelectedSpecialty(undefined);
+                        }
                     }
                 }
-            } else {
+            } else if (selectedSpecialty) {
                 setSelectedSpecialty(undefined);
             }
         }
-    }, [item]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [item?.providerAffiliationId, item?.selectedCity, item?.selectedSpecialty, activeFilters]);
 
     return (
         <>
