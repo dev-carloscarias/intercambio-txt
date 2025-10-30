@@ -96,18 +96,38 @@ const ServicingProviderSelectedItem: React.FC<
                     setIsSpecialtyDropdownOpen(false);
                     // Si la secuencia inicial no se ha completado, programar apertura de city
                     if (!autoOpenSequenceDoneRef.current && shouldAutoOpenCity) {
-                        // El specialty se cerró, ahora abrir city automáticamente
+                        // El specialty se cerró, ahora abrir city automáticamente (funciona en desktop y móvil)
                         setTimeout(() => {
-                            if (!autoOpenSequenceDoneRef.current) {
-                                // Forzar la apertura del city dropdown
-                                const cityDropdown = cityDropdownRef.current?.querySelector('[class*="dropdown-toggle"], button, [role="button"]') as HTMLElement;
+                            if (!autoOpenSequenceDoneRef.current && cityDropdownRef.current) {
+                                // Intentar múltiples selectores para encontrar el botón del dropdown de ciudad (funciona en desktop y móvil)
+                                let cityDropdown: HTMLElement | null = null;
+                                
+                                // Intentar diferentes selectores en orden de prioridad
+                                cityDropdown = cityDropdownRef.current.querySelector('[class*="dropdown-toggle"]') as HTMLElement;
+                                if (!cityDropdown) {
+                                    cityDropdown = cityDropdownRef.current.querySelector('button') as HTMLElement;
+                                }
+                                if (!cityDropdown) {
+                                    cityDropdown = cityDropdownRef.current.querySelector('[role="button"]') as HTMLElement;
+                                }
+                                if (!cityDropdown) {
+                                    cityDropdown = cityDropdownRef.current.querySelector('[class*="dd-picker"]') as HTMLElement;
+                                }
+                                if (!cityDropdown) {
+                                    cityDropdown = cityDropdownRef.current.querySelector('div[tabindex]') as HTMLElement;
+                                }
+                                
                                 if (cityDropdown) {
                                     cityDropdown.click();
                                     autoOpenSequenceDoneRef.current = true;
                                     setShouldAutoOpenCity(false);
+                                } else {
+                                    // Fallback: si no se encuentra el botón, marcar como completado para evitar loops
+                                    autoOpenSequenceDoneRef.current = true;
+                                    setShouldAutoOpenCity(false);
                                 }
                             }
-                        }, 150);
+                        }, 200);
                     }
                 }
             }
