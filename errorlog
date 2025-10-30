@@ -35,7 +35,6 @@ import {
 } from './models/ProviderInterface';
 import ClinicalConsultationService, {
     BeneficiaryInformation,
-    ServicingNonPPNReasonInterface,
     Specialty
 } from './services/ClinicalConsultationService';
 import { Trans, useTranslation } from 'react-i18next';
@@ -43,9 +42,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { AuditEventGroups } from './models/AuditEventGroups';
 import { AuditEventTypes } from './models/AuditEventTypes';
 
+
 import { FiltersInterface } from './models/FiltersInterface';
 import AnyContractedSpecialistSelectedItem from './AnyContractedSpecialistSelectedItem/AnyContractedSpecialistSelectedItem';
 import { ConsultationProvider } from './models/CreateRequestingServicingProvider';
+
 
 interface SearchParams {
     searchValue: string;
@@ -83,12 +84,6 @@ function App({
     const [selectedProvider, setSelectedProvider] =
         useState<ConsultationProvider>();
     const [totalRows, setTotalRows] = useState(0);
-    const [referralReason, setReferralReason] = useState<string>('');
-    const [referralReasons, setReferralReasons] = useState<
-        ServicingNonPPNReasonInterface[]
-    >([]);
-    const [isLoadingReasons, setIsLoadingReasons] = useState(false);
-    const [ppnReasonMessage, setPpnReasonMessage] = useState<string>('');
 
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
     const [allowAnyContractedSpecialty, setAllowAnyContractedSpecialty] =
@@ -106,15 +101,12 @@ function App({
     const [wasUpdated, setWasUpdated] = useState(false);
     const [enableFilter, setEnableFilter] = useState(false);
 
-    const [specialties, setSpecialties] = useState<Specialty[]>(null);
-    const [reasons, setReasons] = useState<ServicingNonPPNReasonInterface[]>(
-        []
-    );
+    const [specialties, setSpecialties] = useState<Specialty[]>([]);
     const [selectedSpecialty, setSelectedSpecialty] = useState<Specialty>(null);
 
     const [resetSearchBar, setResetSearchBar] = useState(false);
-    const [searchBarKey, setSearchBarKey] = useState(0);
-    const [isCityDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [scrollContainerRef, setScrollContainerRef] = useState<HTMLDivElement | null>(null);
+    const [infiniteScrollKey, setInfiniteScrollKey] = useState(0);
 
     // Ref to store the current AbortController
     const controllerRef = useRef<AbortController | null>(null);
@@ -134,44 +126,14 @@ function App({
         // do not show empty dropdowns
         if (providers.length && isOpenDropdown)
             setIsOpenDropdown(!isOpenDropdown);
+        if(isOpenDropdown)
+            resetScrollState();
     };
-
-    const loadReferralReasons = async () => {
-        if (referralReasons.length > 0) return;
-
-        setIsLoadingReasons(true);
-        try {
-            const response =
-                await ClinicalConsultationService.getInstance().GetServicingNonPPNReason(
-                    beneficiaryId
-                );
-            if (response?.data?.servicingNonPPNReasons) {
-                setReferralReasons(response.data.servicingNonPPNReasons);
-            }
-        } catch (error) {
-        } finally {
-            setIsLoadingReasons(false);
-        }
-    };
-
-    useEffect(() => {
-        const loadConfigurations = async () => {
-            try {
-                const response =
-                    await ClinicalConsultationService.getInstance().getConfigurations();
-                if (response?.data?.ppnReason) {
-                    setPpnReasonMessage(response.data.ppnReason);
-                }
-            } catch (error) {}
-        };
-
-        loadConfigurations();
-    }, []);
 
     const loadProviders = async (
         term: string,
         page: number,
-        filters: FiltersInterface = {},
+        filters: FiltersInterface = null,
         signal: any
     ) => {
         if (page === 1) setProviders([]);
@@ -241,57 +203,31 @@ function App({
         }
     };
 
+    const resetScrollState = () => {
+        setInfiniteScrollKey(prev => prev + 1);
+        setHasMore(false);
+    };
+
     const isMultipleCity = (provider: ServicingProviderInterface) => {
         return (provider.cities?.length || 0) > 1;
     };
 
     const isMultipleSpecialty = (provider: ServicingProviderInterface) => {
-        return (provider.specialties?.length || 0) > 1;
+        return provider.specialties?.length > 1;
     };
 
     const handleOnCheck = (item: ServicingProviderInterface) => {
-        if (controllerRef.current) {
-            controllerRef.current.abort();
-            controllerRef.current = null;
-        }
         setAllowAnyContractedSpecialty(false);
         if (item) {
             const updateItem = { ...item };
-            updateItem.selectedCity = undefined;
-            updateItem.selectedSpecialty = undefined;
-            if (!isMultipleCity(item)) {
+            if (!isMultipleCity(item))
                 updateItem.selectedCity = item.cities?.[0];
-            } else {
-                if (!item.selectedCity) {
-                    updateItem.selectedCity = null;
-                }
-            }
-            if (isMultipleSpecialty(item)) {
-                if (searchParams?.filters?.specialty) {
-                    const matchingSpeciality = item.specialties?.find(
-                        speciality =>
-                            speciality.specialtyId ===
-                            searchParams.filters.specialty.specialtyId
-                    );
-                    if (matchingSpeciality) {
-                        updateItem.selectedSpecialty = matchingSpeciality;
-                    } else {
-                        updateItem.selectedSpecialty = undefined;
-                    }
-                } else {
-                    updateItem.selectedSpecialty = item.specialties?.[0];
-                }
-            } else {
+            if (!isMultipleSpecialty(item))
                 updateItem.selectedSpecialty = item.specialties?.[0];
-            }
             setSelectedProvider(updateItem);
-            setReferralReason('');
-            setIsOpenDropdown(false);
+            resetScrollState();
         } else {
             setSelectedProvider(null);
-        }
-        if (isMobile()) {
-            setTimeout(forceBodyScroll, 100);
         }
     };
 
@@ -306,30 +242,12 @@ function App({
     }, [eventBus]);
 
     const handleResetInput = useCallback(() => {
-        setSearchParams({ searchValue: '', page: 1, filters: {} });
-        setProviders([]);
-        setSelectedSpecialty(null);
-        setResetSearchBar(true);
-        setFiltersCount(1);
-        setAllowAnyContractedSpecialty(false);
-        setTotalRows(0);
-
-        if (isMobile()) {
-            setIsFilterPanelOpen(false);
-            setEnableFilter(false);
-        }
-
-        setSearchBarKey(prev => prev + 1);
         handleOnClearSearch();
     }, []);
 
     useEffect(() => {
         // when detect providers loaded, trigger dropdown visibility
         setIsOpenDropdown(!!providers.length);
-
-        if (isMobile()) {
-            setTimeout(forceBodyScroll, 100);
-        }
     }, [providers]);
 
     useEffect(() => {
@@ -341,29 +259,14 @@ function App({
             ) {
                 setIsValidForm(true);
             } else if (selectedProvider.selectedCity) {
-                if (
-                    selectedProvider.preferredNetwork === false &&
-                    !referralReason
-                ) {
-                    setIsValidForm(false);
-                } else {
-                    setIsValidForm(true);
-                }
-            }
-
-            if (isMobile()) {
-                setTimeout(forceBodyScroll, 100);
-            }
-
-            if (isMobile()) {
-                setTimeout(forceBodyScroll, 100);
+                setIsValidForm(true);
             }
         } else {
             setIsValidForm(false);
             if (wasUpdated) updateWizardProgress();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedProvider, referralReason]);
+    }, [selectedProvider]);
 
     useEffect(() => {
         ClinicalConsultationService.getInstance()
@@ -409,7 +312,6 @@ function App({
         }
 
         setSelectedSpecialty(item);
-        setAllowAnyContractedSpecialty(false);
 
         setSearchParams(prev => {
             var filters = prev.filters;
@@ -422,10 +324,7 @@ function App({
                 filters: filters
             };
         });
-
-        if (isMobile()) {
-            setTimeout(forceBodyScroll, 100);
-        }
+        resetScrollState();
     };
 
     const handleToggleAnyContractedSpecialty = () => {
@@ -441,8 +340,7 @@ function App({
                     specialtyIdProtected:
                         selectedSpecialty.specialtyIdProtected,
                     name: selectedSpecialty.name
-                },
-                preferredNetwork: true
+                }
             });
         } else {
             setSelectedProvider(prev =>
@@ -470,6 +368,7 @@ function App({
                 }
             };
         });
+        resetScrollState();
         setIsFilterPanelOpen(false);
     };
 
@@ -477,13 +376,9 @@ function App({
     const getConsultation = useCallback(() => {
         return {
             ...consultation,
-            consultationProvider: selectedProvider,
-            referralReason:
-                selectedProvider?.preferredNetwork == false
-                    ? referralReason
-                    : undefined
+            consultationProvider: selectedProvider
         };
-    }, [consultation, selectedProvider, referralReason]);
+    }, [consultation, selectedProvider]);
 
     const updateWizardProgress = () => {
         setWasUpdated(true);
@@ -596,11 +491,17 @@ function App({
     const handleOnClearSearch = () => {
         setSearchParams({ searchValue: '', page: 1, filters: {} });
         setProviders([]);
+        setSelectedSpecialty(null);
+        setSelectedProvider(null);
         setResetSearchBar(true);
         setFiltersCount(1);
         setAllowAnyContractedSpecialty(false);
         setTotalRows(0);
+        resetScrollState();
 
+        if (resetSearchBar) {
+            setResetSearchBar(false);
+        }
         if (isMobile()) {
             setIsFilterPanelOpen(false);
             setEnableFilter(false);
@@ -616,13 +517,40 @@ function App({
         }
     };
 
+    const handleSearchInputBlur = (e: React.FocusEvent) => {
+        // Usar setTimeout para permitir que los clicks en el dropdown se procesen primero
+        setTimeout(() => {
+            // Verificar si el elemento activo actual es parte del dropdown de resultados
+            const activeElement = document.activeElement;
+            const dropdownContainer = document.getElementById('consultation-servicing-provider-search-results-container');
+            
+            // Si el foco está en el dropdown o sus elementos hijos, no cancelar la búsqueda
+            if (activeElement && dropdownContainer && dropdownContainer.contains(activeElement)) {
+                return;
+            }
+            
+            // Si hay una búsqueda en curso, cancelarla
+            if (controllerRef.current && isSearchLoading) {
+                controllerRef.current.abort();
+                controllerRef.current = null;
+                setIsSearchLoading(false);
+                
+                // Limpiar resultados si estaban cargando cuando se perdió el foco
+                setProviders([]);
+                setTotalRows(0);
+            }
+            
+            // Cerrar el dropdown si está abierto (pero solo si no hay resultados ya cargados)
+            // Esto permite que el usuario vea los resultados si ya terminaron de cargar
+            if (isOpenDropdown && isSearchLoading) {
+                setIsOpenDropdown(false);
+            }
+        }, 150);
+    };
+
     useEffect(() => {
         setHasMore(totalRows > providers?.length);
     }, [providers, totalRows]);
-
-    useEffect(() => {
-        loadReferralReasons();
-    }, []);
 
     useEffect(() => {
         ClinicalConsultationService.getInstance()
@@ -632,54 +560,6 @@ function App({
                     setSpecialties(response.data.specialty);
                 }
             });
-    }, []);
-
-    const forceBodyScroll = () => {
-        if (isMobile()) {
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'relative';
-            document.body.style.height = 'auto';
-            document.documentElement.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'relative';
-        }
-    };
-
-    useEffect(() => {
-        forceBodyScroll();
-    }, []);
-
-    useEffect(() => {
-        forceBodyScroll();
-    }, [selectedSpecialty, selectedProvider, isOpenDropdown, providers]);
-
-    useEffect(() => {
-        if (isMobile()) {
-            const interval = setInterval(() => {
-                if (
-                    document.body.style.overflow === 'hidden' ||
-                    document.body.style.position === 'fixed' ||
-                    document.documentElement.style.overflow === 'hidden'
-                ) {
-                    forceBodyScroll();
-                }
-            }, 200);
-
-            return () => clearInterval(interval);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isMobile()) {
-            const observer = new MutationObserver(() => {
-                setTimeout(forceBodyScroll, 50);
-            });
-            observer.observe(document.body, {
-                attributes: true,
-                attributeFilter: ['style', 'class']
-            });
-
-            return () => observer.disconnect();
-        }
     }, []);
 
     return (
@@ -739,7 +619,6 @@ function App({
                                         <div className="d-mobile-flex">
                                             <div className="smartprofile-referral-provider-search">
                                                 <FormFlexInputDynamicSearch
-                                                    key={`search-bar-${searchBarKey}`}
                                                     onSearch={handleOnSearch}
                                                     placeholder={t(
                                                         'clinicalconsultation:servicing-provider.SEARCH-PLACEHOLDER'
@@ -748,6 +627,7 @@ function App({
                                                     onClear={
                                                         handleOnClearSearch
                                                     }
+                                                    onBlur={handleSearchInputBlur}
                                                     id="consultation-servicing-provider-search-input-text"
                                                     debounceSearch={true}
                                                     onClick={
@@ -793,10 +673,7 @@ function App({
 
                                                 <div className="d-none d-mobile-block">
                                                     <FormDropdownSelect
-                                                        key={`specialty-${
-                                                            selectedSpecialty?.specialtyId ??
-                                                            specialties?.length
-                                                        }`}
+                                                        key={`specialty-${specialties.length}`}
                                                         items={specialties}
                                                         value={
                                                             selectedSpecialty
@@ -816,7 +693,7 @@ function App({
                                                             'clinicalconsultation:servicing-provider.NO-RESULTS'
                                                         )}
                                                         placeHolder={t(
-                                                            'clinicalconsultation:servicing-provider.SPECIALIST'
+                                                            'clinicalconsultation:servicing-provider.SPECIALTIES'
                                                         )}
                                                         className={
                                                             'filter-dropdown '
@@ -946,37 +823,36 @@ function App({
                                                 Results {totalRows} specialists
                                             </Trans>
                                         </div>
-                                        {!isMobile() ? (
-                                            <div
-                                                className="d-flex align-items-center dropdown-input-results-filter d-mobile-none"
-                                                onClick={openFilterPanel}
-                                                role="button"
-                                                tabIndex={0}
-                                                id="consultation-servicing-provider-search-results-filters"
-                                            >
-                                                <IconFilterList
-                                                    width="1rem"
-                                                    height="1rem"
-                                                    className="mr-1"
-                                                    id="consultation-servicing-provider-search-results-filters-icon"
-                                                />
-                                                {t(
-                                                    'clinicalconsultation:servicing-provider.MORE-FILTER'
-                                                )}
-                                                {filtersCount ? (
-                                                    <span
-                                                        className="ml-1"
-                                                        id="consultation-servicing-provider-search-results-filters-count"
-                                                    >
-                                                        ({filtersCount})
-                                                    </span>
-                                                ) : null}
-                                            </div>
-                                        ) : null}
+                                        <div
+                                            className="d-flex align-items-center dropdown-input-results-filter d-mobile-none"
+                                            onClick={openFilterPanel}
+                                            role="button"
+                                            tabIndex={0}
+                                            id="consultation-servicing-provider-search-results-filters"
+                                        >
+                                            <IconFilterList
+                                                width="1rem"
+                                                height="1rem"
+                                                className="mr-1"
+                                                id="consultation-servicing-provider-search-results-filters-icon"
+                                            />
+                                            {t(
+                                                'clinicalconsultation:servicing-provider.MORE-FILTER'
+                                            )}
+                                            {filtersCount ? (
+                                                <span
+                                                    className="ml-1"
+                                                    id="consultation-servicing-provider-search-results-filters-count"
+                                                >
+                                                    ({filtersCount})
+                                                </span>
+                                            ) : null}
+                                        </div>
                                     </div>
-
+                                   
                                     <InfiniteScroll
-                                        scrollableTarget={
+                                        key={infiniteScrollKey}
+                                        scrollableTarget={ 
                                             'consultation-servicing-provider-search-results-container'
                                         }
                                         dataLength={providers.length}
@@ -1019,9 +895,6 @@ function App({
                                                         selectedProvider?.providerAffiliationId
                                                     }
                                                     autoSelectCity={isMobile()}
-                                                    activeFilters={
-                                                        searchParams?.filters
-                                                    }
                                                 />
                                             </div>
                                         ))}
@@ -1061,23 +934,12 @@ function App({
                                             }
                                             return (
                                                 <ServicingProviderSelectedItem
-                                                    key={
-                                                        selectedProvider?.providerAffiliationId
-                                                    }
                                                     item={selectedProvider}
                                                     onSelectCity={
                                                         handleSelectCity
                                                     }
                                                     onSelectSpecialty={
                                                         handleSelectSpecialty
-                                                    }
-                                                    activeFilters={
-                                                        searchParams?.filters
-                                                    }
-                                                    onCityDropdownOpenChange={(
-                                                        open: boolean
-                                                    ) =>
-                                                        setIsDropdownOpen(open)
                                                     }
                                                     id="consultation-servicing-provider-selected-item"
                                                 />
@@ -1090,8 +952,7 @@ function App({
                     </CardWidgetTable>
                     {selectedProvider &&
                     !selectedProvider.anyContractedSpecialist &&
-                    !selectedProvider.selectedCity &&
-                    !isCityDropdownOpen ? (
+                    !selectedProvider.selectedCity ? (
                         <div
                             className="d-none d-mobile-block text-danger text-sm pl-2 pt-2"
                             id="consultation-servicing-provider-selectcity-msg"
@@ -1099,67 +960,6 @@ function App({
                             {t(
                                 'clinicalconsultation:servicing-provider.PROVIDER-SELECT-CITY-REQUIRE-MSG'
                             )}
-                        </div>
-                    ) : null}
-
-                    {selectedProvider &&
-                    selectedProvider.preferredNetwork == false ? (
-                        <div className="mt-3 px-3">
-                            <div className="mb-2">
-                                <label
-                                    className="form-label fw-bold"
-                                    style={{
-                                        fontWeight: 'bold',
-                                        fontSize: 'larger'
-                                    }}
-                                >
-                                    {t(
-                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-LABEL'
-                                    )}
-                                </label>
-                            </div>
-                            <div className="dd-picker-referral-reason referral-reason-container">
-                                <DropdownPicker
-                                    title={t(
-                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-LABEL'
-                                    )}
-                                    selected={
-                                        referralReasons.find(
-                                            r =>
-                                                r.servicingNonPPNReasonId.toString() ===
-                                                referralReason
-                                        ) || null
-                                    }
-                                    items={referralReasons}
-                                    onSelect={reason =>
-                                        setReferralReason(
-                                            reason.servicingNonPPNReasonId.toString()
-                                        )
-                                    }
-                                    formatItem={reason => reason.description}
-                                    formatSelected={reason =>
-                                        reason.description
-                                    }
-                                    placeholder={t(
-                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-PLACEHOLDER'
-                                    )}
-                                    autoOpen={false}
-                                    disabled={isLoadingReasons}
-                                    id="consultation-servicing-provider-referral-reason"
-                                />
-                                {!referralReason && (
-                                    <div
-                                        className="text-danger text-sm mt-1 fw-bold"
-                                        style={{
-                                            fontWeight: 'bold',
-                                            fontSize: 'larger',
-                                            color: '#dc3545'
-                                        }}
-                                    >
-                                        {ppnReasonMessage}
-                                    </div>
-                                )}
-                            </div>
                         </div>
                     ) : null}
                 </div>
@@ -1188,6 +988,7 @@ function App({
                             className="btn btn-md btn-outline-secondary rounded-pill px-3 "
                             style={{ width: '133px' }}
                             onClick={handleOnCancel}
+                            disabled={!isValidForm}
                             id="consultation-servicing-provider-cancel-button"
                         >
                             {t(
