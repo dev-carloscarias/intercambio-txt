@@ -29,6 +29,9 @@ export interface FormDropdownSelectInterface {
     className?: string;
     noItemsText?: string;
     showToolTipWithMaxLength?: number;
+    placeHolder?: string;
+    requiredVisiblePlaceHolder?: boolean;
+    blockRegex: RegExp;
 }
 
 const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
@@ -44,7 +47,10 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                 disabled = false,
                 className = '',
                 noItemsText = 'No items',
-                showToolTipWithMaxLength = 9999
+                showToolTipWithMaxLength = 9999,
+                placeHolder = '',
+                requiredVisiblePlaceHolder = false,
+                blockRegex
             },
             ref
         ) => {
@@ -69,25 +75,44 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
             ) => setFilterText(e.target.value);
 
             useEffect(() => {
-                if (value) setSelected(value);
-                else setSelected(items[0]);
+                if (value) {
+                    setSelected(value);
+                } else if (requiredVisiblePlaceHolder) {
+                    setIsVisiblePlaceholder(true);
+                } else {
+                    setSelected(items[0]);
+                } //remove
                 //  eslint-disable-next-line react-hooks/exhaustive-deps
             }, [value]);
 
             useEffect(() => {
-                // by convention the first item is used as placeholder
-                setIsVisiblePlaceholder(selected === items[0]);
+                if (items) {
+                    // si no selected
+                    setIsVisiblePlaceholder(!selected);
+                } else {
+                    // by convention the first item is used as placeholder
+                    setIsVisiblePlaceholder(items && selected === items[0]);
+                }
+
                 //  eslint-disable-next-line react-hooks/exhaustive-deps
             }, [selected]);
 
             useEffect(() => {
                 setFilteredItems(
-                    items.filter(i =>
+                    items?.filter(i =>
                         formatItem(i)
                             .toLowerCase()
                             .includes(filterText.toLowerCase())
                     )
                 );
+                if (ps && ps.current) {
+                    ps.current.update();
+                    setTimeout(() => {
+                        if (ps.current) {
+                            ps.current.update();
+                        }
+                    }, 100);
+                }
                 // update on filter due to height change
                 if (ps && ps.current) ps.current.update();
                 //  eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +133,19 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                 dropdownItemsWrapperRef.current,
                                 {
                                     suppressScrollX: true,
-                                    wheelPropagation: false
+                                    wheelPropagation: false,
+                                    minScrollbarLength: 200,
+                                    useBothWheelAxes: false,
+                                    suppressScrollY: false,
+                                    handlers: [
+                                        'click-rail',
+                                        'drag-thumb',
+                                        'keyboard',
+                                        'wheel',
+                                        'touch'
+                                    ],
+                                    wheelSpeed: 1,
+                                    swipeEasing: true
                                 }
                             );
                     }
@@ -123,6 +160,10 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                 // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [isOpen]);
 
+            useEffect(() => {
+                setFilteredItems(items);
+            }, [items]);
+
             const toggleToolTip = (index: number) => {
                 setTooltipOpen(prev => ({
                     ...prev,
@@ -132,10 +173,27 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
 
             const handleToggle = () => setIsOpen(!isOpen);
 
+            const onInput: React.FormEventHandler<HTMLInputElement> = e => {
+                if (!blockRegex) {
+                    return;
+                }
+                const el = e.currentTarget;
+                const before = el.value;
+                const after = before.replace(blockRegex, '');
+                if (after !== before) {
+                    el.value = after;
+                }
+            };
+
             return (
-                <Dropdown tag="div" isOpen={isOpen} toggle={handleToggle}>
+                <Dropdown
+                    tag="div"
+                    isOpen={isOpen}
+                    toggle={handleToggle}
+                    className={className}
+                >
                     <DropdownToggle
-                        className={classnames('form-dd-select', className)}
+                        className={classnames('form-dd-select ', className)}
                         id={`FormDropdownSelect-${nanoid()}`}
                         tag="div"
                         innerRef={ref}
@@ -151,18 +209,20 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                 ' mr-2'
                             )}
                         >
-                            {formatSelected
+                            {isVisiblePlaceholder
+                                ? placeHolder
+                                : formatSelected
                                 ? formatSelected(selected)
                                 : formatItem(selected)}
                         </div>
-                        {items && items.length > 1 ? (
+                        {items && items.length >= 1 ? (
                             <div className="form-dd-select-caret">
                                 <IconAngleDown width="1rem" height="1rem" />
                             </div>
                         ) : null}
                     </DropdownToggle>
 
-                    {items && items.length > 1 ? (
+                    {items && items.length >= 1 ? (
                         <DropdownMenu className="animated fadeIn w-100">
                             {filterable ? (
                                 <div className="form-dd-filter">
@@ -178,6 +238,7 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                         type="text"
                                         value={filterText}
                                         onChange={onChangeFilterText}
+                                        onInput={onInput}
                                         placeholder="Search"
                                         role="button"
                                         tabIndex={0}
@@ -188,8 +249,8 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                 className="dropdown-items-wrapper"
                                 ref={dropdownItemsWrapperRef}
                             >
-                                {filteredItems.length ? (
-                                    filteredItems.map((i: any, k: number) => (
+                                {filteredItems?.length ? (
+                                    filteredItems?.map((i: any, k: number) => (
                                         <DropdownItem
                                             key={k}
                                             id={`dropdownSelect-tooltip-${k}`}
