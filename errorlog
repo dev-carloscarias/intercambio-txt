@@ -27,14 +27,22 @@ const ServicingProviderSelectedItem: React.FC<
     const [selectedSpecialty, setSelectedSpecialty] =
         useState<SpecialtyInterface>();
     const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+    const [isSpecialtyDropdownOpen, setIsSpecialtyDropdownOpen] = useState(false);
     const cityDropdownRef = useRef<HTMLDivElement>(null);
+    const specialtyDropdownRef = useRef<HTMLDivElement>(null);
     const cityObserverRef = useRef<MutationObserver | null>(null);
+    const specialtyObserverRef = useRef<MutationObserver | null>(null);
     const cityPreviousStateRef = useRef<boolean>(false);
+    const specialtyPreviousStateRef = useRef<boolean>(false);
+    const autoOpenSequenceDoneRef = useRef<boolean>(false);
+    const [shouldAutoOpenSpecialty, setShouldAutoOpenSpecialty] = useState(false);
+    const [shouldAutoOpenCity, setShouldAutoOpenCity] = useState(false);
     
     const handleOnSelectCity = useCallback((city: CityInterface) => {
         setSelectedCity(city);
     }, []);
 
+    // Observer para el dropdown de ciudad
     useEffect(() => {
         if (!cityDropdownRef.current) return;
         
@@ -68,7 +76,58 @@ const ServicingProviderSelectedItem: React.FC<
                 cityObserverRef.current.disconnect();
             }
         };
-    }, []);
+    }, [isSpecialtyDropdownOpen, shouldAutoOpenCity]);
+
+    // Observer para el dropdown de especialidad
+    useEffect(() => {
+        if (!specialtyDropdownRef.current) return;
+        
+        const checkSpecialtyDropdownState = () => {
+            if (!specialtyDropdownRef.current) return;
+
+            const isOpen = specialtyDropdownRef.current.querySelector('[class*="show"]') !== null ||
+                            specialtyDropdownRef.current.querySelector('[class*="open"]') !== null ||
+                            specialtyDropdownRef.current.getAttribute('aria-expanded') === 'true';
+            if(isOpen !== specialtyPreviousStateRef.current){
+                specialtyPreviousStateRef.current = isOpen;
+                if(isOpen){
+                    setIsSpecialtyDropdownOpen(true);
+                }else{
+                    setIsSpecialtyDropdownOpen(false);
+                    // Si la secuencia inicial no se ha completado, programar apertura de city
+                    if (!autoOpenSequenceDoneRef.current && shouldAutoOpenCity) {
+                        // El specialty se cerró, ahora abrir city automáticamente
+                        setTimeout(() => {
+                            if (!autoOpenSequenceDoneRef.current) {
+                                // Forzar la apertura del city dropdown
+                                const cityDropdown = cityDropdownRef.current?.querySelector('[class*="dropdown-toggle"], button, [role="button"]') as HTMLElement;
+                                if (cityDropdown) {
+                                    cityDropdown.click();
+                                    autoOpenSequenceDoneRef.current = true;
+                                    setShouldAutoOpenCity(false);
+                                }
+                            }
+                        }, 150);
+                    }
+                }
+            }
+        };
+
+        specialtyObserverRef.current = new MutationObserver(checkSpecialtyDropdownState);
+
+        specialtyObserverRef.current.observe(specialtyDropdownRef.current, {
+            attributes: true,
+            attributeFilter: ['class', 'aria-expanded'],
+            subtree: true,
+            childList: true
+        });
+
+        return () => {
+            if (specialtyObserverRef.current){
+                specialtyObserverRef.current.disconnect();
+            }
+        };
+    }, [shouldAutoOpenCity]);
 
     useEffect(() => {
         if (onCityDropdownOpenChange) onCityDropdownOpenChange(isCityDropdownOpen);
@@ -99,6 +158,11 @@ const ServicingProviderSelectedItem: React.FC<
 
     useEffect(() => {
         if (item) {
+            // Resetear la secuencia cuando cambia el provider
+            autoOpenSequenceDoneRef.current = false;
+            setShouldAutoOpenSpecialty(false);
+            setShouldAutoOpenCity(false);
+            
             if (!item.selectedCity && item.cities?.length > 0) {
                 if (!isMultipleCity(item)) setSelectedCity(item.cities[0]);
                 else {
@@ -150,6 +214,15 @@ const ServicingProviderSelectedItem: React.FC<
                 }
             } else {
                 setSelectedSpecialty(undefined);
+            }
+            
+            // Si hay múltiples especialidades y múltiples ciudades, iniciar secuencia automática
+            if (isMultipleSpecialty(item) && isMultipleCity(item)) {
+                // Primero abrir specialty
+                setTimeout(() => {
+                    setShouldAutoOpenSpecialty(true);
+                    setShouldAutoOpenCity(true); // Preparar para abrir city después
+                }, 300);
             }
         }else{
             setSelectedCity(undefined);
@@ -204,7 +277,7 @@ const ServicingProviderSelectedItem: React.FC<
                                 } else {
                                     return (
                                         <div className="servicing-provider-item-data-value flex-grow-1">
-                                            <div className="dd-picker-specialty">
+                                            <div className="dd-picker-specialty" ref={specialtyDropdownRef}>
                                                 <DropdownPicker
                                                     title={t(
                                                         'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY'
@@ -226,7 +299,14 @@ const ServicingProviderSelectedItem: React.FC<
                                                     placeholder={t(
                                                         'clinicalconsultation:servicing-provider.SPECIALIST'
                                                     )}
-                                                    autoOpen={true}
+                                                    autoOpen={shouldAutoOpenSpecialty}
+                                                    onOpen={() => {
+                                                        setIsSpecialtyDropdownOpen(true);
+                                                        setShouldAutoOpenSpecialty(false);
+                                                    }}
+                                                    onClose={() => {
+                                                        setIsSpecialtyDropdownOpen(false);
+                                                    }}
                                                     id={`${id}-specialty-dropdown`}
                                                 />
                                             </div>
@@ -302,7 +382,13 @@ const ServicingProviderSelectedItem: React.FC<
                                             selected={selectedCity}
                                             items={item.cities}
                                             onSelect={handleOnSelectCity}
-                                            onOpen={() => setIsCityDropdownOpen(true)}
+                                            onOpen={() => {
+                                                setIsCityDropdownOpen(true);
+                                                if (shouldAutoOpenCity && !autoOpenSequenceDoneRef.current) {
+                                                    autoOpenSequenceDoneRef.current = true;
+                                                    setShouldAutoOpenCity(false);
+                                                }
+                                            }}
                                             onClose={() => setIsCityDropdownOpen(false)}
                                             formatItem={(c: CityInterface) =>
                                                 c.name + ' - ' + c.zipCode
@@ -313,7 +399,7 @@ const ServicingProviderSelectedItem: React.FC<
                                             placeholder={t(
                                                 'clinicalconsultation:servicing-provider.PROVIDER-SELECT-CITY'
                                             )}
-                                            autoOpen={true}
+                                            autoOpen={false}
                                             id={`${id}-city-dropdown`}
                                         />
                                     </div>
