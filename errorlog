@@ -1,396 +1,82 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import {
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
-    Tooltip
-} from 'reactstrap';
-import { IconAngleDown, IconSearch } from '@provider-portal/icons';
-import { nanoid } from 'nanoid';
-import './FormDropdownSelect.scss';
-import classnames from 'classnames';
-import PerfectScrollbar from 'perfect-scrollbar';
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
 
-export interface FormDropdownSelectInterface {
-    value: any;
-    // list of items to display in select
-    items: Array<any>;
-    // format method to display text
-    formatItem?: (item: any) => string | React.ReactNode;
-    formatSelected?: (item: any) => string | React.ReactNode;
-    // callabck for selected item
-    onChange?: (item: any) => void;
-    // show input for filter
-    filterable?: boolean;
-    // disabled
-    disabled?: boolean;
-    className?: string;
-    noItemsText?: string;
-    showToolTipWithMaxLength?: number;
-    placeHolder?: string;
-    requiredVisiblePlaceHolder?: boolean;
-    blockRegex: RegExp;
+.form-dd-select {
+    position: relative;
+    font-size: 0.875rem;
+    background-color: #fff;
+    border-radius: $input-border-radius;
+    padding: 0.5rem 1.25rem;
+    padding-right: 2rem;
+    border: $input-border-width solid $input-border-color;
+    + .dropdown-menu {
+        font-size: 0.875rem;
+        left: 0 !important;
+        transform: translate(0, 36px) !important;
+        border-radius: 0.625rem;
+        .dropdown-item {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
+
+    .form-dd-select-placeholder {
+        color: $input-placeholder-color;
+    }
+
+    .form-dd-select-selected {
+        color: $input-color;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .form-dd-select-caret {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+    }
+
+    &:focus:not([disabled], .is-invalid) {
+        border-color: $input-focus-border-color;
+    }
+    &.is-invalid {
+        border-color: $palette15;
+    }
 }
 
-const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
-    React.forwardRef(
-        (
-            {
-                items,
-                value,
-                onChange = () => {},
-                formatItem = v => v,
-                formatSelected,
-                filterable = true,
-                disabled = false,
-                className = '',
-                noItemsText = 'No items',
-                showToolTipWithMaxLength = 9999,
-                placeHolder = '',
-                requiredVisiblePlaceHolder = false,
-                blockRegex
-            },
-            ref
-        ) => {
-            const [selected, setSelected] = useState();
-            const [isOpen, setIsOpen] = useState(false);
-            const [isVisiblePlaceholder, setIsVisiblePlaceholder] =
-                useState(false);
-            const [filterText, setFilterText] = useState('');
-            const [filteredItems, setFilteredItems] = useState(items);
-            const filterInputRef = useRef<HTMLInputElement>();
-            // reference to sidebar
-            const dropdownItemsWrapperRef = useRef<HTMLDivElement>();
-            // reference to scrollbar instance
-            const ps = useRef<any>(null);
+.form-dd-filter {
+    position: relative;
+    border-bottom: 1px solid $palette10;
+    margin-bottom: 0.5rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    margin-top: -0.5rem;
+    .form-control {
+        padding-left: 3rem;
+        border: 0 !important;
+    }
+    &-icon {
+        position: absolute;
+        left: 1rem;
+        top: 0.6rem;
+        color: $palette13;
+    }
+}
 
-            const [tooltipOpen, setTooltipOpen] = useState<{
-                [key: number]: boolean;
-            }>({});
+.dropdown-items-wrapper {
+    position: relative;
+    max-height: 230px;
+    overflow: hidden;
 
-            const onChangeFilterText = (
-                e: React.ChangeEvent<HTMLInputElement>
-            ) => {
-                setFilterText(e.target.value);
-            };
+    .ps__rail-y {
+        opacity: 1 !important;
+    }
 
-            useEffect(() => {
-                if (value) {
-                    setSelected(value);
-                } else if (requiredVisiblePlaceHolder) {
-                    setIsVisiblePlaceholder(true);
-                } else {
-                    setSelected(items[0]);
-                } //remove
-                //  eslint-disable-next-line react-hooks/exhaustive-deps
-            }, [value]);
-
-            useEffect(() => {
-                if (items) {
-                    // si no selected
-                    setIsVisiblePlaceholder(!selected);
-                } else {
-                    // by convention the first item is used as placeholder
-                    setIsVisiblePlaceholder(items && selected === items[0]);
-                }
-
-                //  eslint-disable-next-line react-hooks/exhaustive-deps
-            }, [selected]);
-
-            useEffect(() => {
-                setFilteredItems(
-                    items?.filter(i =>
-                        formatItem(i)
-                            .toLowerCase()
-                            .includes(filterText.toLowerCase())
-                    )
-                );
-                //  eslint-disable-next-line react-hooks/exhaustive-deps
-            }, [filterText]);
-
-            useEffect(() => {
-                if (filterInputRef?.current)
-                    if (isOpen)
-                        setTimeout(() => {
-                            filterInputRef.current.focus();
-                        }, 100);
-
-                // activate scrollbar when open
-                if (isOpen) {
-                    // Esperar a que el DOM esté listo antes de crear PerfectScrollbar
-                    const initScrollbar = () => {
-                        if (!ps.current && dropdownItemsWrapperRef.current && isOpen) {
-                            ps.current = new PerfectScrollbar(
-                                dropdownItemsWrapperRef.current,
-                                {
-                                    suppressScrollX: true,
-                                    wheelPropagation: false,
-                                    minScrollbarLength: 200,
-                                    useBothWheelAxes: false,
-                                    suppressScrollY: false,
-                                    handlers: [
-                                        'click-rail',
-                                        'drag-thumb',
-                                        'keyboard',
-                                        'wheel',
-                                        'touch'
-                                    ],
-                                    wheelSpeed: 1,
-                                    swipeEasing: true
-                                }
-                            );
-                        }
-                    };
-
-                    // Usar requestAnimationFrame para asegurar que el DOM esté listo
-                    requestAnimationFrame(() => {
-                        initScrollbar();
-                    });
-                } else {
-                    // clean filter text && destroy when close dropdown
-                    if (ps && ps.current) {
-                        setFilterText('');
-                        ps.current.destroy();
-                        ps.current = null;
-                    }
-                }
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-            }, [isOpen]);
-
-            useEffect(() => {
-                setFilteredItems(items);
-            }, [items]);
-
-            // MutationObserver para detectar cambios en el DOM y actualizar el scrollbar
-            useEffect(() => {
-                if (!isOpen || !dropdownItemsWrapperRef.current || !ps.current) {
-                    return;
-                }
-
-                const wrapper = dropdownItemsWrapperRef.current;
-                let updateTimeout: ReturnType<typeof setTimeout> | null = null;
-
-                const forceUpdateScrollbar = () => {
-                    if (!ps.current || !dropdownItemsWrapperRef.current) return;
-
-                    // Cancelar timeout anterior si existe
-                    if (updateTimeout) {
-                        clearTimeout(updateTimeout);
-                    }
-
-                    // Usar múltiples estrategias para asegurar la actualización
-                    updateTimeout = setTimeout(() => {
-                        if (!ps.current || !dropdownItemsWrapperRef.current) return;
-
-                        const container = dropdownItemsWrapperRef.current;
-                        
-                        // Forzar reflow accediendo a propiedades del DOM
-                        void container.offsetHeight;
-                        void container.scrollHeight;
-                        void container.clientHeight;
-
-                        // Actualizar PerfectScrollbar múltiples veces para asegurar que se actualice
-                        if (ps.current) {
-                            ps.current.update();
-                            
-                            // Doble actualización para casos donde la primera no es suficiente
-                            requestAnimationFrame(() => {
-                                if (ps.current && dropdownItemsWrapperRef.current) {
-                                    const cont = dropdownItemsWrapperRef.current;
-                                    void cont.scrollHeight;
-                                    ps.current.update();
-                                    
-                                    // Una tercera actualización para asegurar
-                                    setTimeout(() => {
-                                        if (ps.current) {
-                                            ps.current.update();
-                                        }
-                                    }, 50);
-                                }
-                            });
-                        }
-
-                        updateTimeout = null;
-                    }, 10);
-                };
-
-                // Crear MutationObserver para detectar cambios en el contenido
-                const observer = new MutationObserver((mutations) => {
-                    // Verificar si hay cambios en los elementos hijos (items del dropdown)
-                    const hasChildChanges = mutations.some(mutation => 
-                        mutation.type === 'childList' || 
-                        mutation.addedNodes.length > 0 || 
-                        mutation.removedNodes.length > 0
-                    );
-
-                    if (hasChildChanges) {
-                        forceUpdateScrollbar();
-                    }
-                });
-
-                // Observar cambios en el contenido del wrapper
-                observer.observe(wrapper, {
-                    childList: true,
-                    subtree: true,
-                    attributes: false,
-                    characterData: false
-                });
-
-                // También actualizar cuando cambian los items filtrados
-                forceUpdateScrollbar();
-
-                return () => {
-                    observer.disconnect();
-                    if (updateTimeout) {
-                        clearTimeout(updateTimeout);
-                    }
-                };
-            }, [filteredItems, isOpen]);
-
-            // useLayoutEffect para actualizar el scrollbar antes de que el navegador pinte
-            useLayoutEffect(() => {
-                if (!isOpen || !dropdownItemsWrapperRef.current || !ps.current) {
-                    return;
-                }
-
-                // Actualizar inmediatamente después de que React haya actualizado el DOM
-                const container = dropdownItemsWrapperRef.current;
-                if (ps.current && container) {
-                    // Forzar reflow
-                    void container.offsetHeight;
-                    void container.scrollHeight;
-                    
-                    // Actualizar PerfectScrollbar
-                    ps.current.update();
-                }
-            }, [filteredItems, isOpen]);
-
-            const toggleToolTip = (index: number) => {
-                setTooltipOpen(prev => ({
-                    ...prev,
-                    [index]: !prev[index]
-                }));
-            };
-
-            const handleToggle = () => setIsOpen(!isOpen);
-
-            const onInput: React.FormEventHandler<HTMLInputElement> = e => {
-                if (!blockRegex) {
-                    return;
-                }
-                const el = e.currentTarget;
-                const before = el.value;
-                const after = before.replace(blockRegex, '');
-                if (after !== before) {
-                    el.value = after;
-                }
-            };
-
-            return (
-                <Dropdown
-                    tag="div"
-                    isOpen={isOpen}
-                    toggle={handleToggle}
-                    className={className}
-                >
-                    <DropdownToggle
-                        className={classnames('form-dd-select ', className)}
-                        id={`FormDropdownSelect-${nanoid()}`}
-                        tag="div"
-                        innerRef={ref}
-                        role="button"
-                        tabIndex={0}
-                        disabled={disabled}
-                    >
-                        <div
-                            className={classnames(
-                                isVisiblePlaceholder
-                                    ? 'form-dd-select-placeholder'
-                                    : 'form-dd-select-selected',
-                                ' mr-2'
-                            )}
-                        >
-                            {isVisiblePlaceholder
-                                ? placeHolder
-                                : formatSelected
-                                ? formatSelected(selected)
-                                : formatItem(selected)}
-                        </div>
-                        {items && items.length >= 1 ? (
-                            <div className="form-dd-select-caret">
-                                <IconAngleDown width="1rem" height="1rem" />
-                            </div>
-                        ) : null}
-                    </DropdownToggle>
-
-                    {items && items.length >= 1 ? (
-                        <DropdownMenu className="animated fadeIn w-100">
-                            {filterable ? (
-                                <div className="form-dd-filter">
-                                    <IconSearch
-                                        className="form-dd-filter-icon"
-                                        width="1.25rem"
-                                        height="1.25rem"
-                                    />
-                                    <input
-                                        ref={filterInputRef}
-                                        className="form-control"
-                                        name=""
-                                        type="text"
-                                        value={filterText}
-                                        onChange={onChangeFilterText}
-                                        onInput={onInput}
-                                        placeholder="Search"
-                                        role="button"
-                                        tabIndex={0}
-                                    />
-                                </div>
-                            ) : null}
-                            <div
-                                className="dropdown-items-wrapper"
-                                ref={dropdownItemsWrapperRef}
-                            >
-                                {filteredItems?.length ? (
-                                    filteredItems?.map((i: any, k: number) => (
-                                        <DropdownItem
-                                            key={k}
-                                            id={`dropdownSelect-tooltip-${k}`}
-                                            onClick={() => {
-                                                setSelected(i);
-                                                onChange(i);
-                                                toggleToolTip(k);
-                                            }}
-                                        >
-                                            {formatItem(i).length >=
-                                                showToolTipWithMaxLength && (
-                                                <Tooltip
-                                                    placement="top"
-                                                    isOpen={tooltipOpen[k]}
-                                                    target={`dropdownSelect-tooltip-${k}`}
-                                                    toggle={() =>
-                                                        toggleToolTip(k)
-                                                    }
-                                                    trigger="hover focus"
-                                                >
-                                                    {formatItem(i)}
-                                                </Tooltip>
-                                            )}
-                                            {formatItem(i)}
-                                        </DropdownItem>
-                                    ))
-                                ) : (
-                                    <div>
-                                        <div>{noItemsText}</div>
-                                    </div>
-                                )}
-                            </div>
-                        </DropdownMenu>
-                    ) : null}
-                </Dropdown>
-            );
-        }
-    );
-
-export default FormDropdownSelect;
+    .ps__thumb-y {
+        min-height: 20px;
+    }
+}
