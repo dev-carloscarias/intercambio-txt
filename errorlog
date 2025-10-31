@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid';
 import './FormDropdownSelect.scss';
 import classnames from 'classnames';
 import PerfectScrollbar from 'perfect-scrollbar';
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import 'perfect-scrollbar/css/perfect-scrollbar.css'; 
 
 export interface FormDropdownSelectInterface {
     value: any;
