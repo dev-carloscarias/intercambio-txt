@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Dropdown,
     DropdownItem,
@@ -72,9 +72,7 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
 
             const onChangeFilterText = (
                 e: React.ChangeEvent<HTMLInputElement>
-            ) => {
-                setFilterText(e.target.value);
-            };
+            ) => setFilterText(e.target.value);
 
             useEffect(() => {
                 if (value) {
@@ -107,6 +105,16 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                             .includes(filterText.toLowerCase())
                     )
                 );
+                if (ps && ps.current) {
+                    ps.current.update();
+                    setTimeout(() => {
+                        if (ps.current) {
+                            ps.current.update();
+                        }
+                    }, 100);
+                }
+                // update on filter due to height change
+                if (ps && ps.current) ps.current.update();
                 //  eslint-disable-next-line react-hooks/exhaustive-deps
             }, [filterText]);
 
@@ -119,9 +127,8 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
 
                 // activate scrollbar when open
                 if (isOpen) {
-                    // Esperar a que el DOM esté listo antes de crear PerfectScrollbar
-                    const initScrollbar = () => {
-                        if (!ps.current && dropdownItemsWrapperRef.current && isOpen) {
+                    if (!ps.current) {
+                        if (dropdownItemsWrapperRef.current)
                             ps.current = new PerfectScrollbar(
                                 dropdownItemsWrapperRef.current,
                                 {
@@ -141,13 +148,7 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                     swipeEasing: true
                                 }
                             );
-                        }
-                    };
-
-                    // Usar requestAnimationFrame para asegurar que el DOM esté listo
-                    requestAnimationFrame(() => {
-                        initScrollbar();
-                    });
+                    }
                 } else {
                     // clean filter text && destroy when close dropdown
                     if (ps && ps.current) {
@@ -162,110 +163,6 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
             useEffect(() => {
                 setFilteredItems(items);
             }, [items]);
-
-            // MutationObserver para detectar cambios en el DOM y actualizar el scrollbar
-            useEffect(() => {
-                if (!isOpen || !dropdownItemsWrapperRef.current || !ps.current) {
-                    return;
-                }
-
-                const wrapper = dropdownItemsWrapperRef.current;
-                let updateTimeout: ReturnType<typeof setTimeout> | null = null;
-
-                const forceUpdateScrollbar = () => {
-                    if (!ps.current || !dropdownItemsWrapperRef.current) return;
-
-                    // Cancelar timeout anterior si existe
-                    if (updateTimeout) {
-                        clearTimeout(updateTimeout);
-                    }
-
-                    // Usar múltiples estrategias para asegurar la actualización
-                    updateTimeout = setTimeout(() => {
-                        if (!ps.current || !dropdownItemsWrapperRef.current) return;
-
-                        const container = dropdownItemsWrapperRef.current;
-                        
-                        // Forzar reflow accediendo a propiedades del DOM
-                        void container.offsetHeight;
-                        void container.scrollHeight;
-                        void container.clientHeight;
-
-                        // Actualizar PerfectScrollbar múltiples veces para asegurar que se actualice
-                        if (ps.current) {
-                            ps.current.update();
-                            
-                            // Doble actualización para casos donde la primera no es suficiente
-                            requestAnimationFrame(() => {
-                                if (ps.current && dropdownItemsWrapperRef.current) {
-                                    const cont = dropdownItemsWrapperRef.current;
-                                    void cont.scrollHeight;
-                                    ps.current.update();
-                                    
-                                    // Una tercera actualización para asegurar
-                                    setTimeout(() => {
-                                        if (ps.current) {
-                                            ps.current.update();
-                                        }
-                                    }, 50);
-                                }
-                            });
-                        }
-
-                        updateTimeout = null;
-                    }, 10);
-                };
-
-                // Crear MutationObserver para detectar cambios en el contenido
-                const observer = new MutationObserver((mutations) => {
-                    // Verificar si hay cambios en los elementos hijos (items del dropdown)
-                    const hasChildChanges = mutations.some(mutation => 
-                        mutation.type === 'childList' || 
-                        mutation.addedNodes.length > 0 || 
-                        mutation.removedNodes.length > 0
-                    );
-
-                    if (hasChildChanges) {
-                        forceUpdateScrollbar();
-                    }
-                });
-
-                // Observar cambios en el contenido del wrapper
-                observer.observe(wrapper, {
-                    childList: true,
-                    subtree: true,
-                    attributes: false,
-                    characterData: false
-                });
-
-                // También actualizar cuando cambian los items filtrados
-                forceUpdateScrollbar();
-
-                return () => {
-                    observer.disconnect();
-                    if (updateTimeout) {
-                        clearTimeout(updateTimeout);
-                    }
-                };
-            }, [filteredItems, isOpen]);
-
-            // useLayoutEffect para actualizar el scrollbar antes de que el navegador pinte
-            useLayoutEffect(() => {
-                if (!isOpen || !dropdownItemsWrapperRef.current || !ps.current) {
-                    return;
-                }
-
-                // Actualizar inmediatamente después de que React haya actualizado el DOM
-                const container = dropdownItemsWrapperRef.current;
-                if (ps.current && container) {
-                    // Forzar reflow
-                    void container.offsetHeight;
-                    void container.scrollHeight;
-                    
-                    // Actualizar PerfectScrollbar
-                    ps.current.update();
-                }
-            }, [filteredItems, isOpen]);
 
             const toggleToolTip = (index: number) => {
                 setTooltipOpen(prev => ({
