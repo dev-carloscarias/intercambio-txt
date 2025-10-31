@@ -105,18 +105,22 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                             .includes(filterText.toLowerCase())
                     )
                 );
-                if (ps && ps.current) {
-                    ps.current.update();
-                    setTimeout(() => {
-                        if (ps.current) {
-                            ps.current.update();
-                        }
-                    }, 100);
-                }
-                // update on filter due to height change
-                if (ps && ps.current) ps.current.update();
                 //  eslint-disable-next-line react-hooks/exhaustive-deps
             }, [filterText]);
+
+            // Actualizar Perfect Scrollbar cuando cambian los items filtrados
+            useEffect(() => {
+                if (isOpen && ps.current && dropdownItemsWrapperRef.current) {
+                    // Usar requestAnimationFrame para asegurar que el DOM se haya actualizado
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            if (ps.current) {
+                                ps.current.update();
+                            }
+                        });
+                    });
+                }
+            }, [filteredItems, isOpen]);
 
             useEffect(() => {
                 if (filterInputRef?.current)
@@ -134,7 +138,7 @@ const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
                                 {
                                     suppressScrollX: true,
                                     wheelPropagation: false,
-                                    minScrollbarLength: 200,
+                                    minScrollbarLength: 20,
                                     useBothWheelAxes: false,
                                     suppressScrollY: false,
                                     handlers: [
