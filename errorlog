@@ -1,1 +1,33 @@
-https://teams.microsoft.com/l/meetup-join/19%3ameeting_NWQ4MjUyYmUtZTY1Ni00N2JhLTkwYzgtZGUyN2QxNjU1YjMy%40thread.v2/0?context=%7b%22Tid%22%3a%220a469cd4-d225-4002-86ce-c93477e1fa44%22%2c%22Oid%22%3a%22227081c5-ad72-4645-83e9-686ba28cbcaa%22%7d
+  // Actualizar el scrollbar cuando cambian los items filtrados o cuando se abre el dropdown
+            useEffect(() => {
+                if (!isOpen || !ps.current || !dropdownItemsWrapperRef.current) {
+                    return;
+                }
+
+                // Función para actualizar el scrollbar después de que React haya renderizado
+                const updateScrollbar = () => {
+                    if (ps.current && dropdownItemsWrapperRef.current) {
+                        // Forzar actualización del scrollbar
+                        ps.current.update();
+                        
+                        // Usar requestAnimationFrame para asegurar que el DOM esté actualizado
+                        requestAnimationFrame(() => {
+                            if (ps.current) {
+                                ps.current.update();
+                            }
+                        });
+                    }
+                };
+
+                // Actualizar inmediatamente
+                updateScrollbar();
+
+                // Actualizar después de un pequeño delay para asegurar que el DOM esté completamente actualizado
+                const timeoutId = setTimeout(() => {
+                    updateScrollbar();
+                }, 50);
+
+                return () => {
+                    clearTimeout(timeoutId);
+                };
+            }, [filteredItems, isOpen]);
