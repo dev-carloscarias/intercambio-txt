@@ -1,28 +1,240 @@
-  // Actualizar el scrollbar cuando cambian los items filtrados o cuando se abre el dropdown
+import React, { useEffect, useRef, useState } from 'react';
+import {
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Tooltip
+} from 'reactstrap';
+import { IconAngleDown, IconSearch } from '@provider-portal/icons';
+import { nanoid } from 'nanoid';
+import './FormDropdownSelect.scss';
+import classnames from 'classnames';
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+export interface FormDropdownSelectInterface {
+    value: any;
+    // list of items to display in select
+    items: Array<any>;
+    // format method to display text
+    formatItem?: (item: any) => string | React.ReactNode;
+    formatSelected?: (item: any) => string | React.ReactNode;
+    // callabck for selected item
+    onChange?: (item: any) => void;
+    // show input for filter
+    filterable?: boolean;
+    // disabled
+    disabled?: boolean;
+    className?: string;
+    noItemsText?: string;
+    showToolTipWithMaxLength?: number;
+    placeHolder?: string;
+    requiredVisiblePlaceHolder?: boolean;
+    blockRegex: RegExp;
+}
+
+const FormDropdownSelect: React.FC<FormDropdownSelectInterface> =
+    React.forwardRef(
+        (
+            {
+                items,
+                value,
+                onChange = () => {},
+                formatItem = v => v,
+                formatSelected,
+                filterable = true,
+                disabled = false,
+                className = '',
+                noItemsText = 'No items',
+                showToolTipWithMaxLength = 9999,
+                placeHolder = '',
+                requiredVisiblePlaceHolder = false,
+                blockRegex
+            },
+            ref
+        ) => {
+            const [selected, setSelected] = useState();
+            const [isOpen, setIsOpen] = useState(false);
+            const [isVisiblePlaceholder, setIsVisiblePlaceholder] =
+                useState(false);
+            const [filterText, setFilterText] = useState('');
+            const [filteredItems, setFilteredItems] = useState(items);
+            const filterInputRef = useRef<HTMLInputElement>();
+            // reference to sidebar
+            const dropdownItemsWrapperRef = useRef<HTMLDivElement>();
+            // reference to scrollbar instance
+            const ps = useRef<any>(null);
+
+            const [tooltipOpen, setTooltipOpen] = useState<{
+                [key: number]: boolean;
+            }>({});
+
+            const onChangeFilterText = (
+                e: React.ChangeEvent<HTMLInputElement>
+            ) => {
+                setFilterText(e.target.value);
+                
+                // Actualizar el scrollbar inmediatamente cuando el usuario escribe
+                // Esto proporciona feedback visual más rápido
+                if (isOpen && ps.current && dropdownItemsWrapperRef.current) {
+                    // Usar requestAnimationFrame para asegurar que el estado se haya actualizado
+                    requestAnimationFrame(() => {
+                        if (ps.current && dropdownItemsWrapperRef.current) {
+                            const wrapper = dropdownItemsWrapperRef.current;
+                            // Forzar reflow
+                            void wrapper.offsetHeight;
+                            void wrapper.scrollHeight;
+                            // Actualizar PerfectScrollbar
+                            ps.current.update();
+                        }
+                    });
+                }
+            };
+
             useEffect(() => {
-                if (!isOpen || !ps.current || !dropdownItemsWrapperRef.current) {
+                if (value) {
+                    setSelected(value);
+                } else if (requiredVisiblePlaceHolder) {
+                    setIsVisiblePlaceholder(true);
+                } else {
+                    setSelected(items[0]);
+                } //remove
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [value]);
+
+            useEffect(() => {
+                if (items) {
+                    // si no selected
+                    setIsVisiblePlaceholder(!selected);
+                } else {
+                    // by convention the first item is used as placeholder
+                    setIsVisiblePlaceholder(items && selected === items[0]);
+                }
+
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [selected]);
+
+            useEffect(() => {
+                setFilteredItems(
+                    items?.filter(i =>
+                        formatItem(i)
+                            .toLowerCase()
+                            .includes(filterText.toLowerCase())
+                    )
+                );
+                //  eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [filterText]);
+
+            useEffect(() => {
+                if (filterInputRef?.current)
+                    if (isOpen)
+                        setTimeout(() => {
+                            filterInputRef.current.focus();
+                        }, 100);
+
+                // activate scrollbar when open
+                if (isOpen) {
+                    // El scrollbar se creará en el useEffect de filteredItems
+                    // Solo crear aquí si no existe y el wrapper está disponible
+                    if (!ps.current && dropdownItemsWrapperRef.current) {
+                        // Pequeño delay para asegurar que el DOM esté listo
+                        setTimeout(() => {
+                            if (!ps.current && dropdownItemsWrapperRef.current && isOpen) {
+                                ps.current = new PerfectScrollbar(
+                                    dropdownItemsWrapperRef.current,
+                                    {
+                                        suppressScrollX: true,
+                                        wheelPropagation: false,
+                                        minScrollbarLength: 200,
+                                        useBothWheelAxes: false,
+                                        suppressScrollY: false,
+                                        handlers: [
+                                            'click-rail',
+                                            'drag-thumb',
+                                            'keyboard',
+                                            'wheel',
+                                            'touch'
+                                        ],
+                                        wheelSpeed: 1,
+                                        swipeEasing: true
+                                    }
+                                );
+                            }
+                        }, 100);
+                    }
+                } else {
+                    // clean filter text && destroy when close dropdown
+                    if (ps && ps.current) {
+                        setFilterText('');
+                        ps.current.destroy();
+                        ps.current = null;
+                    }
+                }
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [isOpen]);
+
+            useEffect(() => {
+                setFilteredItems(items);
+            }, [items]);
+
+            // Actualizar el scrollbar cuando cambian los items filtrados o cuando se abre el dropdown
+            useEffect(() => {
+                if (!isOpen || !dropdownItemsWrapperRef.current) {
                     return;
                 }
 
-                // Función para actualizar el scrollbar después de que React haya renderizado
+                // Función para actualizar o recrear PerfectScrollbar
                 const updateScrollbar = () => {
-                    if (ps.current && dropdownItemsWrapperRef.current) {
-                        // Forzar actualización del scrollbar
-                        ps.current.update();
-                        
-                        // Usar requestAnimationFrame para asegurar que el DOM esté actualizado
-                        requestAnimationFrame(() => {
-                            if (ps.current) {
-                                ps.current.update();
-                            }
-                        });
+                    if (!dropdownItemsWrapperRef.current) return;
+
+                    const wrapper = dropdownItemsWrapperRef.current;
+                    
+                    // Destruir PerfectScrollbar existente si existe
+                    if (ps.current) {
+                        ps.current.destroy();
+                        ps.current = null;
                     }
+
+                    // Forzar reflow del DOM accediendo a propiedades que causan reflow
+                    // Esto asegura que el navegador recalcule el layout antes de crear PerfectScrollbar
+                    void wrapper.offsetHeight;
+                    void wrapper.scrollHeight;
+                    void wrapper.clientHeight;
+
+                    // Esperar un frame para asegurar que el DOM esté completamente actualizado
+                    requestAnimationFrame(() => {
+                        if (!dropdownItemsWrapperRef.current) return;
+
+                        // Forzar otro reflow después del frame
+                        void dropdownItemsWrapperRef.current.offsetHeight;
+
+                        // Recrear PerfectScrollbar con el nuevo tamaño del contenido
+                        if (isOpen && dropdownItemsWrapperRef.current && !ps.current) {
+                            ps.current = new PerfectScrollbar(
+                                dropdownItemsWrapperRef.current,
+                                {
+                                    suppressScrollX: true,
+                                    wheelPropagation: false,
+                                    minScrollbarLength: 200,
+                                    useBothWheelAxes: false,
+                                    suppressScrollY: false,
+                                    handlers: [
+                                        'click-rail',
+                                        'drag-thumb',
+                                        'keyboard',
+                                        'wheel',
+                                        'touch'
+                                    ],
+                                    wheelSpeed: 1,
+                                    swipeEasing: true
+                                }
+                            );
+                        }
+                    });
                 };
 
-                // Actualizar inmediatamente
-                updateScrollbar();
-
-                // Actualizar después de un pequeño delay para asegurar que el DOM esté completamente actualizado
+                // Actualizar después de que React haya renderizado
                 const timeoutId = setTimeout(() => {
                     updateScrollbar();
                 }, 50);
@@ -31,3 +243,131 @@
                     clearTimeout(timeoutId);
                 };
             }, [filteredItems, isOpen]);
+
+            const toggleToolTip = (index: number) => {
+                setTooltipOpen(prev => ({
+                    ...prev,
+                    [index]: !prev[index]
+                }));
+            };
+
+            const handleToggle = () => setIsOpen(!isOpen);
+
+            const onInput: React.FormEventHandler<HTMLInputElement> = e => {
+                if (!blockRegex) {
+                    return;
+                }
+                const el = e.currentTarget;
+                const before = el.value;
+                const after = before.replace(blockRegex, '');
+                if (after !== before) {
+                    el.value = after;
+                }
+            };
+
+            return (
+                <Dropdown
+                    tag="div"
+                    isOpen={isOpen}
+                    toggle={handleToggle}
+                    className={className}
+                >
+                    <DropdownToggle
+                        className={classnames('form-dd-select ', className)}
+                        id={`FormDropdownSelect-${nanoid()}`}
+                        tag="div"
+                        innerRef={ref}
+                        role="button"
+                        tabIndex={0}
+                        disabled={disabled}
+                    >
+                        <div
+                            className={classnames(
+                                isVisiblePlaceholder
+                                    ? 'form-dd-select-placeholder'
+                                    : 'form-dd-select-selected',
+                                ' mr-2'
+                            )}
+                        >
+                            {isVisiblePlaceholder
+                                ? placeHolder
+                                : formatSelected
+                                ? formatSelected(selected)
+                                : formatItem(selected)}
+                        </div>
+                        {items && items.length >= 1 ? (
+                            <div className="form-dd-select-caret">
+                                <IconAngleDown width="1rem" height="1rem" />
+                            </div>
+                        ) : null}
+                    </DropdownToggle>
+
+                    {items && items.length >= 1 ? (
+                        <DropdownMenu className="animated fadeIn w-100">
+                            {filterable ? (
+                                <div className="form-dd-filter">
+                                    <IconSearch
+                                        className="form-dd-filter-icon"
+                                        width="1.25rem"
+                                        height="1.25rem"
+                                    />
+                                    <input
+                                        ref={filterInputRef}
+                                        className="form-control"
+                                        name=""
+                                        type="text"
+                                        value={filterText}
+                                        onChange={onChangeFilterText}
+                                        onInput={onInput}
+                                        placeholder="Search"
+                                        role="button"
+                                        tabIndex={0}
+                                    />
+                                </div>
+                            ) : null}
+                            <div
+                                className="dropdown-items-wrapper"
+                                ref={dropdownItemsWrapperRef}
+                            >
+                                {filteredItems?.length ? (
+                                    filteredItems?.map((i: any, k: number) => (
+                                        <DropdownItem
+                                            key={k}
+                                            id={`dropdownSelect-tooltip-${k}`}
+                                            onClick={() => {
+                                                setSelected(i);
+                                                onChange(i);
+                                                toggleToolTip(k);
+                                            }}
+                                        >
+                                            {formatItem(i).length >=
+                                                showToolTipWithMaxLength && (
+                                                <Tooltip
+                                                    placement="top"
+                                                    isOpen={tooltipOpen[k]}
+                                                    target={`dropdownSelect-tooltip-${k}`}
+                                                    toggle={() =>
+                                                        toggleToolTip(k)
+                                                    }
+                                                    trigger="hover focus"
+                                                >
+                                                    {formatItem(i)}
+                                                </Tooltip>
+                                            )}
+                                            {formatItem(i)}
+                                        </DropdownItem>
+                                    ))
+                                ) : (
+                                    <div>
+                                        <div>{noItemsText}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </DropdownMenu>
+                    ) : null}
+                </Dropdown>
+            );
+        }
+    );
+
+export default FormDropdownSelect;
