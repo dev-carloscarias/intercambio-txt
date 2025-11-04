@@ -1,97 +1,98 @@
-16:21:08.003 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Search.cshtml
-16:21:08
-16:21:08.003 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/InactiveCai.cs
-16:21:08
-16:21:08.004 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BpmNotaCredito/ViewModels/BpmNotaCreditoViewModel.cs
-16:21:08
-16:21:08.004 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/ViewModels/SftpFileTransferViewModel.cs
-16:21:08
-16:21:08.004 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/CaiTipoDocumento/ViewModels/CaiTipoDocumentoViewModel.cs
-16:21:08
-16:21:08.005 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Index.cshtml
-16:21:08
-16:21:08.005 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/Update.cs
-16:21:08
-16:21:08.005 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Bpm/Controllers/BpmController.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/CheckBoxes.cshtml
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/Exception.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/ViewModels/CompanyViewModel.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/GetAllCais.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BpmNotaCredito/GetBpmNotaCreditoFilter.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/AddProduct.cs
-16:21:08
-16:21:08.006 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/CaiView.cshtml
-16:21:08
-16:21:08.007 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Update.cs
-16:21:08
-16:21:08.007 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/__ServiceRegistry/HttpClientHandler.cs
-16:21:08
-16:21:08.008 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/Update.cs
-16:21:08
-16:21:08.008 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Views/Delete.cshtml
-16:21:08
-16:21:08.009 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/VendorController.cs
-16:21:08
-16:21:08.010 INFO: CPD Executor CPD calculation finished (done) | time=203ms
-16:21:08
-16:21:08.019 INFO: SCM revision ID 'be1777c02d3def8ecbaf7a01179619848125a34d'
-16:21:08
-16:21:08.217 INFO: Load New Code definition
-16:21:08
-16:21:08.218 DEBUG: --> GET https://sonar.looper.prod.walmartlabs.com/api/new_code_periods/show.protobuf?project=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests
-16:21:08
-16:21:08.226 DEBUG: <-- 200 https://sonar.looper.prod.walmartlabs.com/api/new_code_periods/show.protobuf?project=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests (7ms, unknown-length body)
-16:21:08
-16:21:08.229 INFO: Load New Code definition (done) | time=12ms
-16:21:08
-16:21:08.267 INFO: Analysis report generated in 221ms, dir size=3.4 MB
-16:21:09
-16:21:08.756 INFO: Analysis report compressed in 488ms, zip size=1.2 MB
-16:21:09
-16:21:08.756 INFO: Analysis report generated in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar\scanner-report
-16:21:09
-16:21:08.756 DEBUG: Upload report
-16:21:09
-16:21:08.761 DEBUG: --> POST https://sonar.looper.prod.walmartlabs.com/api/ce/submit?projectKey=cam-efi-sof2020-web&projectName=cam-efi-sof2020-web&characteristic=branch%3Dfeature%2Fweb-unit-tests&characteristic=branchType%3DBRANCH (1248386-byte body)
-16:21:09
-16:21:08.880 DEBUG: <-- 200 https://sonar.looper.prod.walmartlabs.com/api/ce/submit?projectKey=cam-efi-sof2020-web&projectName=cam-efi-sof2020-web&characteristic=branch%3Dfeature%2Fweb-unit-tests&characteristic=branchType%3DBRANCH (118ms, unknown-length body)
-16:21:09
-16:21:08.882 INFO: Analysis report uploaded in 126ms
-16:21:09
-16:21:08.884 DEBUG: Report metadata written to E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar\report-task.txt
-16:21:09
-16:21:08.884 INFO: ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.prod.walmartlabs.com/dashboard?id=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests
-16:21:09
-16:21:08.884 INFO: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
-16:21:09
-16:21:08.884 INFO: More about the report processing at https://sonar.prod.walmartlabs.com/api/ce/task?id=d304ce69-1c73-41c1-93c6-aa47873a4db0
-16:21:09
-16:21:08.887 DEBUG: Post-jobs : 
-16:21:09
-16:21:08.891 INFO: Analysis total time: 11.638 s
-16:21:09
-16:21:08.895 INFO: ------------------------------------------------------------------------
-16:21:09
-16:21:08.896 INFO: EXECUTION SUCCESS
-16:21:09
-16:21:08.896 INFO: ------------------------------------------------------------------------
-16:21:09
-16:21:08.896 INFO: Total time: 13.556s
-16:21:09
-16:21:08.940 INFO: Final Memory: 32M/148M
-16:21:09
-16:21:08.940 INFO: ------------------------------------------------------------------------
-16:21:09
-16:21:08.944 DEBUG: Cleanup org.eclipse.jgit.util.FS$FileStoreAttributes$$Lambda$461/0x00000008003e03f8@2f1d0bbc during JVM shutdown
-16:21:09
-Process returned exit code 0
-16:21:09
-The SonarQube Scanner has finished
-16:21:09
-16:21:09.369  Post-processing succeeded.
+node: vs2019
+
+tools:
+  nuget: 4.1.0
+  maven: 3.5.0
+  sonarscanner-msbuild: 4.6.2.2108
+ 
+envs:
+  global:
+    variables:
+      sonarProject: cam-looper-felsrvgt-history-agent 
+
+branches:
+  - spec: main
+    triggers:
+      - pr:
+          disabled: true
+  - spec: release
+    triggers:
+      - push:
+          call: ReleaseFlow
+      - manual:
+          name: Make Release flow
+          call: ReleaseFlow
+      - pr:
+          disabled: true
+  - spec: stage
+    triggers:
+      - push:
+          call: StageFlow
+      - manual:
+          name: Make Stage flow
+          call: StageFlow
+      - pr:
+          disabled: true
+  - spec: develop
+    triggers:
+      - push:
+          call: DevFlow
+      - manual:
+          name: Make Dev flow
+          call: DevFlow
+      - pr:
+          disabled: false
+  - spec: feature/*
+    triggers:
+      - push:
+          call: featureFlow
+      - manual:
+          name: Make feature flow
+          call: featureFlow
+      - pr:
+          disabled: true
+          
+triggers:
+  - manual: Run default
+
+flows:
+  default:
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - node(windows):
+      - |
+       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:cam-looper-felgt-monitornotification-lib /n:cam-looper-felgt-monitornotification-lib /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
+      - (name restore) Nuget.exe restore Walmart.Felgt.NotificationLibrary.sln
+      - (name msbuild) "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:build Walmart.Felgt.NotificationLibrary.sln
+      - (name sonar end) SonarScanner.MSBuild.exe end
+    - call: hygieia-publish
+  StageFlow:
+    - echo "Starting stage process"
+  DevFlow:
+    - echo "Starting dev process"
+  featureFlow:
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+  ReleaseFlow:
+    - echo "Starting release process"
+  setup:
+    - dir(Walmart.FELGT.HistoricAgent):
+      - nuget restore Walmart.FELGT.HistoricAgent.sln
+  build:
+    - dir(Walmart.FELGT.HistoricAgent):
+      - MSBuild.exe /t:Rebuild Walmart.FELGT.HistoricAgent.sln
+  package:
+    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
+  deploy:
+    - var(pom = "-DpomFile=pom.xml")
+    - var(file = "-Dfile=build.zip")
+    - var(url = "-Durl=https://repository.walmart.com/content/repositories/pangaea_snapshots")
+    - var(id = "-DrepositoryId=proximity")
+    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
+  hygieia-publish:
+    - hygieia.publishBuild() 
+    - hygieia.publishSonar()
