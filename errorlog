@@ -1,37 +1,21 @@
 node: vs2019
 
 tools:
-  jdk:
-    flavor: azul
-    version: 17
   nuget: 4.1.0
   maven: 3.5.0
   sonarscanner-msbuild: 4.6.2.2108
-
+ 
 envs:
   global:
     variables:
-      sonarProject: cam-efi-sof2020-web
-      project: "Walmart.FelGTSoft2000.Mvc"
-      testFilePattern: "./Walmart.FelGTSoft2000.Mvc.Tests/bin/Debug/Walmart.FelGTSoft2000.Mvc.Tests.dll" 
+      sonarProject: cam-looper-felsrvgt-history-agent 
 
 branches:
   - spec: main
     triggers:
-      - push:
-          call: MainFlow
       - pr:
           disabled: true
   - spec: release
-    triggers:
-      - push:
-          call: ReleaseFlow
-      - manual:
-          name: Make Release flow
-          call: ReleaseFlow
-      - pr:
-          disabled: true
-  - spec: release/*
     triggers:
       - push:
           call: ReleaseFlow
@@ -57,7 +41,7 @@ branches:
           name: Make Dev flow
           call: DevFlow
       - pr:
-          disabled: true
+          disabled: false
   - spec: feature/*
     triggers:
       - push:
@@ -67,39 +51,48 @@ branches:
           call: featureFlow
       - pr:
           disabled: true
+          
+triggers:
+  - manual: Run default
 
 flows:
   default:
     - call: setup
     - call: build
+    - call: package
+    - call: deploy
     - node(windows):
       - |
-       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:${sonarProject} /n:${sonarProject} /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
-      - (name restore) Nuget.exe restore ${project}.sln
-      - (name msbuild) "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /t:build ${project}.sln
+       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:cam-looper-felgt-monitornotification-lib /n:cam-looper-felgt-monitornotification-lib /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
+      - (name restore) Nuget.exe restore Walmart.Felgt.NotificationLibrary.sln
+      - (name msbuild) "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:build Walmart.Felgt.NotificationLibrary.sln
       - (name sonar end) SonarScanner.MSBuild.exe end
+    - call: hygieia-publish
   StageFlow:
     - echo "Starting stage process"
-    - call: default
   DevFlow:
     - echo "Starting dev process"
-    - call: default
-  MainFlow:
-    - echo "Starting main process"
-    - call: default
   featureFlow:
-    - echo "Starting feature process"
-    - echo "Starting sonar scan"
-    - call: default
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
   ReleaseFlow:
     - echo "Starting release process"
-    - echo "Starting sonar scan"
-    - call: default
   setup:
-    - nuget restore ${project}.sln
+    - dir(Walmart.FELGT.HistoricAgent):
+      - nuget restore Walmart.FELGT.HistoricAgent.sln
   build:
-    - MSBuild.exe /t:Rebuild ${project}.sln
+    - dir(Walmart.FELGT.HistoricAgent):
+      - MSBuild.exe /t:Rebuild Walmart.FELGT.HistoricAgent.sln
+  package:
+    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
+  deploy:
+    - var(pom = "-DpomFile=pom.xml")
+    - var(file = "-Dfile=build.zip")
+    - var(url = "-Durl=https://repository.walmart.com/content/repositories/pangaea_snapshots")
+    - var(id = "-DrepositoryId=proximity")
+    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
   hygieia-publish:
     - hygieia.publishBuild() 
     - hygieia.publishSonar()
-    
