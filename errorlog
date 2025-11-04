@@ -1,81 +1,454 @@
-E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws>powershell -Command "Write-Host 'Checking PDBs...';  = Get-ChildItem -Path 'Walmart.FelGTSoft2000.Mvc\bin\Debug\*.pdb' -ErrorAction SilentlyContinue;  = Get-ChildItem -Path 'Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\*.pdb' -ErrorAction SilentlyContinue; if ( -ne ) { Write-Host 'Main project PDBs found:' .Count } else { Write-Warning 'No PDBs found in main project' }; if ( -ne ) { Write-Host 'Test project PDBs found:' .Count } else { Write-Warning 'No PDBs found in test project' }" 
-22:32:18
-Checking PDBs...
-22:32:19
-= : The term '=' is not recognized as the name of a cmdlet, function, script 
-22:32:19
-file, or operable program. Check the spelling of the name, or if a path was 
-22:32:19
-included, verify that the path is correct and try again.
-22:32:19
-At line:1 char:33
-22:32:19
-+ Write-Host 'Checking PDBs...';  = Get-ChildItem -Path 'Walmart.FelGTS ...
-22:32:19
-+                                 ~
-22:32:19
-    + CategoryInfo          : ObjectNotFound: (=:String) [], CommandNotFoundEx 
-22:32:19
-   ception
-22:32:19
-    + FullyQualifiedErrorId : CommandNotFoundException
-22:32:19
- 
-22:32:19
-= : The term '=' is not recognized as the name of a cmdlet, function, script 
-22:32:19
-file, or operable program. Check the spelling of the name, or if a path was 
-22:32:19
-included, verify that the path is correct and try again.
-22:32:19
-At line:1 char:131
-22:32:19
-+ ... ft2000.Mvc\bin\Debug\*.pdb' -ErrorAction SilentlyContinue;  = Get-Chi ...
-22:32:19
-+                                                                 ~
-22:32:19
-    + CategoryInfo          : ObjectNotFound: (=:String) [], CommandNotFoundEx 
-22:32:19
-   ception
-22:32:19
-    + FullyQualifiedErrorId : CommandNotFoundException
-22:32:19
- 
-22:32:19
--ne : The term '-ne' is not recognized as the name of a cmdlet, function, 
-22:32:19
-script file, or operable program. Check the spelling of the name, or if a path 
-22:32:19
-was included, verify that the path is correct and try again.
-22:32:19
-At line:1 char:239
-22:32:19
-+ ... ests\bin\Debug\*.pdb' -ErrorAction SilentlyContinue; if ( -ne ) { Wri ...
-22:32:19
-+                                                               ~~~
-22:32:19
-    + CategoryInfo          : ObjectNotFound: (-ne:String) [], CommandNotFound 
-22:32:19
-   Exception
-22:32:19
-    + FullyQualifiedErrorId : CommandNotFoundException
-22:32:19
- 
-22:32:19
--ne : The term '-ne' is not recognized as the name of a cmdlet, function, 
-22:32:19
-script file, or operable program. Check the spelling of the name, or if a path 
-22:32:19
-was included, verify that the path is correct and try again.
-22:32:19
-At line:1 char:355
-22:32:19
-+ ... e { Write-Warning 'No PDBs found in main project' }; if ( -ne ) { Wri ...
-22:32:19
-+                                                               ~~~
-22:32:19
-    + CategoryInfo          : ObjectNotFound: (-ne:String) [], CommandNotFound 
-22:32:19
-   Exception
-22:32:19
-    + FullyQualifiedErrorId : CommandNotFoundException
+g
+(5.26s)
+23:04:06
+Executing flow featureFlow
+23:04:07
+ERROR: Process finished with exception
+23:04:07
+java.lang.IllegalStateException: Unable to find jdk release for version 17
+23:04:07
+	at io.takari.jdkget.model.JdkReleases.select(JdkReleases.java:189)
+23:04:07
+	at com.walmartlabs.looper.job.provisioner.tools.jdk.AbstractJDKGetInstaller.resolveConfig(AbstractJDKGetInstaller.java:78)
+23:04:07
+	at com.walmartlabs.looper.job.provisioner.tools.jdk.JDKToolDefinition.createInstallation(JDKToolDefinition.java:83)
+23:04:07
+	at com.walmartlabs.looper.job.provisioner.tools.jdk.JDKToolDefinition.createInstallation(JDKToolDefinition.java:1)
+23:04:07
+	at com.walmartlabs.looper.job.LooperJobBuildContext.createTools(LooperJobBuildContext.java:1089)
+23:04:07
+	at com.walmartlabs.looper.job.LooperJobBuildContext.lambda$9(LooperJobBuildContext.java:523)
+23:04:07
+	at com.walmartlabs.looper.utils.concurrent.InterruptibleSupplier.get(InterruptibleSupplier.java:27)
+23:04:07
+	at com.walmartlabs.looper.utils.concurrent.ExecutorHelper$1.get(ExecutorHelper.java:156)
+23:04:07
+	at com.walmartlabs.looper.utils.concurrent.InterruptAwareSupplier.get(InterruptAwareSupplier.java:61)
+23:04:07
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+23:04:07
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1692)
+23:04:07
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+23:04:07
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+23:04:07
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+23:04:07
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+23:04:07
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+23:04:07
+Build step 'LooperBuildStep' marked build as failure
+23:04:07
+Cleaning up temp dirs
+23:04:07
+* Deleting workspace 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20' at 'looperpro-prod-winb04-vs2019-prod-ndc23-1'...
+23:04:07
+* Error deleting workspace
+23:04:07
+jenkins.util.io.CompositeIOException: Unable to delete 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20'. Tried 3 times (of a maximum of 3) waiting 0.1 sec between attempts.
+23:04:07
+	at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:96)
+23:04:07
+	at hudson.Util.deleteRecursive(Util.java:320)
+23:04:07
+	at hudson.FilePath$DeleteRecursive.invoke(FilePath.java:1442)
+23:04:07
+	at hudson.FilePath$DeleteRecursive.invoke(FilePath.java:1437)
+23:04:07
+	at hudson.FilePath$FileCallableWrapper.call(FilePath.java:3578)
+23:04:07
+	at hudson.remoting.UserRequest.perform(UserRequest.java:211)
+23:04:07
+	at hudson.remoting.UserRequest.perform(UserRequest.java:54)
+23:04:07
+	at hudson.remoting.Request$2.run(Request.java:377)
+23:04:07
+	at hudson.remoting.InterceptingExecutorService.lambda$wrap$0(InterceptingExecutorService.java:78)
+23:04:07
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+23:04:07
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+23:04:07
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+23:04:07
+	at hudson.remoting.Engine$1.lambda$newThread$0(Engine.java:125)
+23:04:07
+	at java.base/java.lang.Thread.run(Thread.java:829)
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove file E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security\cacerts
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:249)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.FileSystemException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security\cacerts: The process cannot access the file because it is being used by another process.
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:92)
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:274)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 28 more
+23:04:07
+		Suppressed: java.nio.file.FileSystemException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security\cacerts: The process cannot access the file because it is being used by another process.
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:92)
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+23:04:07
+			at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:274)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 28 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security\cacerts]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 26 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 26 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib\security]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 24 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 24 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18 with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18\lib]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 22 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 22 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64 with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\jdk-17.60.18]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 20 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 20 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveDirectoryContents(PathRemover.java:223)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:212)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 18 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 18 more
+23:04:07
+	Suppressed: jenkins.util.io.CompositeIOException: Unable to remove directory E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20 with directory contents: [E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools]
+23:04:07
+		at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:247)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveFile(PathRemover.java:202)
+23:04:07
+		at jenkins.util.io.PathRemover.tryRemoveRecursive(PathRemover.java:213)
+23:04:07
+		at jenkins.util.io.PathRemover.forceRemoveRecursive(PathRemover.java:93)
+23:04:07
+		... 13 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:234)
+23:04:07
+			... 16 more
+23:04:07
+		Suppressed: java.nio.file.DirectoryNotEmptyException: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20
+23:04:07
+			at java.base/sun.nio.fs.WindowsFileSystemProvider.implDelete(WindowsFileSystemProvider.java:271)
+23:04:07
+			at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)
+23:04:07
+			at java.base/java.nio.file.Files.deleteIfExists(Files.java:1181)
+23:04:07
+			at jenkins.util.io.PathRemover.removeOrMakeRemovableThenRemove(PathRemover.java:238)
+23:04:07
+			... 16 more
+23:04:07
+	Suppressed: hudson.remoting.Channel$CallSiteStackTrace: Remote call to JNLP4-connect connection from 10.5.98.60/10.5.98.60:4271
+23:04:07
+		at hudson.remoting.Channel.attachCallSiteStackTrace(Channel.java:1784)
+23:04:07
+		at hudson.remoting.UserRequest$ExceptionResponse.retrieve(UserRequest.java:356)
+23:04:07
+		at hudson.remoting.Channel.call(Channel.java:1000)
+23:04:07
+		at hudson.FilePath.act(FilePath.java:1192)
+23:04:07
+		at hudson.FilePath.act(FilePath.java:1181)
+23:04:07
+		at hudson.FilePath.deleteRecursive(FilePath.java:1434)
+23:04:07
+		at com.walmartlabs.looper.job.AbstractLooperBuild$Exec.clearWorkspaceRoot(AbstractLooperBuild.java:1638)
+23:04:07
+		at com.walmartlabs.looper.job.AbstractLooperBuild$Exec.cleanUp(AbstractLooperBuild.java:1570)
+23:04:07
+		at hudson.model.Run.execute(Run.java:1947)
+23:04:07
+		at com.walmartlabs.looper.job.AbstractLooperBuild.run(AbstractLooperBuild.java:1275)
+23:04:07
+		at hudson.model.ResourceController.execute(ResourceController.java:101)
+23:04:07
+		at hudson.model.Executor.run(Executor.java:442)
+23:04:07
+Finished: FAILURE
