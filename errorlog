@@ -1,98 +1,259 @@
-node: vs2019
-
-tools:
-  nuget: 4.1.0
-  maven: 3.5.0
-  sonarscanner-msbuild: 4.6.2.2108
- 
-envs:
-  global:
-    variables:
-      sonarProject: cam-looper-felsrvgt-history-agent 
-
-branches:
-  - spec: main
-    triggers:
-      - pr:
-          disabled: true
-  - spec: release
-    triggers:
-      - push:
-          call: ReleaseFlow
-      - manual:
-          name: Make Release flow
-          call: ReleaseFlow
-      - pr:
-          disabled: true
-  - spec: stage
-    triggers:
-      - push:
-          call: StageFlow
-      - manual:
-          name: Make Stage flow
-          call: StageFlow
-      - pr:
-          disabled: true
-  - spec: develop
-    triggers:
-      - push:
-          call: DevFlow
-      - manual:
-          name: Make Dev flow
-          call: DevFlow
-      - pr:
-          disabled: false
-  - spec: feature/*
-    triggers:
-      - push:
-          call: featureFlow
-      - manual:
-          name: Make feature flow
-          call: featureFlow
-      - pr:
-          disabled: true
-          
-triggers:
-  - manual: Run default
-
-flows:
-  default:
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - node(windows):
-      - |
-       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:cam-looper-felgt-monitornotification-lib /n:cam-looper-felgt-monitornotification-lib /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
-      - (name restore) Nuget.exe restore Walmart.Felgt.NotificationLibrary.sln
-      - (name msbuild) "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:build Walmart.Felgt.NotificationLibrary.sln
-      - (name sonar end) SonarScanner.MSBuild.exe end
-    - call: hygieia-publish
-  StageFlow:
-    - echo "Starting stage process"
-  DevFlow:
-    - echo "Starting dev process"
-  featureFlow:
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-  ReleaseFlow:
-    - echo "Starting release process"
-  setup:
-    - dir(Walmart.FELGT.HistoricAgent):
-      - nuget restore Walmart.FELGT.HistoricAgent.sln
-  build:
-    - dir(Walmart.FELGT.HistoricAgent):
-      - MSBuild.exe /t:Rebuild Walmart.FELGT.HistoricAgent.sln
-  package:
-    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
-  deploy:
-    - var(pom = "-DpomFile=pom.xml")
-    - var(file = "-Dfile=build.zip")
-    - var(url = "-Durl=https://repository.walmart.com/content/repositories/pangaea_snapshots")
-    - var(id = "-DrepositoryId=proximity")
-    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
-  hygieia-publish:
-    - hygieia.publishBuild() 
-    - hygieia.publishSonar()
+E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws>OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\Walmart.FelGTSoft2000.Mvc.Tests.dll /resultsfile:TestResult.trx" -searchdirs:"Walmart.FelGTSoft2000.Mvc\bin\Debug;Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug" -filter:"+[Walmart.FelGTSoft2000.Mvc]* -[Walmart.FelGTSoft2000.Mvc.Tests]* -[*]*.Resources.* -[*]*Designer.*" -output:coveragereport.xml -mergeoutput -skipautoprops -hideskipped:All -returntargetcode 
+17:28:42
+Executing: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe
+17:28:42
+Microsoft (R) Test Execution Command Line Tool Version 16.0.28326.58
+17:28:42
+Copyright (c) Microsoft Corporation. All rights reserved.
+17:28:42
+    
+17:28:42
+Loading Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\Walmart.FelGTSoft2000.Mvc.Tests.dll...
+17:28:43
+UTA007: Method GetDocumentFiscalTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, does not return a value and should not take any parameter. for example: public void Test.Class1.Test().  Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2().
+17:28:43
+UTA007: Method UpdateDocumentTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, does not return a value and should not take any parameter. for example: public void Test.Class1.Test().  Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2().
+17:28:43
+Starting execution...
+17:28:43
+Warning: The disabled test 'LogOffTest' was removed from the test run.
+17:28:43
+Warning: The disabled test 'GetIdentityNameTest' was removed from the test run.
+17:28:44
+Results               Top Level Tests
+17:28:44
+-------               ---------------
+17:28:44
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.BpmNotaCreditoControllerTest.ConstructorTest
+17:28:44
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalAdd_NullTest
+17:28:45
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalAddTest
+17:28:45
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdate_NullTest
+17:28:46
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateInactive_NullTest
+17:28:46
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateInactiveTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdate_NullTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateInactive_NullTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateInactiveTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateTest
+17:28:47
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiTipoDocumentoControllerTest.ConstructorTest
+17:28:48
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonModalUpdate_NullTest
+17:28:48
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonModalUpdateTest
+17:28:48
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonUpdate_NullTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.JsonModalAdd_NullTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.JsonModalAddTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.GetDocumentSelectListTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.GetTaxSelectList_ExceptionTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.NotaCredito_ExceptionTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.GetDocumentSelectListTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.GetTaxSelectList_ExceptionTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.NotaCredito_ExceptionTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.ConstructorTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.JsonUpdate_NullTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.JsonUpdateTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.HomeControllerTest.AboutTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.LogDocumentControllerTest.ConstructorTest
+17:28:49
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.LogErrorControllerTest.ConstructorTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceAuditTrailTest.CreateAuditTrailTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.GenerarBpmNotaCreditoTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.GetBpmNotaCreditoFilterTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.UpdateDocumentBpmNCTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetCountriesTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetDocumentFiscalLineTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetDocumentFiscalTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetTaxTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.ActiveCaiTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.CreateCaiTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.GetAllCaisTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.InactiveCaiTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTipoDocumentoTest.GetAllTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.AddDocumentFiscalLineTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.DeleteDocumentFiscalLineTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.GetDocumentFiscalLineTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.UpdateDocumentFiscalLineTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.CreateFolioTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.GetAllFoliosTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.UpdateFolioTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceLogDocumentTest.GetLogDocumentFilterTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceLogErrorTest.GetLogErrorFilterTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.AddProductTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.DeleteProductTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.GetProductsTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.UpdateProductTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceTaxTest.GetTaxTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.AddVendorTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.GetVendorTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.UpdateVendorTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.GetDocumentSelectListTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.GetTaxSelectList_ExceptionTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.NotaCredito_ExceptionTest
+17:28:50
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalAdd_NullTest
+17:28:51
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalAddTest
+17:28:51
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalDelete_NullTest
+17:28:52
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalDeleteTest
+17:28:52
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalUpdate_NullTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalUpdateTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonUpdate_NullTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonUpdateTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ReportsControllerTest.ConstructorTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.ReportsControllerTest.ReportNameHelperTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.ConstructorTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.FileSystemTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.SftpClientHelperTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Add_ModelStateFalseTest
+17:28:53
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalAdd_NullTest
+17:28:54
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalAddTest
+17:28:54
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalUpdate_NullTest
+17:28:55
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalUpdateTest
+17:28:55
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonUpdate_NullTest
+17:28:55
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonUpdateTest
+17:28:55
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_ModelStateFalseTest
+17:28:56
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalAdd_NullTest
+17:28:56
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalAddTest
+17:28:57
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalUpdate_NullTest
+17:28:57
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalUpdateTest
+17:28:57
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonUpdate_NullTest
+17:28:57
+Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonUpdateTest
+17:28:57
+Not Runnable          Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest.GetDocumentFiscalTest
+17:28:57
+Not Runnable          Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest.UpdateDocumentTest
+17:28:57
+89/91 test(s) Passed, 2 Not Runnable
+17:28:57
+Summary
+17:28:57
+-------
+17:28:57
+Test Run Not Runnable.
+17:28:57
+  Passed        89
+17:28:57
+  Not Runnable   2
+17:28:57
+  ----------------
+17:28:57
+  Total         91
+17:28:57
+Results file:  E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\TestResult.trx
+17:28:57
+Test Settings: Default Test Settings
+17:28:57
+Run has the following issue(s):
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'DotNetZip' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.ReportViewer.DataVisualization' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.SqlServer.Types' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'System.ValueTuple' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.Data.Edm' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.OData.Core' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'System.Web.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.WebHost' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+17:28:57
+Committing...
+17:28:57
+No results, this could be for a number of reasons. The most common reasons are:
+17:28:57
+    1) missing PDBs for the assemblies that match the filter please review the
+17:28:57
+    output file and refer to the Usage guide (Usage.rtf) about filters.
+17:28:57
+    2) the profiler may not be registered correctly, please refer to the Usage
+17:28:57
+    guide and the -register switch.
