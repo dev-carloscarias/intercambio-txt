@@ -1,259 +1,659 @@
-E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws>OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\Walmart.FelGTSoft2000.Mvc.Tests.dll /resultsfile:TestResult.trx" -searchdirs:"Walmart.FelGTSoft2000.Mvc\bin\Debug;Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug" -filter:"+[Walmart.FelGTSoft2000.Mvc]* -[Walmart.FelGTSoft2000.Mvc.Tests]* -[*]*.Resources.* -[*]*Designer.*" -output:coveragereport.xml -mergeoutput -skipautoprops -hideskipped:All -returntargetcode 
-17:28:42
-Executing: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe
-17:28:42
-Microsoft (R) Test Execution Command Line Tool Version 16.0.28326.58
-17:28:42
-Copyright (c) Microsoft Corporation. All rights reserved.
-17:28:42
-    
-17:28:42
-Loading Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\Walmart.FelGTSoft2000.Mvc.Tests.dll...
-17:28:43
-UTA007: Method GetDocumentFiscalTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, does not return a value and should not take any parameter. for example: public void Test.Class1.Test().  Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2().
-17:28:43
-UTA007: Method UpdateDocumentTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, does not return a value and should not take any parameter. for example: public void Test.Class1.Test().  Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2().
-17:28:43
-Starting execution...
-17:28:43
-Warning: The disabled test 'LogOffTest' was removed from the test run.
-17:28:43
-Warning: The disabled test 'GetIdentityNameTest' was removed from the test run.
-17:28:44
-Results               Top Level Tests
-17:28:44
--------               ---------------
-17:28:44
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.BpmNotaCreditoControllerTest.ConstructorTest
-17:28:44
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalAdd_NullTest
-17:28:45
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalAddTest
-17:28:45
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdate_NullTest
-17:28:46
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateInactive_NullTest
-17:28:46
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateInactiveTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonModalUpdateTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdate_NullTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateInactive_NullTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateInactiveTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.JsonUpdateTest
-17:28:47
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CaiTipoDocumentoControllerTest.ConstructorTest
-17:28:48
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonModalUpdate_NullTest
-17:28:48
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonModalUpdateTest
-17:28:48
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonUpdate_NullTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.JsonModalAdd_NullTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.JsonModalAddTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.GetDocumentSelectListTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.GetTaxSelectList_ExceptionTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.NotaCredito_ExceptionTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.GetDocumentSelectListTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.GetTaxSelectList_ExceptionTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.NotaCredito_ExceptionTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.ConstructorTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.JsonUpdate_NullTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.JsonUpdateTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.HomeControllerTest.AboutTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.LogDocumentControllerTest.ConstructorTest
-17:28:49
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.LogErrorControllerTest.ConstructorTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceAuditTrailTest.CreateAuditTrailTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.GenerarBpmNotaCreditoTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.GetBpmNotaCreditoFilterTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBpmNotaCreditoTest.UpdateDocumentBpmNCTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetCountriesTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetDocumentFiscalLineTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetDocumentFiscalTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceBusinessServicesTest.GetTaxTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.ActiveCaiTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.CreateCaiTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.GetAllCaisTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTest.InactiveCaiTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceCaiTipoDocumentoTest.GetAllTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.AddDocumentFiscalLineTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.DeleteDocumentFiscalLineTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.GetDocumentFiscalLineTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentFiscalLineTest.UpdateDocumentFiscalLineTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.CreateFolioTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.GetAllFoliosTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceFolioTest.UpdateFolioTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceLogDocumentTest.GetLogDocumentFilterTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceLogErrorTest.GetLogErrorFilterTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.AddProductTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.DeleteProductTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.GetProductsTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceProductTest.UpdateProductTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceTaxTest.GetTaxTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.AddVendorTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.GetVendorTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceVendorTest.UpdateVendorTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.GetDocumentSelectListTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.GetTaxSelectList_ExceptionTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.NotaCreditoControllerTest.NotaCredito_ExceptionTest
-17:28:50
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalAdd_NullTest
-17:28:51
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalAddTest
-17:28:51
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalDelete_NullTest
-17:28:52
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalDeleteTest
-17:28:52
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalUpdate_NullTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonModalUpdateTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonUpdate_NullTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.JsonUpdateTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ReportsControllerTest.ConstructorTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.ReportsControllerTest.ReportNameHelperTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.ConstructorTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.FileSystemTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.SftpClientHelperTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Add_ModelStateFalseTest
-17:28:53
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalAdd_NullTest
-17:28:54
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalAddTest
-17:28:54
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalUpdate_NullTest
-17:28:55
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonModalUpdateTest
-17:28:55
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonUpdate_NullTest
-17:28:55
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonUpdateTest
-17:28:55
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_ModelStateFalseTest
-17:28:56
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalAdd_NullTest
-17:28:56
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalAddTest
-17:28:57
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalUpdate_NullTest
-17:28:57
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonModalUpdateTest
-17:28:57
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonUpdate_NullTest
-17:28:57
-Passed                Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.JsonUpdateTest
-17:28:57
-Not Runnable          Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest.GetDocumentFiscalTest
-17:28:57
-Not Runnable          Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest.UpdateDocumentTest
-17:28:57
-89/91 test(s) Passed, 2 Not Runnable
-17:28:57
-Summary
-17:28:57
--------
-17:28:57
-Test Run Not Runnable.
-17:28:57
-  Passed        89
-17:28:57
-  Not Runnable   2
-17:28:57
-  ----------------
-17:28:57
-  Total         91
-17:28:57
-Results file:  E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\TestResult.trx
-17:28:57
-Test Settings: Default Test Settings
-17:28:57
-Run has the following issue(s):
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'DotNetZip' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'Microsoft.ReportViewer.DataVisualization' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'Microsoft.SqlServer.Types' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'System.ValueTuple' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'Microsoft.Data.Edm' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'Microsoft.OData.Core' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'System.Web.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.WebHost' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
-17:28:57
-Committing...
-17:28:57
-No results, this could be for a number of reasons. The most common reasons are:
-17:28:57
-    1) missing PDBs for the assemblies that match the filter please review the
-17:28:57
-    output file and refer to the Usage guide (Usage.rtf) about filters.
-17:28:57
-    2) the profiler may not be registered correctly, please refer to the Usage
-17:28:57
-    guide and the -register switch.
+17:54:52.641 WARN: Could not import unit test report '.\TestResult.trx': Missing attribute "startTime" in element <UnitTestResult> in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.\TestResult.trx at line 601
+17:54:53
+17:54:52.643 INFO: Sensor C# Unit Test Results Import [csharpenterprise] (done) | time=28ms
+17:54:53
+17:54:52.643 INFO: Sensor Zero Coverage Sensor
+17:54:53
+17:54:52.669 INFO: Sensor Zero Coverage Sensor (done) | time=26ms
+17:54:53
+17:54:52.710 INFO: SCM Publisher SCM provider for this project is: git
+17:54:53
+17:54:52.711 INFO: SCM Publisher 1 source file to be analyzed
+17:54:53
+17:54:52.714 DEBUG: Collecting committed files
+17:54:53
+17:54:52.758 DEBUG: Collecting committed files (done) | time=44ms
+17:54:53
+17:54:52.758 DEBUG: Using GIT_NATIVE_BLAME strategy to blame files
+17:54:53
+17:54:52.762 DEBUG: Looking for git command in the PATH using where.exe (Windows)
+17:54:53
+17:54:52.950 DEBUG: Found git.exe at C:\Program Files (x86)\Git\cmd\git.exe
+17:54:53
+17:54:52.986 DEBUG: Blame file (native) Walmart.FelGTSoft2000.Mvc/App/Entities/Documents/Documents.cs
+17:54:53
+17:54:53.046 DEBUG: Ignoring blame result since provider returned 318 blame lines but file Walmart.FelGTSoft2000.Mvc/App/Entities/Documents/Documents.cs has 338 lines
+17:54:53
+17:54:53.050 INFO: SCM Publisher 0/1 source files have been analyzed (done) | time=338ms
+17:54:53
+17:54:53.050 WARN: Missing blame information for the following files:
+17:54:53
+17:54:53.050 WARN:   * Walmart.FelGTSoft2000.Mvc/App/Entities/Documents/Documents.cs
+17:54:53
+17:54:53.050 WARN: This may lead to missing/broken features in SonarQube
+17:54:53
+17:54:53.079 INFO: CPD Executor 32 files had no CPD blocks
+17:54:53
+17:54:53.079 INFO: CPD Executor Calculating CPD for 282 files
+17:54:53
+17:54:53.080 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/GetCompanyFilter.cs
+17:54:53
+17:54:53.086 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/InactiveCaiController.cs
+17:54:53
+17:54:53.098 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/Index.cs
+17:54:53
+17:54:53.101 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/ViewModels/FolioViewModel.cs
+17:54:53
+17:54:53.102 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Controllers/UploadFile.cs
+17:54:53
+17:54:53.102 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/ActiveCai.cs
+17:54:53
+17:54:53.103 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Sorting.cshtml
+17:54:53
+17:54:53.105 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Context/ContextService.cs
+17:54:53
+17:54:53.105 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Bpm/UpDateDocumentBpm.cs
+17:54:53
+17:54:53.106 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/LogError/GetLogErrorFilter.cs
+17:54:53
+17:54:53.106 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogError/ViewModels/LogErrorViewModel.cs
+17:54:53
+17:54:53.106 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/GetCompany.cs
+17:54:53
+17:54:53.107 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/CheckBoxes.cshtml
+17:54:53
+17:54:53.108 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Views/Update.cshtml
+17:54:53
+17:54:53.111 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogDocument/Controllers/Index.cs
+17:54:53
+17:54:53.113 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/CreateCai.cs
+17:54:53
+17:54:53.113 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BusinessServices/IBusinessServices.cs
+17:54:53
+17:54:53.114 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Bpm/Controllers/Index.cs
+17:54:53
+17:54:53.115 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Index.cs
+17:54:53
+17:54:53.116 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Sorting.cshtml
+17:54:53
+17:54:53.117 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Views/TaxView.cshtml
+17:54:53
+17:54:53.119 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/AddVendor.cs
+17:54:53
+17:54:53.119 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/MasterService.cs
+17:54:53
+17:54:53.120 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/ViewModels/ProductViewModel.cs
+17:54:53
+17:54:53.120 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Bpm/GetInfoBPMFilter.cs
+17:54:53
+17:54:53.121 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/GetVendor.cs
+17:54:53
+17:54:53.121 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Properties/AssemblyInfo.cs
+17:54:53
+17:54:53.121 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/Add.cs
+17:54:53
+17:54:53.122 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/IVendors.cs
+17:54:53
+17:54:53.122 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/MenuModal.cshtml
+17:54:53
+17:54:53.126 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/ColumnStyles.cshtml
+17:54:53
+17:54:53.127 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/AddCompany.cs
+17:54:53
+17:54:53.127 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/AccessDenied.cs
+17:54:53
+17:54:53.128 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Views/DownloadFile.cshtml
+17:54:53
+17:54:53.129 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App_Start/NinjectWebCommon.cs
+17:54:53
+17:54:53.129 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/CompanyView.cshtml
+17:54:53
+17:54:53.131 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Links.cshtml
+17:54:53
+17:54:53.131 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/Update.cs
+17:54:53
+17:54:53.133 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Extensions.cshtml
+17:54:53
+17:54:53.133 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/CaiTipoDocumento/CaiTipoDocumento.cs
+17:54:53
+17:54:53.133 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/ViewModels/DocumentFiscalLineViewModel.cs
+17:54:53
+17:54:53.133 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Views/FolioView.cshtml
+17:54:53
+17:54:53.134 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Views/Exception.cshtml
+17:54:53
+17:54:53.134 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BpmNotaCredito/GenerarBpmNotaCredito.cs
+17:54:53
+17:54:53.134 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Vendors/Vendors.cs
+17:54:53
+17:54:53.135 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Links.cshtml
+17:54:53
+17:54:53.136 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/AddDocumentFiscal.cs
+17:54:53
+17:54:53.136 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/DeleteProduct.cs
+17:54:53
+17:54:53.137 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/UserAccount/Controllers/LogOff.cs
+17:54:53
+17:54:53.137 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/GetProducts.cs
+17:54:53
+17:54:53.137 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Folio/UpdateFolio.cs
+17:54:53
+17:54:53.139 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/ReportViewerWebForm.aspx
+17:54:53
+17:54:53.139 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Bpm/Views/Index.cshtml
+17:54:53
+17:54:53.141 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Folio/CreateFolio.cs
+17:54:53
+17:54:53.141 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BpmNotaCredito/Controllers/BpmNotaCreditoController.cs
+17:54:53
+17:54:53.141 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/Index.cs
+17:54:53
+17:54:53.142 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Menu.cshtml
+17:54:53
+17:54:53.142 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Search.cshtml
+17:54:53
+17:54:53.143 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/_BasicGridLoad.cshtml
+17:54:53
+17:54:53.144 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Extensions.cshtml
+17:54:53
+17:54:53.144 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/CheckBoxes.cshtml
+17:54:53
+17:54:53.146 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Links.cshtml
+17:54:53
+17:54:53.147 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/Index.cs
+17:54:53
+17:54:53.148 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Common/Helpers/ConstantsHelper.cs
+17:54:53
+17:54:53.148 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Add.cs
+17:54:53
+17:54:53.149 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentDetails/Controllers/Index.cs
+17:54:53
+17:54:53.150 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/CaiTipoDocumento/Controllers/CaiTipoDocumentoController.cs
+17:54:53
+17:54:53.150 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Delete.cshtml
+17:54:53
+17:54:53.152 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Controllers/SftpFileTransferController.cs
+17:54:53
+17:54:53.152 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/UpdateProduct.cs
+17:54:53
+17:54:53.152 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/LogDocument/GetLogDocumentFilter.cs
+17:54:53
+17:54:53.152 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/Add.cs
+17:54:53
+17:54:53.153 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/MenuModal.cshtml
+17:54:53
+17:54:53.156 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_Menu.cshtml
+17:54:53
+17:54:53.157 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BaseController.cs
+17:54:53
+17:54:53.157 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Update.cshtml
+17:54:53
+17:54:53.159 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Update.cshtml
+17:54:53
+17:54:53.161 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/Add.cs
+17:54:53
+17:54:53.162 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Contact/Views/Index.cshtml
+17:54:53
+17:54:53.162 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Controllers/DownloadFile.cs
+17:54:53
+17:54:53.163 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Add.cshtml
+17:54:53
+17:54:53.165 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Views/ReportViewerMvc.cshtml
+17:54:53
+17:54:53.166 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Basic.cshtml
+17:54:53
+17:54:53.166 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App_Start/FilterConfig.cs
+17:54:53
+17:54:53.166 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_Layout.cshtml
+17:54:53
+17:54:53.167 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogDocument/ViewModels/LogDocumentViewModel.cs
+17:54:53
+17:54:53.167 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Contact/Controllers/Index.cs
+17:54:53
+17:54:53.167 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/ActiveCai.cshtml
+17:54:53
+17:54:53.169 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/CreateFolioController.cs
+17:54:53
+17:54:53.170 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/DocumentFiscalController.cs
+17:54:53
+17:54:53.170 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/UserAccount/Controllers/UserAccountController.cs
+17:54:53
+17:54:53.171 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_CultureSidebarMenu.cshtml
+17:54:53
+17:54:53.171 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Basic.cshtml
+17:54:53
+17:54:53.172 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/CustomRazorViewEngine.cs
+17:54:53
+17:54:53.172 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogError/Views/Plantilla.cshtml
+17:54:53
+17:54:53.173 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentDetails/Views/Index.cshtml
+17:54:53
+17:54:53.175 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Update.cs
+17:54:53
+17:54:53.175 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/DocumentFiscalLines/DocumentFiscalLines.cs
+17:54:53
+17:54:53.175 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/Delete.cs
+17:54:53
+17:54:53.176 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/_Modals.cshtml
+17:54:53
+17:54:53.176 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/IMasterService.cs
+17:54:53
+17:54:53.177 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Contact/Controllers/ContactController.cs
+17:54:53
+17:54:53.177 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App_Start/RouteConfig.cs
+17:54:53
+17:54:53.177 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Extensions.cshtml
+17:54:53
+17:54:53.178 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Menu.cshtml
+17:54:53
+17:54:53.179 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Global.asax.cs
+17:54:53
+17:54:53.179 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/_BasicGridLoad.cshtml
+17:54:53
+17:54:53.180 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_Carousel.cshtml
+17:54:53
+17:54:53.180 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/CaiController.cs
+17:54:53
+17:54:53.181 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Paged.cshtml
+17:54:53
+17:54:53.186 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Delete.cs
+17:54:53
+17:54:53.189 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/Delete.cs
+17:54:53
+17:54:53.189 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Basic.cshtml
+17:54:53
+17:54:53.190 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Links.cshtml
+17:54:53
+17:54:53.191 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Views/ReportPreLoad.cshtml
+17:54:53
+17:54:53.191 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Paged.cshtml
+17:54:53
+17:54:53.192 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Common/Helpers/AppConfig.cs
+17:54:53
+17:54:53.192 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentDetails/GetDocumentDetailsFilter.cs
+17:54:53
+17:54:53.193 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/ColumnStyles.cshtml
+17:54:53
+17:54:53.194 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Common/Helpers/Akeyless/AkeylessHelper.cs
+17:54:53
+17:54:53.195 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/ITax.cs
+17:54:53
+17:54:53.195 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/_Modals.cshtml
+17:54:53
+17:54:53.196 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Cai/Cai.cs
+17:54:53
+17:54:53.196 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/CheckBoxes.cshtml
+17:54:53
+17:54:53.197 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Views/UploadFile.cshtml
+17:54:53
+17:54:53.199 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/UpdateDocumentFiscal.cs
+17:54:53
+17:54:53.199 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/DeleteVendor.cs
+17:54:53
+17:54:53.199 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Paged.cshtml
+17:54:53
+17:54:53.200 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BpmNotaCredito/Controllers/Index.cs
+17:54:53
+17:54:53.201 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Views/ReportPostLoad.cshtml
+17:54:53
+17:54:53.201 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/BpmNotaCredito/BpmNotaCredito.cs
+17:54:53
+17:54:53.202 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Views/AccessDenied.cshtml
+17:54:53
+17:54:53.203 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Views/Menu.cshtml
+17:54:53
+17:54:53.204 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BusinessServices/GetCountries.cs
+17:54:53
+17:54:53.204 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Add.cs
+17:54:53
+17:54:53.205 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscalLine/GetDocumentFiscalLine.cs
+17:54:53
+17:54:53.205 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Add.cshtml
+17:54:53
+17:54:53.206 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscalLine/UpdateDocumentFiscalLine.cs
+17:54:53
+17:54:53.207 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App_Start/AutoMapperConfig.cs
+17:54:53
+17:54:53.207 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/GetDocumentFiscalFilter.cs
+17:54:53
+17:54:53.208 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/ActiveCaiController.cs
+17:54:53
+17:54:53.208 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Controllers/ReportPreload.cs
+17:54:53
+17:54:53.208 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/DocumentDetail/DocumentDetail.cs
+17:54:53
+17:54:53.209 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/LogDocuments/LogDocuments.cs
+17:54:53
+17:54:53.209 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BusinessServices/GetTax.cs
+17:54:53
+17:54:53.209 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Menu.cshtml
+17:54:53
+17:54:53.210 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App_Start/Startup.cs
+17:54:53
+17:54:53.211 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/GetTaxFilter.cs
+17:54:53
+17:54:53.211 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/ProductsController.cs
+17:54:53
+17:54:53.211 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/Delete.cs
+17:54:53
+17:54:53.211 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BpmNotaCredito/UpDateBpmNotaCredito.cs
+17:54:53
+17:54:53.212 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Controllers/ReportPostLoad.cs
+17:54:53
+17:54:53.212 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogError/Controllers/LogErrorController.cs
+17:54:53
+17:54:53.212 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/TabPanes.cshtml
+17:54:53
+17:54:53.213 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Controllers/ReportViewerMvc.cs
+17:54:53
+17:54:53.213 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/VendorView.cshtml
+17:54:53
+17:54:53.214 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/CompanyController.cs
+17:54:53
+17:54:53.214 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/UpdateVendor.cs
+17:54:53
+17:54:53.215 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Update.cshtml
+17:54:53
+17:54:53.216 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/About.cs
+17:54:53
+17:54:53.216 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/TabPanes.cshtml
+17:54:53
+17:54:53.216 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Basic.cshtml
+17:54:53
+17:54:53.217 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BusinessServices/GetDocumentFiscalLine.cs
+17:54:53
+17:54:53.217 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentDetails/Controllers/DocumentDetailsController.cs
+17:54:53
+17:54:53.217 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/ColumnStyles.cshtml
+17:54:53
+17:54:53.217 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Menu.cshtml
+17:54:53
+17:54:53.218 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/MenuModal.cshtml
+17:54:53
+17:54:53.220 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Context/User/IUserAccountProfile.cs
+17:54:53
+17:54:53.220 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Bpm/ViewModels/BpmViewModel.cs
+17:54:53
+17:54:53.220 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/ICompany.cs
+17:54:53
+17:54:53.220 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Company/Companies.cs
+17:54:53
+17:54:53.220 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Delete.cshtml
+17:54:53
+17:54:53.221 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Search.cshtml
+17:54:53
+17:54:53.222 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Delete.cshtml
+17:54:53
+17:54:53.223 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogError/Controllers/Index.cs
+17:54:53
+17:54:53.223 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentDetails/ViewModels/DocumentDetailsViewModel.cs
+17:54:53
+17:54:53.223 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Extensions.cshtml
+17:54:53
+17:54:53.224 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/Index.cs
+17:54:53
+17:54:53.224 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/Index.cs
+17:54:53
+17:54:53.225 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/GlobalSuppressions.cs
+17:54:53
+17:54:53.225 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_LoginPartial.cshtml
+17:54:53
+17:54:53.225 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/CreateCai.cshtml
+17:54:53
+17:54:53.227 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogDocument/Controllers/LogDocumentController.cs
+17:54:53
+17:54:53.227 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Paged.cshtml
+17:54:53
+17:54:53.227 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Folio/GetAllFolios.cs
+17:54:53
+17:54:53.229 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/ColumnStyles.cshtml
+17:54:53
+17:54:53.229 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/_Modals.cshtml
+17:54:53
+17:54:53.229 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/ToolBar.cshtml
+17:54:53
+17:54:53.230 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Add.cshtml
+17:54:53
+17:54:53.231 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Documents/Documents.cs
+17:54:53
+17:54:53.232 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BpmNotaCredito/IBpmNotaCredito.cs
+17:54:53
+17:54:53.232 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/LogError/LogErrors.cs
+17:54:53
+17:54:53.232 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BpmNotaCredito/Views/Index.cshtml
+17:54:53
+17:54:53.233 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/AuditTrail/AuditTrail.cs
+17:54:53
+17:54:53.234 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscalLine/DeleteDocumentFiscalLine.cs
+17:54:53
+17:54:53.234 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BusinessServices/GetDocumentFiscal.cs
+17:54:53
+17:54:53.234 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Add.cshtml
+17:54:53
+17:54:53.235 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/_Modals.cshtml
+17:54:53
+17:54:53.236 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/FolioController.cs
+17:54:53
+17:54:53.236 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/TaxController.cs
+17:54:53
+17:54:53.236 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Bpm/GenerarBpm.cs
+17:54:53
+17:54:53.236 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/ToolBar.cshtml
+17:54:53
+17:54:53.237 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/GetDocumentFiscal.cs
+17:54:53
+17:54:53.237 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/TabPanes.cshtml
+17:54:53
+17:54:53.238 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/LogDocument/Views/Plantilla.cshtml
+17:54:53
+17:54:53.238 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Context/User/UserAccountProfile.cs
+17:54:53
+17:54:53.239 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/DeleteCompany.cs
+17:54:53
+17:54:53.239 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/ViewModels/VendorViewModel.cs
+17:54:53
+17:54:53.239 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/AddTax.cs
+17:54:53
+17:54:53.240 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Views/Update.cshtml
+17:54:53
+17:54:53.241 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Delete.cs
+17:54:53
+17:54:53.241 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/CreateCaiController.cs
+17:54:53
+17:54:53.241 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/Menu.cshtml
+17:54:53
+17:54:53.242 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/ICai.cs
+17:54:53
+17:54:53.242 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/DeleteDocumentFiscal.cs
+17:54:53
+17:54:53.243 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/InactiveCai.cshtml
+17:54:53
+17:54:53.243 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Views/CreateFolio.cshtml
+17:54:53
+17:54:53.245 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/IProducts.cs
+17:54:53
+17:54:53.245 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Vendors/GetVendorFilter.cs
+17:54:53
+17:54:53.245 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Company/UpdateCompany.cs
+17:54:53
+17:54:53.245 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Index.cs
+17:54:53
+17:54:53.247 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Sorting.cshtml
+17:54:53
+17:54:53.247 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/ViewModels/CaiViewModel.cs
+17:54:53
+17:54:53.248 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Bpm/IBpm.cs
+17:54:53
+17:54:53.248 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Bpm/Bpm.cs
+17:54:53
+17:54:53.248 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/Update.cs
+17:54:53
+17:54:53.249 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Views/Add.cshtml
+17:54:53
+17:54:53.250 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/UpdateTax.cs
+17:54:53
+17:54:53.250 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/ViewModels/ReportsViewModel.cs
+17:54:53
+17:54:53.250 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscal/IDocumentFiscal.cs
+17:54:53
+17:54:53.251 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/CaiTipoDocumento/Controllers/Index.cs
+17:54:53
+17:54:53.251 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/__ServiceRegistry/IHttpClientHandler.cs
+17:54:53
+17:54:53.251 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/Index.cs
+17:54:53
+17:54:53.252 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Sorting.cshtml
+17:54:53
+17:54:53.253 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Views/About.cshtml
+17:54:53
+17:54:53.254 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/CaiTipoDocumento/GetAll.cs
+17:54:53
+17:54:53.254 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/Delete.cshtml
+17:54:53
+17:54:53.255 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/DeleteTax.cs
+17:54:53
+17:54:53.255 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/_BasicGridLoad.cshtml
+17:54:53
+17:54:53.255 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscalLine/IDocumentFiscalLine.cs
+17:54:53
+17:54:53.256 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/DocumentFiscalLine/AddDocumentFiscalLine.cs
+17:54:53
+17:54:53.256 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Reports/Controllers/ReportsController.cs
+17:54:53
+17:54:53.256 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/ViewModels/TaxViewModel.cs
+17:54:53
+17:54:53.256 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/ChangeCulture.cs
+17:54:53
+17:54:53.257 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Startup.cs
+17:54:53
+17:54:53.257 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Folio/Folio.cs
+17:54:53
+17:54:53.257 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Plantilla.cshtml
+17:54:53
+17:54:53.259 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Tax/GetTax.cs
+17:54:53
+17:54:53.259 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/ToolBar.cshtml
+17:54:53
+17:54:53.259 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/TabPanes.cshtml
+17:54:53
+17:54:53.260 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Context/Session/SessionExtension.cs
+17:54:53
+17:54:53.260 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/InvoiceDocument.cshtml
+17:54:53
+17:54:53.260 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Taxes/Taxes.cs
+17:54:53
+17:54:53.260 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/MenuModal.cshtml
+17:54:53
+17:54:53.262 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Common/Helpers/Akeyless/AkeylessConfig.cs
+17:54:53
+17:54:53.262 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Views/Update.cshtml
+17:54:53
+17:54:53.263 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/ToolBar.cshtml
+17:54:53
+17:54:53.264 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Entities/Products/Product.cs
+17:54:53
+17:54:53.264 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/HomeController.cs
+17:54:53
+17:54:53.265 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Shared/Views/_CultureHeader.cshtml
+17:54:53
+17:54:53.265 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Search.cshtml
+17:54:53
+17:54:53.265 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/ViewModels/DocumentFiscalViewModel.cs
+17:54:53
+17:54:53.265 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Views/Search.cshtml
+17:54:53
+17:54:53.266 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/InactiveCai.cs
+17:54:53
+17:54:53.266 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/BpmNotaCredito/ViewModels/BpmNotaCreditoViewModel.cs
+17:54:53
+17:54:53.267 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/ViewModels/SftpFileTransferViewModel.cs
+17:54:53
+17:54:53.267 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/CaiTipoDocumento/ViewModels/CaiTipoDocumentoViewModel.cs
+17:54:53
+17:54:53.267 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Views/Index.cshtml
+17:54:53
+17:54:53.268 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Products/Controllers/Update.cs
+17:54:53
+17:54:53.268 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Bpm/Controllers/BpmController.cs
+17:54:53
+17:54:53.268 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/Views/CheckBoxes.cshtml
+17:54:53
+17:54:53.269 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Home/Controllers/Exception.cs
+17:54:53
+17:54:53.269 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Company/ViewModels/CompanyViewModel.cs
+17:54:53
+17:54:53.270 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Cai/GetAllCais.cs
+17:54:53
+17:54:53.270 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/BpmNotaCredito/GetBpmNotaCreditoFilter.cs
+17:54:53
+17:54:53.270 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/Products/AddProduct.cs
+17:54:53
+17:54:53.270 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Views/CaiView.cshtml
+17:54:53
+17:54:53.271 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Update.cs
+17:54:53
+17:54:53.272 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/Services/Master/__ServiceRegistry/HttpClientHandler.cs
+17:54:53
+17:54:53.272 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Controllers/Update.cs
+17:54:53
+17:54:53.273 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Tax/Views/Delete.cshtml
+17:54:53
+17:54:53.273 DEBUG: Detection of duplications for E:/jenkins/workspace/efi-sof2020-web/feature_web-unit-tests-20/ws/Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/VendorController.cs
+17:54:53
+17:54:53.274 INFO: CPD Executor CPD calculation finished (done) | time=195ms
+17:54:53
+17:54:53.281 INFO: SCM revision ID '93f484fb5bb530134b091fe9440fce802f670f72'
+17:54:53
+17:54:53.541 INFO: Load New Code definition
+17:54:53
+17:54:53.542 DEBUG: --> GET https://sonar.looper.prod.walmartlabs.com/api/new_code_periods/show.protobuf?project=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests
+17:54:53
+17:54:53.574 DEBUG: <-- 200 https://sonar.looper.prod.walmartlabs.com/api/new_code_periods/show.protobuf?project=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests (32ms, unknown-length body)
+17:54:53
+17:54:53.577 INFO: Load New Code definition (done) | time=36ms
+17:54:53
+17:54:53.620 INFO: Analysis report generated in 305ms, dir size=3.4 MB
+17:54:54
+17:54:54.166 INFO: Analysis report compressed in 545ms, zip size=1.2 MB
+17:54:54
+17:54:54.166 INFO: Analysis report generated in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar\scanner-report
+17:54:54
+17:54:54.166 DEBUG: Upload report
+17:54:54
+17:54:54.171 DEBUG: --> POST https://sonar.looper.prod.walmartlabs.com/api/ce/submit?projectKey=cam-efi-sof2020-web&projectName=cam-efi-sof2020-web&characteristic=branch%3Dfeature%2Fweb-unit-tests&characteristic=branchType%3DBRANCH (1249135-byte body)
+17:54:54
+17:54:54.483 DEBUG: <-- 200 https://sonar.looper.prod.walmartlabs.com/api/ce/submit?projectKey=cam-efi-sof2020-web&projectName=cam-efi-sof2020-web&characteristic=branch%3Dfeature%2Fweb-unit-tests&characteristic=branchType%3DBRANCH (311ms, unknown-length body)
+17:54:54
+17:54:54.486 INFO: Analysis report uploaded in 320ms
+17:54:54
+17:54:54.489 DEBUG: Report metadata written to E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar\report-task.txt
+17:54:54
+17:54:54.489 INFO: ANALYSIS SUCCESSFUL, you can find the results at: https://sonar.prod.walmartlabs.com/dashboard?id=cam-efi-sof2020-web&branch=feature%2Fweb-unit-tests
+17:54:54
+17:54:54.489 INFO: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+17:54:54
+17:54:54.489 INFO: More about the report processing at https://sonar.prod.walmartlabs.com/api/ce/task?id=e10576ea-1811-48ac-9e38-7ab43c13a3e1
+17:54:54
+17:54:54.492 DEBUG: Post-jobs : 
+17:54:54
+17:54:54.495 INFO: Analysis total time: 13.074 s
+17:54:54
+17:54:54.497 INFO: ------------------------------------------------------------------------
+17:54:54
+17:54:54.497 INFO: EXECUTION SUCCESS
+17:54:54
+17:54:54.497 INFO: ------------------------------------------------------------------------
+17:54:54
+17:54:54.497 INFO: Total time: 15.261s
+17:54:54
+17:54:54.541 INFO: Final Memory: 33M/148M
+17:54:54
+17:54:54.541 INFO: ------------------------------------------------------------------------
+17:54:54
+17:54:54.545 DEBUG: Cleanup org.eclipse.jgit.util.FS$FileStoreAttributes$$Lambda$461/0x00000008003e03f8@2f1d0bbc during JVM shutdown
+17:54:54
+Process returned exit code 0
+17:54:54
+The SonarQube Scanner has finished
+17:54:54
+17:54:54.94  Post-processing succeeded.
