@@ -12,7 +12,7 @@ envs:
       sonarProject: cam-efi-sof2020-web
       project: "Walmart.FelGTSoft2000.Mvc"
       testProject: "Walmart.FelGTSoft2000.Mvc.Tests"
-      testFilePattern: "./Walmart.FelGTSoft2000.Mvc.Tests/bin/Debug/Walmart.FelGTSoft2000.Mvc.Tests.dll"
+      testFilePattern: "Walmart.FelGTSoft2000.Mvc.Tests\bin\Debug\Walmart.FelGTSoft2000.Mvc.Tests.dll"
 branches:
   - spec: main
     triggers:
@@ -74,10 +74,9 @@ flows:
        (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:${sonarProject} /n:${sonarProject} /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests*/**
       - (name restore) Nuget.exe restore ${project}.sln
       - (name msbuild) "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /t:Rebuild ${project}.sln /p:Configuration=Debug
-      - (name install opencover) nuget install OpenCover -Version 4.7.922 -OutputDirectory ./tools
-      - (name install reportgenerator) nuget install ReportGenerator -Version 4.8.12 -OutputDirectory ./tools
+      - (name install opencover) nuget install OpenCover -Version 4.7.922 -OutputDirectory tools
       - |
-        (name run tests with coverage) ./tools/OpenCover.4.7.922/tools/OpenCover.Console.exe -target:"./packages/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe" -targetargs:"${testFilePattern} --result=TestResult.xml" -filter:"+[Walmart.FelGTSoft2000.Mvc]* -[Walmart.FelGTSoft2000.Mvc.Tests]*" -register:user -output:coverage.xml -mergebyhash
+        (name run tests with coverage) tools\OpenCover.4.7.922\tools\OpenCover.Console.exe -target:"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:${testFilePattern}" -filter:"+[Walmart.FelGTSoft2000.Mvc]* -[Walmart.FelGTSoft2000.Mvc.Tests]*" -register:user -output:coverage.xml -mergebyhash
       - (name sonar end) SonarScanner.MSBuild.exe end
   StageFlow:
     - echo "Starting stage process"
