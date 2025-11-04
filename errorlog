@@ -74,27 +74,10 @@ flows:
     - call: build
     - node(windows):
       - |
-       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:${sonarProject} /n:${sonarProject} /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.nunit.reportsPaths=TestResult.xml
+       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:${sonarProject} /n:${sonarProject} /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
       - (name restore) Nuget.exe restore ${project}.sln
       - (name msbuild) "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /t:build ${project}.sln
-
-      # --- Generar cobertura ---
-      - (name install opencover) powershell "if (!(Test-Path 'opencover')) { nuget install OpenCover -Version 4.7.1221 -OutputDirectory opencover }"
-      - (name install nunit console) powershell "if (!(Test-Path 'nunit')) { nuget install NUnit.ConsoleRunner -Version 3.16.3 -OutputDirectory nunit }"
-
-      - (name run tests with coverage)
-        powershell |
-          $openCover = 'opencover\OpenCover.4.7.1221\tools\OpenCover.Console.exe'
-          $nunit = 'nunit\NUnit.ConsoleRunner.3.16.3\tools\nunit3-console.exe'
-          $testDll = '${testFilePattern}'
-          & $openCover -register:user -target:$nunit -targetargs:"`$testDll --result=TestResult.xml;format=nunit3" -output:coveragereport.xml -filter:"+[*]* -[*.Tests]*" -oldStyle
-
-      - (name verify files)
-        powershell |
-          if (Test-Path 'coveragereport.xml') { Write-Host 'OK: coveragereport.xml found' } else { Write-Error 'MISSING: coveragereport.xml' }
-          if (Test-Path 'TestResult.xml') { Write-Host 'OK: TestResult.xml found' } else { Write-Error 'MISSING: TestResult.xml' }
-
-      - (name sonar end) SonarScanner.MSBuild.exe ends
+      - (name sonar end) SonarScanner.MSBuild.exe end
   StageFlow:
     - echo "Starting stage process"
     - call: default
