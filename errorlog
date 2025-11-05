@@ -1,172 +1,54 @@
-18:04:50
-"E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\Walmart.FelGTSoft2000.Mvc.Tests\\Common\\Files\\user.png"
-18:04:50
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.roslyn.reportFilePath=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\Walmart.FelGTSoft2000.Mvc.Tests\\bin\\Debug\\Walmart.FelGTSoft2000.Mvc.Tests.dll.RoslynCA.json
-18:04:50
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.analyzer.projectOutPath=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\1
-18:04:50
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.analyzer.projectOutPaths=\
-18:04:50
-"E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\1"
-18:04:50
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.roslyn.reportFilePaths=\
-18:04:50
-"E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\Walmart.FelGTSoft2000.Mvc.Tests\\bin\\Debug\\Walmart.FelGTSoft2000.Mvc.Tests.dll.RoslynCA.json"
-18:04:50
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.working.directory=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\.sonar\\mod1
-18:04:50
-sonar.host.url=https://sonar.looper.prod.walmartlabs.com/
-18:04:50
-sonar.scm.enabled=false
-18:04:50
-sonar.cs.opencover.reportsPaths=coverage.xml
-18:04:50
-sonar.cs.vstest.reportsPaths=TestResult.trx
-18:04:50
-sonar.coverage.exclusions=**/Scripts/**,**/Content/**,**/fonts/**,**/packages/**,**/bin/**,**/obj/**,**/*.js,**/*.css,**/*.json,**/*.config,**/*.cshtml,**/Assemblies/**,**/*Tests/**
-18:04:50
-sonar.exclusions=**/Scripts/**,**/Content/**,**/fonts/**,**/packages/**,**/bin/**,**/obj/**,**/Assemblies/**
-18:04:50
-sonar.cs.fxcop.fxCopCmdPath=C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Team Tools\\Static Analysis Tools\\FxCop\\FxCopCmd.exe
-18:04:50
-sonar.language=cs
-18:04:50
-sonar.visualstudio.enable=false
-18:04:50
-sonar.modules=492C2BAF-1D76-4044-97A1-886869964579,219CBA80-BB1E-4246-BAE5-56839AD217D4
-18:04:50
-------------------------------------------------------------------------
-18:04:50
-Writing processing summary to E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\ProjectInfo.log
-18:04:50
-Calling the SonarQube Scanner...
-18:04:50
-Executing file E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\sonar-scanner-msbuild-4.6.2.2108\sonar-scanner-3.3.0.1492\bin\sonar-scanner.bat
-18:04:50
-  Args: -Dsonar.scanAllFiles=true -Dproject.settings=E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\sonar-project.properties --embedded --debug 
-18:04:50
-  Working directory: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws
-18:04:50
-  Timeout (ms):-1
-18:04:50
-  Process id: 4488
-18:04:50
-Picked up JAVA_TOOL_OPTIONS: -Dhttp.useProxy=true -Dhttps.useProxy=true -Dhttp.proxyHost=10.5.98.60 -Dhttp.proxyPort=52487 -Dhttps.proxyHost=10.5.98.60 -Dhttps.proxyPort=52487 -Dhttp.nonProxyHosts='localhost|127.0.0.1|cdn.cocoapods.org|*-keystone-endpoint.prod.walmart.com|cdn.jsdelivr.net|slack.com|*.blob.core.windows.net|mockDeliveryUrl|*.saucelabs.com|jira.walmart.com|*.prod.us.walmart.net|*.googleapis.com|euclid.azurecr.io|*xmatters.com|sandbox-cluboperations-claims.azurewebsites.net|accounts.google.com|usgta*.wal-mart.com|metadata.google.*|cloud.google.com|*ossindex.sonatype.org*|*.azure-api.net|sb.scorecardresearch.com|i.imgur.com|kafka-local-landoop|mock-server|vault|postgresql|active-mq|phonehome.hazelcast.com|*.azurewebsites.net|login.microsoftonline.com|dc.services.visualstudio.com|marketplace.walmartapis.com|*.saucelabs.com|blob.core.windows.net|file.appcenter.ms|testburst.walmart.com|tnest.walmart.com|gcr.io'
-18:04:51
-18:04:50.372 INFO: Scanner configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\sonar-scanner-msbuild-4.6.2.2108\sonar-scanner-3.3.0.1492\bin\..\conf\sonar-scanner.properties
-18:04:51
-18:04:50.377 INFO: Project root configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\sonar-project.properties
-18:04:51
-18:04:50.432 INFO: SonarQube Scanner 3.3.0.1492
-18:04:51
-18:04:50.432 INFO: Java 11.0.12 Azul Systems, Inc. (64-bit)
-18:04:51
-18:04:50.432 INFO: Windows Server 2016 10.0 amd64
-18:04:51
-18:04:50.577 DEBUG: keyStore is : 
-18:04:51
-18:04:50.578 DEBUG: keyStore type is : pkcs12
-18:04:51
-18:04:50.578 DEBUG: keyStore provider is : 
-18:04:51
-18:04:50.578 DEBUG: init keystore
-18:04:51
-18:04:50.578 DEBUG: init keymanager of type SunX509
-18:04:51
-18:04:50.718 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache
-18:04:51
-18:04:50.719 INFO: User cache: C:\Windows\system32\config\systemprofile\.sonar\cache
-18:04:51
-18:04:50.719 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache\_tmp
-18:04:51
-18:04:50.722 DEBUG: Extract sonar-scanner-api-batch in temp...
-18:04:51
-18:04:50.726 DEBUG: Get bootstrap index...
-18:04:51
-18:04:50.726 DEBUG: Download: https://sonar.looper.prod.walmartlabs.com/batch/index
-18:04:51
-18:04:51.006 DEBUG: Get bootstrap completed
-18:04:51
-18:04:51.008 DEBUG: Create isolated classloader...
-18:04:51
-18:04:51.018 DEBUG: Start temp cleaning...
-18:04:51
-18:04:51.021 DEBUG: Temp cleaning done
-18:04:51
-18:04:51.021 DEBUG: Execution getVersion
-18:04:51
-18:04:51.043 INFO: SonarQube server 2025.1.2.108896
-18:04:51
-18:04:51.043 INFO: Default locale: "en_US", source code encoding: "windows-1252" (analysis is platform dependent)
-18:04:51
-18:04:51.044 DEBUG: Work directory: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar
-18:04:51
-18:04:51.045 DEBUG: Execution execute
-18:04:51
-18:04:51.048 INFO: ------------------------------------------------------------------------
-18:04:51
-18:04:51.048 INFO: EXECUTION FAILURE
-18:04:51
-18:04:51.048 INFO: ------------------------------------------------------------------------
-18:04:51
-18:04:51.048 INFO: Total time: 0.684s
-18:04:51
-18:04:51.059 ERROR: Error during SonarQube Scanner execution
-18:04:51
-18:04:51.059 INFO: Final Memory: 4M/24M
-18:04:51
-18:04:51.059 INFO: ------------------------------------------------------------------------
-18:04:51
-java.lang.UnsupportedClassVersionError: org/sonar/batch/bootstrapper/EnvironmentInformation has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
-18:04:51
-	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
-18:04:51
-	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1017)
-18:04:51
-	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:174)
-18:04:51
-	at java.base/java.net.URLClassLoader.defineClass(URLClassLoader.java:550)
-18:04:51
-	at java.base/java.net.URLClassLoader$1.run(URLClassLoader.java:458)
-18:04:51
-	at java.base/java.net.URLClassLoader$1.run(URLClassLoader.java:452)
-18:04:51
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-18:04:51
-	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:451)
-18:04:51
-	at org.sonarsource.scanner.api.internal.IsolatedClassloader.loadClass(IsolatedClassloader.java:82)
-18:04:51
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
-18:04:51
-	at org.sonarsource.scanner.api.internal.batch.DefaultBatchFactory.createBatch(DefaultBatchFactory.java:32)
-18:04:51
-	at org.sonarsource.scanner.api.internal.batch.BatchIsolatedLauncher.execute(BatchIsolatedLauncher.java:46)
-18:04:51
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-18:04:51
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-18:04:51
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-18:04:51
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-18:04:51
-	at org.sonarsource.scanner.api.internal.IsolatedLauncherProxy.invoke(IsolatedLauncherProxy.java:60)
-18:04:51
-	at com.sun.proxy.$Proxy0.execute(Unknown Source)
-18:04:51
-	at org.sonarsource.scanner.api.EmbeddedScanner.doExecute(EmbeddedScanner.java:185)
-18:04:51
-	at org.sonarsource.scanner.api.EmbeddedScanner.execute(EmbeddedScanner.java:137)
-18:04:51
-	at org.sonarsource.scanner.cli.Main.execute(Main.java:111)
-18:04:51
-	at org.sonarsource.scanner.cli.Main.execute(Main.java:75)
-18:04:51
-	at org.sonarsource.scanner.cli.Main.main(Main.java:61)
-18:04:51
-Process returned exit code 1
-18:04:51
-The SonarQube Scanner did not complete successfully
-18:04:51
-18:04:51.415  Post-processing failed. Exit code: 1
+
+Not Runnable          Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest.UpdateDocumentTest
+18:25:46
+89/91 test(s) Passed, 2 Not Runnable
+18:25:46
+Summary
+18:25:46
+-------
+18:25:46
+Test Run Not Runnable.
+18:25:46
+  Passed        89
+18:25:46
+  Not Runnable   2
+18:25:46
+  ----------------
+18:25:46
+  Total         91
+18:25:46
+Results file:  E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\TestResult.trx
+18:25:46
+Test Settings: Default Test Settings
+18:25:46
+Run has the following issue(s):
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'DotNetZip' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.ReportViewer.DataVisualization' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.SqlServer.Types' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'System.ValueTuple' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.Data.Edm' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'Microsoft.OData.Core' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'System.Web.OData' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Warning: Test Run deployment issue: The assembly or module 'System.Web.Http.WebHost' directly or indirectly referenced by the test container 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\walmart.felgtsoft2000.mvc.tests\bin\debug\walmart.felgtsoft2000.mvc.tests.dll' was not found.
+18:25:46
+Committing...
+18:25:46
+No results, this could be for a number of reasons. The most common reasons are:
+18:25:46
+    1) missing PDBs for the assemblies that match the filter please review the
+18:25:46
+    output file and refer to the Usage guide (Usage.rtf) about filters.
+18:25:46
+    2) the profiler may not be registered correctly, please refer to the Usage
+18:25:46
+    guide and the -register switch.
