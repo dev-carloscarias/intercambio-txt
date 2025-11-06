@@ -1,45 +1,98 @@
-Executing flow featureFlow
-15:00:18
-ERROR: Process finished with exception
-15:00:18
-java.lang.IllegalStateException: Unable to find jdk release for version 17
-15:00:18
-	at io.takari.jdkget.model.JdkReleases.select(JdkReleases.java:189)
-15:00:18
-	at com.walmartlabs.looper.job.provisioner.tools.jdk.AbstractJDKGetInstaller.resolveConfig(AbstractJDKGetInstaller.java:78)
-15:00:18
-	at com.walmartlabs.looper.job.provisioner.tools.jdk.JDKToolDefinition.createInstallation(JDKToolDefinition.java:83)
-15:00:18
-	at com.walmartlabs.looper.job.provisioner.tools.jdk.JDKToolDefinition.createInstallation(JDKToolDefinition.java:1)
-15:00:18
-	at com.walmartlabs.looper.job.LooperJobBuildContext.createTools(LooperJobBuildContext.java:1089)
-15:00:18
-	at com.walmartlabs.looper.job.LooperJobBuildContext.lambda$9(LooperJobBuildContext.java:523)
-15:00:18
-	at com.walmartlabs.looper.utils.concurrent.InterruptibleSupplier.get(InterruptibleSupplier.java:27)
-15:00:18
-	at com.walmartlabs.looper.utils.concurrent.ExecutorHelper$1.get(ExecutorHelper.java:156)
-15:00:18
-	at com.walmartlabs.looper.utils.concurrent.InterruptAwareSupplier.get(InterruptAwareSupplier.java:61)
-15:00:18
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
-15:00:18
-	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1692)
-15:00:18
-	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
-15:00:18
-	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
-15:00:18
-	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
-15:00:18
-	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
-15:00:18
-	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
-15:00:18
-Build step 'LooperBuildStep' marked build as failure
-15:00:18
-Cleaning up temp dirs
-15:00:18
-* Deleting workspace 'E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20' at 'looperpro-prod-winb04-vs2019-prod-ndc23-1'...
-15:00:18
-Finished: FAILURE
+node: vs2019
+
+tools:
+  nuget: 4.1.0
+  maven: 3.5.0
+  sonarscanner-msbuild: 4.6.2.2108
+ 
+envs:
+  global:
+    variables:
+      sonarProject: cam-looper-felsrvgt-history-agent 
+
+branches:
+  - spec: main
+    triggers:
+      - pr:
+          disabled: true
+  - spec: release
+    triggers:
+      - push:
+          call: ReleaseFlow
+      - manual:
+          name: Make Release flow
+          call: ReleaseFlow
+      - pr:
+          disabled: true
+  - spec: stage
+    triggers:
+      - push:
+          call: StageFlow
+      - manual:
+          name: Make Stage flow
+          call: StageFlow
+      - pr:
+          disabled: true
+  - spec: develop
+    triggers:
+      - push:
+          call: DevFlow
+      - manual:
+          name: Make Dev flow
+          call: DevFlow
+      - pr:
+          disabled: false
+  - spec: feature/*
+    triggers:
+      - push:
+          call: featureFlow
+      - manual:
+          name: Make feature flow
+          call: featureFlow
+      - pr:
+          disabled: true
+          
+triggers:
+  - manual: Run default
+
+flows:
+  default:
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - node(windows):
+      - |
+       (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:cam-looper-felgt-monitornotification-lib /n:cam-looper-felgt-monitornotification-lib /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coveragereport.xml /d:sonar.cs.fxcop.fxCopCmdPath="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\FxCop\FxCopCmd.exe" /d:sonar.cs.nunit.reportsPaths=TestResult.xml
+      - (name restore) Nuget.exe restore Walmart.Felgt.NotificationLibrary.sln
+      - (name msbuild) "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" /t:build Walmart.Felgt.NotificationLibrary.sln
+      - (name sonar end) SonarScanner.MSBuild.exe end
+    - call: hygieia-publish
+  StageFlow:
+    - echo "Starting stage process"
+  DevFlow:
+    - echo "Starting dev process"
+  featureFlow:
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+  ReleaseFlow:
+    - echo "Starting release process"
+  setup:
+    - dir(Walmart.FELGT.HistoricAgent):
+      - nuget restore Walmart.FELGT.HistoricAgent.sln
+  build:
+    - dir(Walmart.FELGT.HistoricAgent):
+      - MSBuild.exe /t:Rebuild Walmart.FELGT.HistoricAgent.sln
+  package:
+    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
+  deploy:
+    - var(pom = "-DpomFile=pom.xml")
+    - var(file = "-Dfile=build.zip")
+    - var(url = "-Durl=https://repository.walmart.com/content/repositories/pangaea_snapshots")
+    - var(id = "-DrepositoryId=proximity")
+    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
+  hygieia-publish:
+    - hygieia.publishBuild() 
+    - hygieia.publishSonar()
