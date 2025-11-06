@@ -1,170 +1,141 @@
-18:25:47
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.roslyn.reportFilePath=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\Walmart.FelGTSoft2000.Mvc.Tests\\bin\\Debug\\Walmart.FelGTSoft2000.Mvc.Tests.dll.RoslynCA.json
-18:25:47
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.analyzer.projectOutPath=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\1
-18:25:47
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.analyzer.projectOutPaths=\
-18:25:47
-"E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\1"
-18:25:47
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.cs.roslyn.reportFilePaths=\
-18:25:47
-"E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\Walmart.FelGTSoft2000.Mvc.Tests\\bin\\Debug\\Walmart.FelGTSoft2000.Mvc.Tests.dll.RoslynCA.json"
-18:25:47
-219CBA80-BB1E-4246-BAE5-56839AD217D4.sonar.working.directory=E:\\jenkins\\workspace\\efi-sof2020-web\\feature_web-unit-tests-20\\ws\\.sonarqube\\out\\.sonar\\mod1
-18:25:47
-sonar.host.url=https://sonar.looper.prod.walmartlabs.com/
-18:25:47
-sonar.scm.enabled=false
-18:25:47
-sonar.cs.opencover.reportsPaths=coverage.xml
-18:25:47
-sonar.cs.vstest.reportsPaths=TestResult.trx
-18:25:47
-sonar.coverage.exclusions=**/Scripts/**,**/Content/**,**/fonts/**,**/packages/**,**/bin/**,**/obj/**,**/*.js,**/*.css,**/*.json,**/*.config,**/*.cshtml,**/Assemblies/**,**/*Tests/**
-18:25:47
-sonar.exclusions=**/Scripts/**,**/Content/**,**/fonts/**,**/packages/**,**/bin/**,**/obj/**,**/Assemblies/**
-18:25:47
-sonar.cs.fxcop.fxCopCmdPath=C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Team Tools\\Static Analysis Tools\\FxCop\\FxCopCmd.exe
-18:25:47
-sonar.language=cs
-18:25:47
+
+13:58:24
 sonar.visualstudio.enable=false
-18:25:47
+13:58:24
 sonar.modules=492C2BAF-1D76-4044-97A1-886869964579,219CBA80-BB1E-4246-BAE5-56839AD217D4
-18:25:47
+13:58:24
 ------------------------------------------------------------------------
-18:25:47
+13:58:24
 Writing processing summary to E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\ProjectInfo.log
-18:25:47
+13:58:24
 Calling the SonarQube Scanner...
-18:25:47
+13:58:24
 Executing file E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\sonar-scanner-msbuild-4.6.2.2108\sonar-scanner-3.3.0.1492\bin\sonar-scanner.bat
-18:25:47
+13:58:24
   Args: -Dsonar.scanAllFiles=true -Dproject.settings=E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\sonar-project.properties --embedded --debug 
-18:25:47
+13:58:24
   Working directory: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws
-18:25:47
+13:58:24
   Timeout (ms):-1
-18:25:47
-  Process id: 564
-18:25:47
-Picked up JAVA_TOOL_OPTIONS: -Dhttp.useProxy=true -Dhttps.useProxy=true -Dhttp.proxyHost=10.5.98.60 -Dhttp.proxyPort=58466 -Dhttps.proxyHost=10.5.98.60 -Dhttps.proxyPort=58466 -Dhttp.nonProxyHosts='localhost|127.0.0.1|cdn.cocoapods.org|*-keystone-endpoint.prod.walmart.com|cdn.jsdelivr.net|slack.com|*.blob.core.windows.net|mockDeliveryUrl|*.saucelabs.com|jira.walmart.com|*.prod.us.walmart.net|*.googleapis.com|euclid.azurecr.io|*xmatters.com|sandbox-cluboperations-claims.azurewebsites.net|accounts.google.com|usgta*.wal-mart.com|metadata.google.*|cloud.google.com|*ossindex.sonatype.org*|*.azure-api.net|sb.scorecardresearch.com|i.imgur.com|kafka-local-landoop|mock-server|vault|postgresql|active-mq|phonehome.hazelcast.com|*.azurewebsites.net|login.microsoftonline.com|dc.services.visualstudio.com|marketplace.walmartapis.com|*.saucelabs.com|blob.core.windows.net|file.appcenter.ms|testburst.walmart.com|tnest.walmart.com|gcr.io'
-18:25:47
-18:25:47.650 INFO: Scanner configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\sonar-scanner-msbuild-4.6.2.2108\sonar-scanner-3.3.0.1492\bin\..\conf\sonar-scanner.properties
-18:25:47
-18:25:47.654 INFO: Project root configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\sonar-project.properties
-18:25:47
-18:25:47.708 INFO: SonarQube Scanner 3.3.0.1492
-18:25:47
-18:25:47.709 INFO: Java 11.0.12 Azul Systems, Inc. (64-bit)
-18:25:47
-18:25:47.709 INFO: Windows Server 2016 10.0 amd64
-18:25:48
-18:25:47.855 DEBUG: keyStore is : 
-18:25:48
-18:25:47.855 DEBUG: keyStore type is : pkcs12
-18:25:48
-18:25:47.855 DEBUG: keyStore provider is : 
-18:25:48
-18:25:47.855 DEBUG: init keystore
-18:25:48
-18:25:47.856 DEBUG: init keymanager of type SunX509
-18:25:48
-18:25:48.003 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache
-18:25:48
-18:25:48.003 INFO: User cache: C:\Windows\system32\config\systemprofile\.sonar\cache
-18:25:48
-18:25:48.003 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache\_tmp
-18:25:48
-18:25:48.006 DEBUG: Extract sonar-scanner-api-batch in temp...
-18:25:48
-18:25:48.010 DEBUG: Get bootstrap index...
-18:25:48
-18:25:48.011 DEBUG: Download: https://sonar.looper.prod.walmartlabs.com/batch/index
-18:25:48
-18:25:48.298 DEBUG: Get bootstrap completed
-18:25:48
-18:25:48.300 DEBUG: Create isolated classloader...
-18:25:48
-18:25:48.310 DEBUG: Start temp cleaning...
-18:25:48
-18:25:48.313 DEBUG: Temp cleaning done
-18:25:48
-18:25:48.313 DEBUG: Execution getVersion
-18:25:48
-18:25:48.333 INFO: SonarQube server 2025.1.2.108896
-18:25:48
-18:25:48.334 INFO: Default locale: "en_US", source code encoding: "windows-1252" (analysis is platform dependent)
-18:25:48
-18:25:48.334 DEBUG: Work directory: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar
-18:25:48
-18:25:48.336 DEBUG: Execution execute
-18:25:48
-18:25:48.338 INFO: ------------------------------------------------------------------------
-18:25:48
-18:25:48.338 INFO: EXECUTION FAILURE
-18:25:48
-18:25:48.338 INFO: ------------------------------------------------------------------------
-18:25:48
-18:25:48.338 INFO: Total time: 0.698s
-18:25:48
-18:25:48.349 INFO: Final Memory: 4M/24M
-18:25:48
-18:25:48.350 ERROR: Error during SonarQube Scanner execution
-18:25:48
-18:25:48.350 INFO: ------------------------------------------------------------------------
-18:25:48
+13:58:24
+  Process id: 1788
+13:58:24
+Picked up JAVA_TOOL_OPTIONS: -Dhttp.useProxy=true -Dhttps.useProxy=true -Dhttp.proxyHost=10.5.98.60 -Dhttp.proxyPort=47216 -Dhttps.proxyHost=10.5.98.60 -Dhttps.proxyPort=47216 -Dhttp.nonProxyHosts='localhost|127.0.0.1|cdn.cocoapods.org|*-keystone-endpoint.prod.walmart.com|cdn.jsdelivr.net|slack.com|*.blob.core.windows.net|mockDeliveryUrl|*.saucelabs.com|jira.walmart.com|*.prod.us.walmart.net|*.googleapis.com|euclid.azurecr.io|*xmatters.com|sandbox-cluboperations-claims.azurewebsites.net|accounts.google.com|usgta*.wal-mart.com|metadata.google.*|cloud.google.com|*ossindex.sonatype.org*|*.azure-api.net|sb.scorecardresearch.com|i.imgur.com|kafka-local-landoop|mock-server|vault|postgresql|active-mq|phonehome.hazelcast.com|*.azurewebsites.net|login.microsoftonline.com|dc.services.visualstudio.com|marketplace.walmartapis.com|*.saucelabs.com|blob.core.windows.net|file.appcenter.ms|testburst.walmart.com|tnest.walmart.com|gcr.io'
+13:58:24
+13:58:24.702 INFO: Scanner configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\tools\win_64\sonar-scanner-msbuild-4.6.2.2108\sonar-scanner-3.3.0.1492\bin\..\conf\sonar-scanner.properties
+13:58:24
+13:58:24.706 INFO: Project root configuration file: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\sonar-project.properties
+13:58:25
+13:58:24.757 INFO: SonarQube Scanner 3.3.0.1492
+13:58:25
+13:58:24.757 INFO: Java 11.0.12 Azul Systems, Inc. (64-bit)
+13:58:25
+13:58:24.757 INFO: Windows Server 2016 10.0 amd64
+13:58:25
+13:58:24.892 DEBUG: keyStore is : 
+13:58:25
+13:58:24.893 DEBUG: keyStore type is : pkcs12
+13:58:25
+13:58:24.893 DEBUG: keyStore provider is : 
+13:58:25
+13:58:24.893 DEBUG: init keystore
+13:58:25
+13:58:24.893 DEBUG: init keymanager of type SunX509
+13:58:25
+13:58:25.036 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache
+13:58:25
+13:58:25.037 INFO: User cache: C:\Windows\system32\config\systemprofile\.sonar\cache
+13:58:25
+13:58:25.037 DEBUG: Create: C:\Windows\system32\config\systemprofile\.sonar\cache\_tmp
+13:58:25
+13:58:25.039 DEBUG: Extract sonar-scanner-api-batch in temp...
+13:58:25
+13:58:25.042 DEBUG: Get bootstrap index...
+13:58:25
+13:58:25.042 DEBUG: Download: https://sonar.looper.prod.walmartlabs.com/batch/index
+13:58:25
+13:58:25.316 DEBUG: Get bootstrap completed
+13:58:25
+13:58:25.318 DEBUG: Create isolated classloader...
+13:58:25
+13:58:25.328 DEBUG: Start temp cleaning...
+13:58:25
+13:58:25.331 DEBUG: Temp cleaning done
+13:58:25
+13:58:25.331 DEBUG: Execution getVersion
+13:58:25
+13:58:25.350 INFO: SonarQube server 2025.1.2.108896
+13:58:25
+13:58:25.351 INFO: Default locale: "en_US", source code encoding: "windows-1252" (analysis is platform dependent)
+13:58:25
+13:58:25.351 DEBUG: Work directory: E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\.sonarqube\out\.sonar
+13:58:25
+13:58:25.352 DEBUG: Execution execute
+13:58:25
+13:58:25.355 INFO: ------------------------------------------------------------------------
+13:58:25
+13:58:25.355 INFO: EXECUTION FAILURE
+13:58:25
+13:58:25.355 INFO: ------------------------------------------------------------------------
+13:58:25
+13:58:25.355 INFO: Total time: 0.663s
+13:58:25
+13:58:25.366 ERROR: Error during SonarQube Scanner execution
+13:58:25
+13:58:25.366 INFO: Final Memory: 4M/24M
+13:58:25
+13:58:25.366 INFO: ------------------------------------------------------------------------
+13:58:25
 java.lang.UnsupportedClassVersionError: org/sonar/batch/bootstrapper/EnvironmentInformation has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 55.0
-18:25:48
+13:58:25
 	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
-18:25:48
+13:58:25
 	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1017)
-18:25:48
+13:58:25
 	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:174)
-18:25:48
+13:58:25
 	at java.base/java.net.URLClassLoader.defineClass(URLClassLoader.java:550)
-18:25:48
+13:58:25
 	at java.base/java.net.URLClassLoader$1.run(URLClassLoader.java:458)
-18:25:48
+13:58:25
 	at java.base/java.net.URLClassLoader$1.run(URLClassLoader.java:452)
-18:25:48
+13:58:25
 	at java.base/java.security.AccessController.doPrivileged(Native Method)
-18:25:48
+13:58:25
 	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:451)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.internal.IsolatedClassloader.loadClass(IsolatedClassloader.java:82)
-18:25:48
+13:58:25
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.internal.batch.DefaultBatchFactory.createBatch(DefaultBatchFactory.java:32)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.internal.batch.BatchIsolatedLauncher.execute(BatchIsolatedLauncher.java:46)
-18:25:48
+13:58:25
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-18:25:48
+13:58:25
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-18:25:48
+13:58:25
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-18:25:48
+13:58:25
 	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.internal.IsolatedLauncherProxy.invoke(IsolatedLauncherProxy.java:60)
-18:25:48
+13:58:25
 	at com.sun.proxy.$Proxy0.execute(Unknown Source)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.EmbeddedScanner.doExecute(EmbeddedScanner.java:185)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.api.EmbeddedScanner.execute(EmbeddedScanner.java:137)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.cli.Main.execute(Main.java:111)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.cli.Main.execute(Main.java:75)
-18:25:48
+13:58:25
 	at org.sonarsource.scanner.cli.Main.main(Main.java:61)
-18:25:48
+13:58:25
 Process returned exit code 1
-18:25:48
+13:58:25
 The SonarQube Scanner did not complete successfully
-18:25:48
-18:25:48.71  Post-processing failed. Exit code: 1
+13:58:25
+13:58:25.722  Post-processing failed. Exit code: 1
