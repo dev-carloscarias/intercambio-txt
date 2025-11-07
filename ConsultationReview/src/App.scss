@@ -1,0 +1,101 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.consultation-review-provider {
+    @include media-breakpoint-up(mobile) {
+        padding-left: 1rem;
+    }
+    &-name {
+        font-size: 0.9375rem;
+        font-weight: $font-weight-bold;
+        color: $palette1;
+    }
+    &-data {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        color: $palette18;
+        margin-right: 0.5rem;
+        min-height: 1rem;
+        &-name {
+            font-weight: $font-weight-semibold;
+            margin-right: 0.25rem;
+        }
+        &-value {
+            display: flex;
+            align-items: center;
+        }
+        &-link {
+            position: relative;
+            color: $palette2;
+            z-index: 100;
+        }
+    }
+}
+
+.consultation-review {
+    @include media-breakpoint-up(mobile) {
+        padding-left: 2rem;
+    }
+    &-data {
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+        min-height: 1rem;
+        &-name {
+            font-weight: $font-weight-semibold;
+            margin-right: 0.25rem;
+            font-weight: $font-weight-bold;
+            color: $palette1;
+        }
+        &-value {
+            display: flex;
+            align-items: center;
+            color: $palette18;
+        }
+        &-link {
+            position: relative;
+            color: $palette2;
+            z-index: 100;
+        }
+    }
+}
+
+.consultation-review-table {
+    &.consultation-provider {
+        .table td {
+            background-color: $palette21;
+        }
+    }
+    @include media-breakpoint-up(mobile) {
+        .card-widget-table thead th {
+            padding-left: 2rem;
+        }
+    }
+}
+
+.consultation-review-icon-container {
+    position: relative;
+    height: 0.375rem;
+    .consultation-review-icon {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 500px;
+        height: 2rem;
+        width: 2rem;
+        background-color: $palette13;
+        border: 1px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        @include media-breakpoint-up(mobile) {
+            > svg {
+                transform-origin: center;
+                transform: rotate(90deg);
+            }
+        }
+    }
+}
