@@ -1,11 +1,9 @@
 Test	Duration	Traits	Error Message
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (4)	125 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (4)	125 ms		
-Class: CaiControllerTest Failed (1)	3 ms		
-CaiView_Get_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CaiView_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
-Class: DocumentDetailsControllerTest Failed (1)	56 ms		
-Index_Get_Test Failed	56 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.Index_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
-Class: ProductsControllerTest Failed (1)	63 ms		
-GetProductPaged_WithFilter_Test Failed	63 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.GetProductPaged_WithFilter_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: SftpFileTransferControllerTest Failed (1)	3 ms		
-UploadFile_Get_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
+CaiView_Get_Test Failed	8 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CaiView_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	90 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	90 ms		
+Class: CaiControllerTest Failed (1)	8 ms		
+Class: DocumentDetailsControllerTest Failed (1)	74 ms		
+Index_Get_Test Failed	74 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.Index_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
+Class: SftpFileTransferControllerTest Failed (1)	8 ms		
+UploadFile_Get_Test Failed	8 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
