@@ -1,27 +1,11 @@
 Test	Duration	Traits	Error Message
-Update_Get_DifferentCountries_Test Failed	32 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (18)	838 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (18)	838 ms		
-Class: CompanyControllerTest Failed (7)	630 ms		
-Add_Get_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Add_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Add_Post_DifferentCountries_Test Failed	302 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Add_Post_DifferentCountries_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-CompanyView_Test Failed	229 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.CompanyView_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-GetCompanyFilter_InvalidInput_Test Failed	21 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.GetCompanyFilter_InvalidInput_Test threw exception System.NotImplementedException, but exception System.ArgumentException was expected. Exception message: System.NotImplementedException: The method or operation is not implemented.
-JsonUpdate_ValidModel_Test Failed	22 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.JsonUpdate_ValidModel_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Update_Get_Test Failed	18 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: DocumentFiscalControllerTest Failed (1)	8 ms		
-Plantilla_Test Failed	8 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.Plantilla_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: DownloadFileTest Failed (1)	12 ms		
-DownloadFile_Get_Test Failed	12 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DownloadFileTest.DownloadFile_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: TaxControllerTest Failed (4)	97 ms		
-Add_Get_Test Failed	24 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Add_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-JsonUpdate_ValidModel_Test Failed	36 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.JsonUpdate_ValidModel_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-TaxView_Test Failed	8 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.TaxView_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Update_Get_Test Failed	29 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: UploadFileTest Failed (1)	24 ms		
-UploadFile_Get_Test Failed	24 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.UploadFileTest.UploadFile_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: VendorControllerTest Failed (4)	67 ms		
-Add_Get_DifferentCountries_Test Failed	12 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Add_Get_DifferentCountries_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Add_Get_Guatemala_Test Failed	9 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Add_Get_Guatemala_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Update_Get_DifferentCountries_Test Failed	17 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Update_Get_Test Failed	29 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (4)	183 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (4)	183 ms		
+Class: CaiControllerTest Failed (1)	4 ms		
+CaiView_Get_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CaiView_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
+Class: DocumentDetailsControllerTest Failed (1)	85 ms		
+Index_Get_Test Failed	85 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentDetailsControllerTest.Index_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
+Class: ProductsControllerTest Failed (1)	91 ms		
+GetProductPaged_WithFilter_Test Failed	91 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.ProductsControllerTest.GetProductPaged_WithFilter_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: SftpFileTransferControllerTest Failed (1)	3 ms		
+UploadFile_Get_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
