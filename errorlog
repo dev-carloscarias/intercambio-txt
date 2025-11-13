@@ -1,21 +1,95 @@
-Test	Duration	Traits	Error Message
-Update_Get_ValidModel_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (12)	191 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (12)	191 ms		
-Class: CompanyControllerTest Failed (3)	28 ms		
-Update_Get_DifferentCountries_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Update_Get_NullModel_Test Failed	10 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Update_Get_ValidModel_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: DocumentFiscalControllerTest Failed (1)	13 ms		
-Plantilla_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.Plantilla_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: FolioControllerTest Failed (3)	86 ms		
-Update_Get_NullModel_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Update_Get_SalvadorCountry_Test Failed	67 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_SalvadorCountry_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Update_Get_ValidModel_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: SftpFileTransferControllerTest Failed (1)	17 ms		
-UploadFile_Get_Test Failed	17 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Class: TaxControllerTest Failed (2)	28 ms		
-Update_Get_NullModel_Test Failed	22 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: VendorControllerTest Failed (2)	19 ms		
-Update_Get_DifferentCountries_Test Failed	10 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Update_Get_ValidModel_Test Failed	9 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+ Update_Get_DifferentCountries_Test
+   Source: CompanyControllerTest.cs line 748
+
+Test has multiple result outcomes
+   4 Failed
+
+Results
+
+    1)   Update_Get_DifferentCountries_Test 
+      Duration: 5 ms
+
+      Message: 
+Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+
+      Stack Trace: 
+HttpSessionProvider.get_SessionId()
+Breadcrumb.Add(String route, String label)
+<Update>d__11.MoveNext() line 36
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter`1.GetResult()
+<<Update_Get_DifferentCountries_Test>b__0>d.MoveNext() line 779
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter.GetResult()
+CompanyControllerTest.Update_Get_DifferentCountries_Test() line 777
+
+    2)   Update_Get_DifferentCountries_Test 
+      Duration: 3 ms
+
+      Message: 
+Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+
+      Stack Trace: 
+HttpSessionProvider.get_SessionId()
+Breadcrumb.Add(String route, String label)
+<Update>d__11.MoveNext() line 36
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter`1.GetResult()
+<<Update_Get_DifferentCountries_Test>b__0>d.MoveNext() line 779
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter.GetResult()
+CompanyControllerTest.Update_Get_DifferentCountries_Test() line 777
+
+    3)   Update_Get_DifferentCountries_Test 
+      Duration: 2 ms
+
+      Message: 
+Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+
+      Stack Trace: 
+HttpSessionProvider.get_SessionId()
+Breadcrumb.Add(String route, String label)
+<Update>d__11.MoveNext() line 36
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter`1.GetResult()
+<<Update_Get_DifferentCountries_Test>b__0>d.MoveNext() line 779
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter.GetResult()
+CompanyControllerTest.Update_Get_DifferentCountries_Test() line 777
+
+    4)   Update_Get_DifferentCountries_Test 
+      Duration: 2 ms
+
+      Message: 
+Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception: 
+System.NullReferenceException: Object reference not set to an instance of an object.
+
+      Stack Trace: 
+HttpSessionProvider.get_SessionId()
+Breadcrumb.Add(String route, String label)
+<Update>d__11.MoveNext() line 36
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter`1.GetResult()
+<<Update_Get_DifferentCountries_Test>b__0>d.MoveNext() line 779
+--- Fin del seguimiento de la pila de la ubicación anterior donde se produjo la excepción ---
+ExceptionDispatchInfo.Throw()
+TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+TaskAwaiter.GetResult()
+CompanyControllerTest.Update_Get_DifferentCountries_Test() line 777
