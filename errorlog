@@ -1,22 +1,21 @@
 Test	Duration	Traits	Error Message
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (13)	280 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (13)	280 ms		
-Class: CompanyControllerTest Failed (3)	8 ms		
-Update_Get_DifferentCountries_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_NullModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_ValidModel_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Class: DocumentFiscalControllerTest Failed (1)	5 ms		
-Plantilla_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.Plantilla_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Class: FolioControllerTest Failed (3)	58 ms		
-Update_Get_NullModel_Test Failed	51 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_SalvadorCountry_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_SalvadorCountry_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_ValidModel_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Class: SftpFileTransferControllerTest Failed (1)	2 ms		
-UploadFile_Get_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Class: TaxControllerTest Failed (2)	4 ms		
-Update_Get_NullModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_ValidModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Class: VendorControllerTest Failed (3)	203 ms		
-Update_Get_DifferentCountries_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
-Update_Get_NullModel_Test Failed	199 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_NullModel_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
-Update_Get_ValidModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_ValidModel_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (12)	191 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (12)	191 ms		
+Class: CompanyControllerTest Failed (3)	28 ms		
+Update_Get_DifferentCountries_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Update_Get_NullModel_Test Failed	10 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Update_Get_ValidModel_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: DocumentFiscalControllerTest Failed (1)	13 ms		
+Plantilla_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.Plantilla_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: FolioControllerTest Failed (3)	86 ms		
+Update_Get_NullModel_Test Failed	13 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Update_Get_SalvadorCountry_Test Failed	67 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_SalvadorCountry_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Update_Get_ValidModel_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: SftpFileTransferControllerTest Failed (1)	17 ms		
+UploadFile_Get_Test Failed	17 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
+Class: TaxControllerTest Failed (2)	28 ms		
+Update_Get_NullModel_Test Failed	22 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: VendorControllerTest Failed (2)	19 ms		
+Update_Get_DifferentCountries_Test Failed	10 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Update_Get_ValidModel_Test Failed	9 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_ValidModel_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
