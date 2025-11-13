@@ -1,4 +1,22 @@
-The type or namespace name 'ErrorResponse' could not be found (are you missing a using directive or an assembly reference?)
-The call is ambiguous between the following methods or properties: 'FolioController.Update(string)' and 'FolioController.Update(FolioViewModel)'
-'IMasterService' does not contain a definition for 'GetTaxes' and no accessible extension method 'GetTaxes' accepting a first argument of type 'IMasterService' could be found (are you missing a using directive or an assembly reference?)
-'IMasterService' does not contain a definition for 'GetTaxes' and no accessible extension method 'GetTaxes' accepting a first argument of type 'IMasterService' could be found (are you missing a using directive or an assembly reference?)
+Test	Duration	Traits	Error Message
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (13)	280 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (13)	280 ms		
+Class: CompanyControllerTest Failed (3)	8 ms		
+Update_Get_DifferentCountries_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_NullModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_ValidModel_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Class: DocumentFiscalControllerTest Failed (1)	5 ms		
+Plantilla_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.DocumentFiscalControllerTest.Plantilla_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Class: FolioControllerTest Failed (3)	58 ms		
+Update_Get_NullModel_Test Failed	51 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_SalvadorCountry_Test Failed	3 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_SalvadorCountry_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_ValidModel_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Class: SftpFileTransferControllerTest Failed (1)	2 ms		
+UploadFile_Get_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Get_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Class: TaxControllerTest Failed (2)	4 ms		
+Update_Get_NullModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_NullModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_ValidModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Class: VendorControllerTest Failed (3)	203 ms		
+Update_Get_DifferentCountries_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_DifferentCountries_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
+Update_Get_NullModel_Test Failed	199 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_NullModel_Test threw exception:  System.NotImplementedException: The method or operation is not implemented.
+Update_Get_ValidModel_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Get_ValidModel_Test threw exception:  System.ArgumentException: Ya hay una ruta con el nombre 'Default' en la colección de rutas. Los nombres de ruta deben ser únicos. Nombre del parámetro: name
