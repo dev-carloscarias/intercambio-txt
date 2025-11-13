@@ -1,13 +1,13 @@
 Test	Duration	Traits	Error Message
-Class: SftpFileTransferControllerTest Failed (1)	88 ms		
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	872 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	872 ms		
-Class: CaiControllerTest Failed (2)	272 ms		
-CreateCai_Post_ErrorResponse_Test Failed	86 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_ErrorResponse_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IMasterService.GetBaseAddressFromService("WalmartWebApi"); Expected #0, Actual #1.
-CreateCai_Post_Exception_Test Failed	186 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: CreateFolioControllerTest Failed (2)	452 ms		
-CreateFolio_Post_ErrorResponse_Test Failed	279 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_ErrorResponse_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IMasterService.GetBaseAddressFromService("WalmartWebApi"); Expected #0, Actual #1.
-CreateFolio_Post_Exception_Test Failed	173 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: FolioControllerTest Failed (1)	60 ms		
-Update_Post_ErrorResponse_Test Failed	60 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ErrorResponse_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IMasterService.GetBaseAddressFromService("WalmartWebApi"); Expected #0, Actual #1.
-UploadFile_Test Failed	88 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Test threw exception:  System.InvalidOperationException: The result for HttpRequestBase.get_Url(); has already been setup.
+CreateFolio_Post_ErrorResponse_Test Failed	260 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_ErrorResponse_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	970 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	970 ms		
+Class: CaiControllerTest Failed (2)	321 ms		
+CreateCai_Post_ErrorResponse_Test Failed	101 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_ErrorResponse_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+CreateCai_Post_Exception_Test Failed	220 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: CreateFolioControllerTest Failed (2)	489 ms		
+CreateFolio_Post_Exception_Test Failed	229 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: FolioControllerTest Failed (1)	59 ms		
+Update_Post_ErrorResponse_Test Failed	59 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ErrorResponse_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IMasterService.UpdateFolio(Walmart.Common.Models.WebApiRequest`1[Walmart.FelGTSoft2000.Mvc.Components.Folio], "GT"); Expected #0, Actual #1.
+Class: SftpFileTransferControllerTest Failed (1)	101 ms		
+UploadFile_Test Failed	101 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
