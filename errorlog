@@ -1,13 +1,1037 @@
-Test	Duration	Traits	Error Message
-CreateFolio_Post_ErrorResponse_Test Failed	260 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_ErrorResponse_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	970 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (6)	970 ms		
-Class: CaiControllerTest Failed (2)	321 ms		
-CreateCai_Post_ErrorResponse_Test Failed	101 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_ErrorResponse_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-CreateCai_Post_Exception_Test Failed	220 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: CreateFolioControllerTest Failed (2)	489 ms		
-CreateFolio_Post_Exception_Test Failed	229 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_Exception_Test threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: FolioControllerTest Failed (1)	59 ms		
-Update_Post_ErrorResponse_Test Failed	59 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ErrorResponse_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IMasterService.UpdateFolio(Walmart.Common.Models.WebApiRequest`1[Walmart.FelGTSoft2000.Mvc.Components.Folio], "GT"); Expected #0, Actual #1.
-Class: SftpFileTransferControllerTest Failed (1)	101 ms		
-UploadFile_Test Failed	101 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.SftpFileTransferControllerTest.UploadFile_Test threw exception:  System.InvalidOperationException: Previous method 'HttpContextBase.get_Request();' requires a return value or an exception to throw.
+UTA007: Method GetDocumentFiscalTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, return-type as void  and should not take any parameter. Example: public void Test.Class1.Test(). Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2()
+15:24:39
+UTA007: Method UpdateDocumentTest defined in class Walmart.FelGTSoft2000.Mvc.Tests.MasterServiceDocumentTest does not have correct signature. Test method marked with the [TestMethod] attribute must be non-static, public, return-type as void  and should not take any parameter. Example: public void Test.Class1.Test(). Additionally, return-type must be Task if you are running async unit tests. Example: public async Task Test.Class1.Test2()
+15:24:42
+  ? ConstructorTest [132ms]
+15:24:42
+  ? JsonModalUpdateTest [719ms]
+15:24:42
+  ? JsonModalUpdate_NullTest [526ms]
+15:24:44
+  ? JsonUpdateTest [254ms]
+15:24:44
+  ? JsonUpdate_NullTest [1ms]
+15:24:44
+  X CreateCai_Post_ValidModel_Test [540ms]
+15:24:44
+  Error Message:
+15:24:44
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_ValidModel_Test threw exception: 
+15:24:44
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:44
+Mapping types:
+15:24:44
+CaiViewModel -> Cai
+15:24:44
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:44
+Type Map configuration:
+15:24:44
+CaiViewModel -> Cai
+15:24:44
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:44
+Property:
+15:24:44
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:44
+  Stack Trace:
+15:24:44
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:44
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:44
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:44
+ --- End of inner exception stack trace ---
+15:24:44
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:44
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:44
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:44
+   at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:44
+ --- End of inner exception stack trace ---
+15:24:44
+    at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:44
+   at Walmart.FelGTSoft2000.Mvc.Components.CaiController.<CreateCai>d__8.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Cai\Controllers\CreateCaiController.cs:line 53
+15:24:44
+--- End of stack trace from previous location where exception was thrown ---
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:44
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.<>c__DisplayClass10_0.<<CreateCai_Post_ValidModel_Test>b__1>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 216
+15:24:44
+--- End of stack trace from previous location where exception was thrown ---
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:44
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:44
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.CreateCai_Post_ValidModel_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 214
+15:24:44
+  ? CreateCai_Post_InvalidModel_Test [44ms]
+15:24:44
+  ? JsonModalAddTest [502ms]
+15:24:45
+  ? JsonModalAdd_NullTest [502ms]
+15:24:45
+  ? JsonModalUpdateInactiveTest [502ms]
+15:24:45
+  ? JsonModalUpdateInactive_NullTest [501ms]
+15:24:45
+  ? JsonUpdateInactiveTest [2ms]
+15:24:45
+  ? JsonUpdateInactive_NullTest [< 1ms]
+15:24:45
+  ? GetAllCais_Test [117ms]
+15:24:45
+  ? GetAllCais_Exception_Test [2ms]
+15:24:45
+  ? TableActionCollection_ValidModel_Test [2ms]
+15:24:45
+  ? TableActionCollection_NullModel_Test [1ms]
+15:24:45
+  ? TableActionSingle_ValidModel_Test [2ms]
+15:24:45
+  ? TableActionSingle_NullModel_Test [1ms]
+15:24:45
+  ? ActiveCai_NullModel_Test [27ms]
+15:24:45
+  ? ActiveCai_InvalidNumeroCai_Test [31ms]
+15:24:45
+  ? ActiveCai_InvalidBaseAddress_Test [37ms]
+15:24:45
+  X ActiveCai_ValidModel_Success_Test [44ms]
+15:24:45
+  Error Message:
+15:24:45
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.ActiveCai_ValidModel_Success_Test threw exception: 
+15:24:45
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:45
+Mapping types:
+15:24:45
+CaiViewModel -> Cai
+15:24:45
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:45
+Type Map configuration:
+15:24:45
+CaiViewModel -> Cai
+15:24:45
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:45
+Property:
+15:24:45
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:45
+  Stack Trace:
+15:24:45
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:45
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:45
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:45
+ --- End of inner exception stack trace ---
+15:24:45
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:45
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:45
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:45
+   at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:45
+ --- End of inner exception stack trace ---
+15:24:45
+    at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Components.CaiController.<ActiveCai>d__0.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Cai\Controllers\ActiveCaiController.cs:line 125
+15:24:45
+--- End of stack trace from previous location where exception was thrown ---
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.<>c__DisplayClass27_0.<<ActiveCai_ValidModel_Success_Test>b__0>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 722
+15:24:45
+--- End of stack trace from previous location where exception was thrown ---
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.ActiveCai_ValidModel_Success_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 720
+15:24:45
+  X ActiveCai_ErrorResponse_Test [36ms]
+15:24:45
+  Error Message:
+15:24:45
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.ActiveCai_ErrorResponse_Test threw exception: 
+15:24:45
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:45
+Mapping types:
+15:24:45
+CaiViewModel -> Cai
+15:24:45
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:45
+Type Map configuration:
+15:24:45
+CaiViewModel -> Cai
+15:24:45
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:45
+Property:
+15:24:45
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:45
+  Stack Trace:
+15:24:45
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:45
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:45
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:45
+ --- End of inner exception stack trace ---
+15:24:45
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:45
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:45
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:45
+   at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:45
+ --- End of inner exception stack trace ---
+15:24:45
+    at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Components.CaiController.<ActiveCai>d__0.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Cai\Controllers\ActiveCaiController.cs:line 125
+15:24:45
+--- End of stack trace from previous location where exception was thrown ---
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.<>c__DisplayClass28_0.<<ActiveCai_ErrorResponse_Test>b__0>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 773
+15:24:45
+--- End of stack trace from previous location where exception was thrown ---
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:45
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:45
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.ActiveCai_ErrorResponse_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 771
+15:24:45
+  ? InactiveCai_NullModel_Test [4ms]
+15:24:45
+  ? InactiveCai_InvalidNumeroCai_Test [34ms]
+15:24:46
+  ? InactiveCai_InvalidBaseAddress_Test [30ms]
+15:24:46
+  X InactiveCai_ValidModel_Success_Test [37ms]
+15:24:46
+  Error Message:
+15:24:46
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_ValidModel_Success_Test threw exception: 
+15:24:46
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:46
+Mapping types:
+15:24:46
+CaiViewModel -> Cai
+15:24:46
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:46
+Type Map configuration:
+15:24:46
+CaiViewModel -> Cai
+15:24:46
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:46
+Property:
+15:24:46
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:46
+  Stack Trace:
+15:24:46
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:46
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:46
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:46
+ --- End of inner exception stack trace ---
+15:24:46
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:46
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:46
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:46
+   at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:46
+ --- End of inner exception stack trace ---
+15:24:46
+    at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Components.CaiController.<InactiveCai>d__10.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Cai\Controllers\InactiveCaiController.cs:line 121
+15:24:46
+--- End of stack trace from previous location where exception was thrown ---
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.<>c__DisplayClass32_0.<<InactiveCai_ValidModel_Success_Test>b__0>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 921
+15:24:46
+--- End of stack trace from previous location where exception was thrown ---
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_ValidModel_Success_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 919
+15:24:46
+  X InactiveCai_ErrorResponse_Test [32ms]
+15:24:46
+  Error Message:
+15:24:46
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_ErrorResponse_Test threw exception: 
+15:24:46
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:46
+Mapping types:
+15:24:46
+CaiViewModel -> Cai
+15:24:46
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:46
+Type Map configuration:
+15:24:46
+CaiViewModel -> Cai
+15:24:46
+Walmart.FelGTSoft2000.Mvc.Components.CaiViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Cai
+15:24:46
+Property:
+15:24:46
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:46
+  Stack Trace:
+15:24:46
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:46
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:46
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:46
+ --- End of inner exception stack trace ---
+15:24:46
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:46
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:46
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:46
+   at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:46
+ --- End of inner exception stack trace ---
+15:24:46
+    at lambda_method(Closure , CaiViewModel , Cai , ResolutionContext )
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Components.CaiController.<InactiveCai>d__10.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Cai\Controllers\InactiveCaiController.cs:line 121
+15:24:46
+--- End of stack trace from previous location where exception was thrown ---
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.<>c__DisplayClass33_0.<<InactiveCai_ErrorResponse_Test>b__0>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 972
+15:24:46
+--- End of stack trace from previous location where exception was thrown ---
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:46
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:46
+   at Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_ErrorResponse_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Cai\Controllers\CaiControllerTest.cs:line 970
+15:24:46
+  ? ConstructorTest [< 1ms]
+15:24:46
+  ? GetAll_Test [36ms]
+15:24:46
+  ? Add_Post_ValidModel_Test [56ms]
+15:24:46
+  ? Add_Post_InvalidModel_Test [2ms]
+15:24:46
+  ? JsonModalUpdateTest [506ms]
+15:24:46
+  ? JsonModalUpdate_NullTest [502ms]
+15:24:47
+  ? JsonUpdate_NullTest [1ms]
+15:24:47
+  ? Delete_NullModel_Test [1ms]
+15:24:47
+  ? Delete_ValidModel_Test [32ms]
+15:24:47
+  ? JsonModalDelete_ValidModel_Test [502ms]
+15:24:47
+  ? JsonModalDelete_NullModel_Test [501ms]
+15:24:47
+  ? GetCompanyBasic_Test [58ms]
+15:24:47
+  ? GetCompanyBasic_Exception_Test [34ms]
+15:24:47
+  ? GetCompanyFilter_ValidParameters_Test [37ms]
+15:24:47
+  ? GetCompanyFilter_Exception_Test [2ms]
+15:24:48
+  ? Update_Post_ValidModel_Test [34ms]
+15:24:48
+  ? Update_Post_DifferentCountries_Test [39ms]
+15:24:48
+  ? Update_Post_InvalidModel_Test [2ms]
+15:24:48
+  ? Update_Post_ErrorResponse_Test [33ms]
+15:24:48
+  ? Constructor_Test [< 1ms]
+15:24:48
+  ? GetDocumentDetaislsByName_Test [69ms]
+15:24:48
+  ? GetDocumentDetaislsByName_WithDates_Test [39ms]
+15:24:48
+  ? GetDocumentDetaislsByName_Exception_Test [1ms]
+15:24:48
+  ? GetDocumentFiscalPaged_Test [85ms]
+15:24:48
+  ? GetDocumentFiscalPaged_WithFilter_Test [53ms]
+15:24:48
+  ? GetDocumentFiscalPaged_WithSearch_Test [42ms]
+15:24:48
+  ? GetDocumentFiscalPaged_Exception_Test [2ms]
+15:24:48
+  ? TableActionCollection_ValidModel_Test [14ms]
+15:24:48
+  ? TableActionCollection_NullModel_Test [2ms]
+15:24:48
+  ? TableActionSingle_ValidModel_Test [2ms]
+15:24:48
+  ? TableActionSingle_NullModel_Test [1ms]
+15:24:48
+  ? GetDocumentSelectListTest [159ms]
+15:24:48
+  ? GetTaxSelectList_ExceptionTest [1ms]
+15:24:49
+  ? NotaCredito_ExceptionTest [1ms]
+15:24:49
+  ? Add_ValidModel_Test [43ms]
+15:24:49
+  ? Add_InvalidModel_Test [1ms]
+15:24:49
+  ? Add_ErrorResponse_Test [39ms]
+15:24:49
+  ? Add_Exception_Test [38ms]
+15:24:49
+  ? JsonModalAdd_ValidModel_Test [502ms]
+15:24:49
+  ? JsonModalAdd_NullModel_Test [501ms]
+15:24:49
+  ? Delete_NullModel_Test [2ms]
+15:24:49
+  ? Delete_ValidModel_Test [44ms]
+15:24:50
+  ? JsonModalDelete_ValidModel_Test [501ms]
+15:24:50
+  ? JsonModalDelete_NullModel_Test [501ms]
+15:24:50
+  ? Index_Test [2ms]
+15:24:50
+  ? GetDocumentFiscalBasic_Test [55ms]
+15:24:50
+  ? GetDocumentFiscalBasic_Exception_Test [1ms]
+15:24:50
+  ? Update_Post_ValidModel_Test [38ms]
+15:24:50
+  ? Update_Post_NullModel_Test [1ms]
+15:24:50
+  ? AssingConsecutive_Post_ValidModel_Test [45ms]
+15:24:50
+  ? AssingConsecutive_Post_NullModel_Test [1ms]
+15:24:51
+  ? NotaCredito_Post_ValidModel_Test [40ms]
+15:24:51
+  ? NotaCredito_Post_NullModel_Test [1ms]
+15:24:51
+  ? GetDocumentFiscalLines_Test [65ms]
+15:24:51
+  ? GetDocumentFiscalLines_Exception_Test [7ms]
+15:24:51
+  ? GetDocumentFiscalFilter_Test [39ms]
+15:24:51
+  ? GetDocumentFiscalFilter_NullParameters_Test [39ms]
+15:24:51
+  X CreateFolio_Post_ValidModel_Test [54ms]
+15:24:51
+  Error Message:
+15:24:51
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_ValidModel_Test threw exception: 
+15:24:51
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:51
+Mapping types:
+15:24:51
+FolioViewModel -> Folio
+15:24:51
+Walmart.FelGTSoft2000.Mvc.Components.FolioViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Folio
+15:24:51
+Type Map configuration:
+15:24:51
+FolioViewModel -> Folio
+15:24:51
+Walmart.FelGTSoft2000.Mvc.Components.FolioViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Folio
+15:24:51
+Property:
+15:24:51
+LimiteEmision ---> System.FormatException: 31/12/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:51
+  Stack Trace:
+15:24:51
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:51
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:51
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:51
+ --- End of inner exception stack trace ---
+15:24:51
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:51
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:51
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:51
+   at lambda_method(Closure , FolioViewModel , Folio , ResolutionContext )
+15:24:51
+ --- End of inner exception stack trace ---
+15:24:51
+    at lambda_method(Closure , FolioViewModel , Folio , ResolutionContext )
+15:24:51
+   at Walmart.FelGTSoft2000.Mvc.Components.FolioController.<CreateFolio>d__1.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Folio\Controllers\CreateFolioController.cs:line 54
+15:24:51
+--- End of stack trace from previous location where exception was thrown ---
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:51
+   at Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.<>c__DisplayClass6_0.<<CreateFolio_Post_ValidModel_Test>b__1>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\CreateFolioControllerTest.cs:line 126
+15:24:51
+--- End of stack trace from previous location where exception was thrown ---
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:51
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:51
+   at Walmart.FelGTSoft2000.Mvc.Tests.CreateFolioControllerTest.CreateFolio_Post_ValidModel_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\CreateFolioControllerTest.cs:line 124
+15:24:51
+  ? CreateFolio_Post_InvalidModel_Test [28ms]
+15:24:51
+  ? JsonModalAddTest [502ms]
+15:24:52
+  ? JsonModalAdd_NullTest [501ms]
+15:24:52
+  ? ConstructorTest [< 1ms]
+15:24:52
+  ? GetAllFolios_Test [41ms]
+15:24:52
+  ? GetAll_Test [3ms]
+15:24:52
+  ? GetAll_Exception_Test [1ms]
+15:24:52
+  ? TableActionCollection_Test [5ms]
+15:24:52
+  ? TableActionCollection_Null_Test [1ms]
+15:24:52
+  ? TableActionSingle_Test [2ms]
+15:24:52
+  ? TableActionSingle_Null_Test [1ms]
+15:24:52
+  X Update_Post_ValidModel_Test [40ms]
+15:24:52
+  Error Message:
+15:24:52
+   Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ValidModel_Test threw exception: 
+15:24:52
+AutoMapper.AutoMapperMappingException: Error mapping types.
+15:24:52
+Mapping types:
+15:24:52
+FolioViewModel -> Folio
+15:24:52
+Walmart.FelGTSoft2000.Mvc.Components.FolioViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Folio
+15:24:52
+Type Map configuration:
+15:24:52
+FolioViewModel -> Folio
+15:24:52
+Walmart.FelGTSoft2000.Mvc.Components.FolioViewModel -> Walmart.FelGTSoft2000.Mvc.Components.Folio
+15:24:52
+Property:
+15:24:52
+LimiteEmision ---> System.FormatException: 13/11/2025 is not a valid value for DateTime. ---> System.FormatException: String was not recognized as a valid DateTime.
+15:24:52
+  Stack Trace:
+15:24:52
+      at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+15:24:52
+   at System.DateTime.Parse(String s, IFormatProvider provider)
+15:24:52
+   at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:52
+ --- End of inner exception stack trace ---
+15:24:52
+    at System.ComponentModel.DateTimeConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+15:24:52
+   at System.ComponentModel.TypeConverter.ConvertFrom(Object value)
+15:24:52
+   at AutoMapper.Mappers.TypeConverterMapper.Map[TSource,TDestination](TSource source)
+15:24:52
+   at lambda_method(Closure , FolioViewModel , Folio , ResolutionContext )
+15:24:52
+ --- End of inner exception stack trace ---
+15:24:52
+    at lambda_method(Closure , FolioViewModel , Folio , ResolutionContext )
+15:24:52
+   at Walmart.FelGTSoft2000.Mvc.Components.FolioController.<Update>d__14.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc\App\Components\Folio\Controllers\Update.cs:line 92
+15:24:52
+--- End of stack trace from previous location where exception was thrown ---
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+15:24:52
+   at Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.<>c__DisplayClass14_0.<<Update_Post_ValidModel_Test>b__1>d.MoveNext() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\FolioControllerTest.cs:line 386
+15:24:52
+--- End of stack trace from previous location where exception was thrown ---
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+15:24:52
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+15:24:52
+   at Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ValidModel_Test() in E:\jenkins\workspace\efi-sof2020-web\feature_web-unit-tests-20\ws\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\FolioControllerTest.cs:line 384
+15:24:52
+  ? Update_Post_InvalidModel_Test [28ms]
+15:24:52
+  ? JsonUpdateTest [1ms]
+15:24:52
+  ? JsonUpdate_NullTest [< 1ms]
+15:24:52
+  ? AboutTest [< 1ms]
+15:24:52
+  ? ConstructorTest [< 1ms]
+15:24:52
+  ? GetLogDocumentFilter_Test [59ms]
+15:24:52
+  ? GetLogDocumentFilter_NullDates_Test [39ms]
+15:24:52
+  ? GetDocumentFiscalPaged_Test [42ms]
+15:24:52
+  ? GetDocumentFiscalPaged_WithFilter_Test [35ms]
+15:24:52
+  ? TableActionCollection_Test [2ms]
+15:24:52
+  ? TableActionCollection_Null_Test [1ms]
+15:24:52
+  ? TableActionSingle_Test [2ms]
+15:24:52
+  ? TableActionSingle_Null_Test [1ms]
+15:24:52
+  ? ConstructorTest [< 1ms]
+15:24:52
+  ? GetLogErrorFilter_Test [57ms]
+15:24:52
+  ? GetLogErrorFilter_NullDates_Test [32ms]
+15:24:52
+  ? GetDocumentSelectListTest [3ms]
+15:24:54
+  ? GetTaxSelectList_ExceptionTest [1ms]
+15:24:54
+  ? NotaCredito_ExceptionTest [1ms]
+15:24:54
+  ? JsonModalAddTest [506ms]
+15:24:54
+  ? JsonModalAdd_NullTest [502ms]
+15:24:55
+  ? JsonModalUpdateTest [502ms]
+15:24:55
+  ? JsonModalUpdate_NullTest [501ms]
+15:24:55
+  ? JsonUpdateTest [2ms]
+15:24:55
+  ? JsonUpdate_NullTest [< 1ms]
+15:24:55
+  ? JsonModalDeleteTest [502ms]
+15:24:55
+  ? JsonModalDelete_NullTest [501ms]
+15:24:55
+  ? Add_Get_Test [4ms]
+15:24:55
+  ? Add_Post_ValidModel_Test [36ms]
+15:24:55
+  ? Add_Post_InvalidModel_Test [1ms]
+15:24:55
+  ? Add_Post_ErrorResponse_Test [1ms]
+15:24:55
+  ? Add_Post_Exception_Test [1ms]
+15:24:55
+  ? Delete_Get_Test [1ms]
+15:24:55
+  ? Delete_Post_ValidModel_Test [36ms]
+15:24:55
+  ? Delete_Post_InvalidModel_Test [1ms]
+15:24:55
+  ? Delete_Post_ErrorResponse_Test [1ms]
+15:24:55
+  ? Update_Get_Test [1ms]
+15:24:55
+  ? Update_Post_ValidModel_Test [32ms]
+15:24:55
+  ? Update_Post_InvalidModel_Test [1ms]
+15:24:55
+  ? Update_Post_ErrorResponse_Test [1ms]
+15:24:55
+  ? ToolBar_Get_Test [1ms]
+15:24:55
+  ? Paged_Get_Test [1ms]
+15:24:55
+  ? Basic_Get_Test [1ms]
+15:24:55
+  ? Menu_Get_Test [1ms]
+15:24:55
+  ? MenuModal_Get_Test [1ms]
+15:24:55
+  ? Links_Get_Test [1ms]
+15:24:55
+  ? CheckBoxes_Get_Test [1ms]
+15:24:55
+  ? Extensions_Get_Test [1ms]
+15:24:55
+  ? Search_Get_Test [1ms]
+15:24:55
+  ? Sorting_Get_Test [1ms]
+15:24:55
+  ? ColumnStyles_Get_Test [1ms]
+15:24:55
+  ? TabPanes_Get_Test [1ms]
+15:24:55
+  ? GetProductBasic_Test [57ms]
+15:24:55
+  ? GetProductBasic_Exception_Test [44ms]
+15:24:55
+  ? GetProductPaged_Test [36ms]
+15:24:55
+  ? GetProductPaged_WithFilter_Test [33ms]
+15:24:55
+  ? GetProductPaged_WithSearch_Test [37ms]
+15:24:55
+  ? GetProductPaged_Exception_Test [2ms]
+15:24:55
+  ? TableActionCollection_ValidModel_Test [2ms]
+15:24:55
+  ? TableActionCollection_NullModel_Test [1ms]
+15:24:55
+  ? TableActionSingle_ValidModel_Test [1ms]
+15:24:55
+  ? TableActionSingle_NullModel_Test [1ms]
+15:24:56
+  ? GetCountrySelectList_Test [1ms]
+15:24:56
+  ? GetCountrySelectList_Exception_Test [1ms]
+15:24:56
+  ? ConstructorTest [16ms]
+15:24:56
+  ? ReportNameHelperTest [< 1ms]
+15:24:56
+  ? Constructor_Test [< 1ms]
+15:24:56
+  ? Properties_Test [1ms]
+15:24:56
+  ? DownloadFile_Post_Success_Test [117ms]
+15:24:56
+  ? DownloadFile_Post_Error_Test [1ms]
+15:24:56
+  ? ConstructorTest [< 1ms]
+15:24:57
+  ? SftpClientHelperTest [< 1ms]
+15:24:57
+  ? FileSystemTest [< 1ms]
+15:24:57
+  ? Add_ModelStateFalseTest [3ms]
+15:24:57
+  ? JsonModalAddTest [505ms]
+15:24:57
+  ? JsonModalAdd_NullTest [502ms]
+15:24:57
+  ? Update_ModelStateFalseTest [2ms]
+15:24:59
+  ? JsonModalUpdateTest [502ms]
+15:24:59
+  ? JsonModalUpdate_NullTest [501ms]
+15:24:59
+  ? JsonUpdateTest [37ms]
+15:24:59
+  ? JsonUpdate_NullTest [< 1ms]
+15:24:59
+  ? Delete_NullModel_Test [1ms]
+15:24:59
+  ? Delete_ValidModel_Test [34ms]
+15:24:59
+  ? JsonModalDelete_ValidModel_Test [502ms]
+15:24:59
+  ? JsonModalDelete_NullModel_Test [501ms]
+15:24:59
+  ? GetTaxBasic_Test [73ms]
+15:24:59
+  ? GetTaxBasic_Exception_Test [33ms]
+15:24:59
+  ? GetTaxFilter_ValidParameters_Test [39ms]
+15:24:59
+  ? GetTaxFilter_InvalidCodigoImpuesto_Test [1ms]
+15:24:59
+  ? GetTaxFilter_Exception_Test [1ms]
+15:24:59
+  ? GetTaxPaged_Test [41ms]
+15:24:59
+  ? GetTaxPaged_Exception_Test [2ms]
+15:24:59
+  ? TableActionCollection_ValidModel_Test [2ms]
+15:24:59
+  ? TableActionCollection_NullModel_Test [1ms]
+15:24:59
+  ? TableActionSingle_ValidArray_Test [1ms]
+15:24:59
+  ? TableActionSingle_NullArray_Test [< 1ms]
+15:24:59
+  ? Add_Post_ValidModel_Test [38ms]
+15:24:59
+  ? Add_Post_InvalidModel_Test [1ms]
+15:24:59
+  ? Add_Post_ErrorResponse_Test [1ms]
+15:24:59
+  ? Add_Post_Exception_Test [1ms]
+15:24:59
+  ? Update_Post_ValidModel_Test [34ms]
+15:24:59
+  ? Update_Post_InvalidModel_Test [1ms]
+15:24:59
+  ? Update_Post_ErrorResponse_Test [31ms]
+15:24:59
+  ? GetTaxesSelectList_Test [3ms]
+15:24:59
+  ? GetTaxesSelectList_Exception_Test [1ms]
+15:24:59
+  ! LogOffTest
+15:24:59
+  ? Add_Post_ValidModel_SV_Test [41ms]
+15:24:59
+  ? Add_Post_ValidModel_DifferentCountries_Test [39ms]
+15:24:59
+  ? Add_Post_InvalidModel_Test [1ms]
+15:24:59
+  ? Add_Post_ErrorResponse_Test [33ms]
+15:24:59
+  ? Add_Post_Exception_Test [35ms]
+15:25:00
+  ? GetVendorItem_Test [37ms]
+15:25:00
+  ? GetVendorItem_Exception_Test [1ms]
+15:25:00
+  ? JsonModalAddTest [506ms]
+15:25:00
+  ? JsonModalAdd_NullTest [501ms]
+15:25:00
+  ? Update_Post_ValidModel_Test [36ms]
+15:25:00
+  ? Update_Post_Salvador_Test [33ms]
+15:25:00
+  ? Update_Post_DifferentCountries_Test [43ms]
+15:25:00
+  ? Update_Post_InvalidModel_Test [2ms]
+15:25:00
+  ? Update_Post_ErrorResponse_Test [44ms]
+15:25:02
+  ? JsonModalUpdateTest [503ms]
+15:25:02
+  ? JsonModalUpdate_NullTest [501ms]
+15:25:02
+  ? JsonUpdateTest [3ms]
+15:25:02
+  ? JsonUpdate_NullTest [< 1ms]
+15:25:02
+  ? Inactivate_Post_ValidModel_Test [37ms]
+15:25:02
+  ? Inactivate_Post_NullModel_Test [1ms]
+15:25:02
+  ? Activate_Post_ValidModel_Test [40ms]
+15:25:02
+  ? Activate_Post_NullModel_Test [1ms]
+15:25:03
+  ? JsonModalDelete_ValidModel_Test [503ms]
+15:25:03
+  ? JsonModalDelete_NullModel_Test [502ms]
+15:25:03
+  ? GetVendorBasic_Test [44ms]
+15:25:03
+  ? GetVendorBasic_SV_Test [46ms]
+15:25:03
+  ? GetVendorBasic_Exception_Test [39ms]
+15:25:03
+  ? GetVendorFilter_Test [35ms]
+15:25:03
+  ? GetVendorFilter_SV_Test [43ms]
+15:25:03
+  ? GetVendorPaged_Test [43ms]
+15:25:03
+  ? GetVendorPaged_WithFilter_Test [35ms]
+15:25:03
+  ? GetVendorPaged_WithSearch_Test [36ms]
+15:25:03
+  ? TableActionCollection_Test [2ms]
+15:25:03
+  ? TableActionCollection_Null_Test [1ms]
+15:25:03
+  ? TableActionSingle_Test [2ms]
+15:25:03
+  ? TableActionSingle_Null_Test [1ms]
+15:25:03
+  ? Constructor_Test [< 1ms]
+15:25:03
+  ? Properties_Test [1ms]
+15:25:03
+  ? CargarConfiguracion_UseAkeylessFalse_Test [< 1ms]
+15:25:03
+  ? GetSecret_UseAkeylessFalse_Test [1ms]
+15:25:03
+  ? GetSecret_NullKey_Test [< 1ms]
+15:25:03
+  ? GetSecret_EmptyKey_Test [< 1ms]
+15:25:03
+  ? GetUserRole_ValidClaimsIdentity_Test [< 1ms]
+15:25:03
+  ? GetUserRole_DifferentRole_Test [< 1ms]
+15:25:03
+  ! GetIdentityNameTest
+15:25:03
+  ? CreateAuditTrailTest [91ms]
+15:25:03
+  ? GenerarBpmNotaCreditoTest [50ms]
+15:25:03
+  ? GetBpmNotaCreditoFilterTest [2ms]
+15:25:03
+  ? UpdateDocumentBpmNCTest [3ms]
+15:25:03
+  ? GetCountriesTest [5ms]
+15:25:03
+  ? GetDocumentFiscalTest [3ms]
+15:25:03
+  ? GetDocumentFiscalLineTest [3ms]
+15:25:03
+  ? GetTaxTest [3ms]
+15:25:03
+  ? GetAllCaisTest [5ms]
+15:25:03
+  ? CreateCaiTest [2ms]
+15:25:03
+  ? ActiveCaiTest [3ms]
+15:25:03
+  ? InactiveCaiTest [3ms]
+15:25:03
+  ? GetAllTest [5ms]
+15:25:03
+  ? GetDocumentFiscalLineTest [5ms]
+15:25:03
+  ? AddDocumentFiscalLineTest [3ms]
+15:25:03
+  ? UpdateDocumentFiscalLineTest [3ms]
+15:25:03
+  ? DeleteDocumentFiscalLineTest [3ms]
+15:25:03
+  ? GetAllFoliosTest [6ms]
+15:25:03
+  ? CreateFolioTest [3ms]
+15:25:03
+  ? UpdateFolioTest [3ms]
+15:25:03
+  ? GetLogDocumentFilterTest [6ms]
+15:25:03
+  ? GetLogErrorFilterTest [4ms]
+15:25:03
+  ? GetProductsTest [4ms]
+15:25:03
+  ? AddProductTest [2ms]
+15:25:03
+  ? UpdateProductTest [3ms]
+15:25:03
+  ? DeleteProductTest [2ms]
+15:25:03
+  ? GetTaxTest [6ms]
+15:25:03
+  ? GetVendorTest [4ms]
+15:25:03
+  ? AddVendorTest [3ms]
+15:25:03
+  ? UpdateVendorTest [3ms]
+15:25:03
+Test Run Failed.
+15:25:03
+Total tests: 280
+15:25:03
+     Passed: 271
+15:25:03
+     Failed: 7
+15:25:03
+    Skipped: 2
+15:25:03
+ Total time: 24.6568 Seconds
