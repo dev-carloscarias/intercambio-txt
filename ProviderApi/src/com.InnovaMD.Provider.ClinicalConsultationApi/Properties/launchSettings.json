@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "com.InnovaMD.Provider.ClinicalConsultationApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64062;http://localhost:64063"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "2773WnauKCdL4xsUIujLlqgb0u3fS5qjoKEVBZgIwOQ=",
+  "Source": "com.InnovaMD.Provider.ClinicalConsultationApi",
+  "BasePath": "_content/com.InnovaMD.Provider.ClinicalConsultationApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

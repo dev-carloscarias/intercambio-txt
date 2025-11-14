@@ -1,0 +1,349 @@
+[
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.BeneficiaryController",
+    "Method": "CheckCreateButtonPermissions",
+    "RelativePath": "api/Beneficiary/checkcreatebuttonpermissions/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.BeneficiaryController",
+    "Method": "GetBeneficiaryInformation",
+    "RelativePath": "api/Beneficiary/information/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.ClinicalConsultationController",
+    "Method": "GetClinicalConsultations",
+    "RelativePath": "api/ClinicalConsultation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Requests.BeneficiaryClinicalConsultationsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.ClinicalConsultationController",
+    "Method": "GetClinicalConsultationDetail",
+    "RelativePath": "api/ClinicalConsultation/{clinicalConsultationIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clinicalConsultationIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.ClinicalConsultationController",
+    "Method": "GetConfigurations",
+    "RelativePath": "api/ClinicalConsultation/configurations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.ClinicalConsultationController",
+    "Method": "GenerateClinicalConsultationForm",
+    "RelativePath": "api/ClinicalConsultation/form",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Requests.GenerateClinicalConsultationFormRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.ClinicalConsultationController",
+    "Method": "GetHealthPlans",
+    "RelativePath": "api/ClinicalConsultation/healthplans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[com.InnovaMD.Provider.Models.ClinicalConsultations.AdditionalHealthPlan, com.InnovaMD.Provider.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "GetConfigurations",
+    "RelativePath": "api/CreateClinicalConsultation/configurations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "SearchDiagnosis",
+    "RelativePath": "api/CreateClinicalConsultation/diagnosis/recent/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "SearchDiagnosis",
+    "RelativePath": "api/CreateClinicalConsultation/diagnosis/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Response.DiagnosisSearchRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "GetRequestingProviderOptions",
+    "RelativePath": "api/CreateClinicalConsultation/requestingprovider/options/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "SearchRequestingProvider",
+    "RelativePath": "api/CreateClinicalConsultation/requestingprovider/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Response.RequestingProviderSearchRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "GetServices",
+    "RelativePath": "api/CreateClinicalConsultation/services/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "GetServicingProviderFilters",
+    "RelativePath": "api/CreateClinicalConsultation/servicingprovider/filters",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "BeneficiaryId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Specialty",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "AdministrationGroup",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "City",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Country",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ZipCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "SearchServicingProvider",
+    "RelativePath": "api/CreateClinicalConsultation/servicingprovider/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Response.ServicingProviderSearchRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "GetServicingNonPPNReason",
+    "RelativePath": "api/CreateClinicalConsultation/servicingprovider/servicingNonPPNReason/{beneficiaryIdProtected}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "beneficiaryIdProtected",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.CreateClinicalConsultationController",
+    "Method": "Submit",
+    "RelativePath": "api/CreateClinicalConsultation/submit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.ClinicalConsultations.Requests.SubmitClinicalConsultationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.LogController",
+    "Method": "LogAuditEvent",
+    "RelativePath": "api/Log/audit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.Log.LogAuditEventRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.LogController",
+    "Method": "LogCriticalEvent",
+    "RelativePath": "api/Log/critical",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.Log.LogExceptionEventRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "com.InnovaMD.Provider.ClinicalConsultationApi.Controllers.LogController",
+    "Method": "LogErrorEvent",
+    "RelativePath": "api/Log/error",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "com.InnovaMD.Provider.Models.Log.LogExceptionEventRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

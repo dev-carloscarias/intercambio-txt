@@ -1,0 +1,74 @@
+{
+  "ConnectionStringOptions": {
+    "AzureHCSSDBConnectionStringSecretIdentifier": "HCSSDBConnectionString-cloudbreakers-local-Authentication",
+    "AzureClinicalConsultationsConnectionStringSecretIdentifier": "ClinicalConsultationConnectionString-localhost-Authentication",
+    "AzureEventHubsConnStringSecretIdentifier": "EventHubsSendSharedAccessConnectionString",
+    "AzureRedisCacheConnectionStringSecretIdentifier": "RedisCacheConnectionString",
+    "HangfireConnectionStringSecretIdentifier": "HangfireConnectionString-Authentication"
+  },
+  "KeyVaultOptions": {
+    "AzureVault": "https://imd-mmmpr-dev-kv.vault.azure.net",
+    "AzureProtectKeysWithAzureKeyVaultConnectionString": "imd-mmmpr-dev-dataprotection-key"
+  },
+  "CacheOptions": {
+    "Tenant": "mmmpr",
+    "functionality": "dashboard",
+    "DefaultDurationInSeconds": "900"
+  },
+  "HangfireOptions": {
+    "ServerName": "innovamd-api"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Hangfire": "Warning"
+    }
+  },
+  "LoggerOptions": {
+    "EventLogSourceName": "InnovaMD_PortalApi",
+    "DefaultFunctionality": "InnovaMD_PortalApi_UnitTest",
+    "ApplicationBaseUrl": "https://providerapi-preprod.innovamd.com",
+    "AzureAuditingEventHubName": "mmmpr-auditing-evh",
+    "AzureExceptionEventHubName": "mmmpr-exception-evh",
+    "LogLevel": 4,
+    "ApplicationInsightsLogLevel": 0,
+    "AzureEventHubTryTimeout": "00:00:03",
+    "AzureEventHubMaximumRetries": 3,
+    "AzureEventHubDelay": "00:00:00.800",
+    "AzureEventHubMaximumDelay": "00:00:00.800",
+    "AzureEventHubConnectionWebSockets": true
+  },
+  "ApplicationInsights": {
+    "InstrumentationKey": "8becec94-46f4-4470-aa98-52026cdd0e32",
+    "EnableAuthenticationTrackingJavaScript": true,
+    "DeveloperMode": false,
+    "EnableDebugLogger": false,
+    "EnableHeartbeat": true,
+    "EnableDependencyTrackingTelemetryModule": true,
+    "EnableAdaptiveSampling": true
+  },
+  "OAuthOptions": {
+    "Authority": "https://dev-account.innovamd.com/cloudbreakers",
+    "Audience": "provider.portalapi",
+    "AllowOrigins": [ "https://dev-provider.innovamd.com" ],
+    "RequireHttpsMetadata": true,
+    "ClockSkew": 20,
+    "Scope": "provider_read"
+  },
+  "DataProtectionOptions": {
+    "ApplicationName": "InnovaMD_Api",
+    "AzureStorageAccountName": "imdmmmprkeysdevblob",
+    "AzureStorageAccountKeySecretIdentifier": "KeysStorageAccountAccessKey",
+    "AzureStorageAccountKeysConnectionString": "StorageAccountKeysConnectionString",
+    "AzureStorageAccountContainer": "provider-portalapi-key-container",
+    "AzureEndpointSuffix": "core.windows.net"
+  },
+  "Environment": {
+    "IsPublish": false,
+    "IsAzure": true,
+    "IsIdentity": false
+  },
+  "AllowedHosts": "*",
+  "NewtonsoftJsonSchemaOptions": {
+    "License": "4274-AuG9Recp0OPPSjS5ISXrWf0so0NGGHY5+PRdXWnWN6fVzlhSkWhpz3TR/ImEpBFGNkq2i4R6+4Hx7JB6XLvzYd7Zma/+zXoe0IoiiQsyD6zx1wUovjBPLmMu59ikDKnQcLVxYXjdMZYMCGARQgyL1C88PYWodvO8LgU56azRYCB7IklkIjo0Mjc0LCJFeHBpcnlEYXRlIjoiMjAyMS0wNy0wMVQxODozODo1Ny4wODI5NTIxWiIsIlR5cGUiOiJKc29uU2NoZW1hU2l0ZSJ9"
+  }
+}

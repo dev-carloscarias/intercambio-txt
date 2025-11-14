@@ -1,0 +1,305 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data.Test\\com.InnovaMD.Provider.Data.Test.csproj": {}
+  },
+  "projects": {
+    "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data.Test\\com.InnovaMD.Provider.Data.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data.Test\\com.InnovaMD.Provider.Data.Test.csproj",
+        "projectName": "com.InnovaMD.Provider.Data.Test",
+        "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data.Test\\com.InnovaMD.Provider.Data.Test.csproj",
+        "packagesPath": "C:\\Users\\vlopezcamey\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data.Test\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\NuGet.Config",
+          "C:\\Users\\vlopezcamey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/InnovaMD/_packaging/InnovaMD/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\com.InnovaMD.Provider.Data.csproj": {
+                "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\com.InnovaMD.Provider.Data.csproj"
+              },
+              "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj": {
+                "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Azure.Security.KeyVault.Secrets": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.FileExtensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Options.ConfigurationExtensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.2.0, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.121/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\com.InnovaMD.Provider.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\com.InnovaMD.Provider.Data.csproj",
+        "projectName": "com.InnovaMD.Provider.Data",
+        "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\com.InnovaMD.Provider.Data.csproj",
+        "packagesPath": "C:\\Users\\vlopezcamey\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\NuGet.Config",
+          "C:\\Users\\vlopezcamey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/InnovaMD/_packaging/InnovaMD/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj": {
+                "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.24, )"
+            },
+            "Dapper.Contrib": {
+              "target": "Package",
+              "version": "[2.0.78, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.121/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj",
+        "projectName": "com.InnovaMD.Provider.Models",
+        "projectPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\com.InnovaMD.Provider.Models.csproj",
+        "packagesPath": "C:\\Users\\vlopezcamey\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\src\\com.InnovaMD.Provider.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\repos\\BE\\Provider_ClinicalConsultationApi\\NuGet.Config",
+          "C:\\Users\\vlopezcamey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/InnovaMD/_packaging/InnovaMD/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.PowerBI.Api": {
+              "target": "Package",
+              "version": "[3.11.1, )"
+            },
+            "com.InnovaMD.Utilities.Configuration": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "com.InnovaMD.Utilities.Dates": {
+              "target": "Package",
+              "version": "[1.1.3, )"
+            },
+            "com.InnovaMD.Utilities.Logging": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            },
+            "com.InnovaMD.Utilities.Provider.Security": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.121/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="com.InnovaMD.Utilities.ServiceClient" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\com.InnovaMD.Provider.Data\com.InnovaMD.Provider.Data.csproj" />
+    <ProjectReference Include="..\com.InnovaMD.Provider.Models\com.InnovaMD.Provider.Models.csproj" />
+  </ItemGroup>
+</Project>
