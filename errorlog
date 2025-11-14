@@ -1,5 +1,9 @@
-Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Index.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/Update.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Controllers/UploadFile.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Update.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/Vendor/Controllers/Update.cs
+Test	Duration	Traits	Error Message
+Update_Post_ErrorResponseWithNonNullErrors_Test Failed	75 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Post_ErrorResponseWithNonNullErrors_Test threw exception:  Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: No se puede convertir implícitamente el tipo 'System.Dynamic.ExpandoObject' en 'Walmart.Common.Models.ErrorMessages'.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	173 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	173 ms		
+Class: CompanyControllerTest Failed (1)	75 ms		
+Class: FolioControllerTest Failed (1)	58 ms		
+Update_Post_ErrorResponseWithNonNullErrors_Test Failed	58 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Post_ErrorResponseWithNonNullErrors_Test threw exception:  Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: No se puede convertir implícitamente el tipo 'System.Dynamic.ExpandoObject' en 'Walmart.Common.Models.ErrorMessages'.
+Class: VendorControllerTest Failed (1)	40 ms		
+Update_Post_ErrorResponseWithNonNullErrors_Test Failed	40 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.VendorControllerTest.Update_Post_ErrorResponseWithNonNullErrors_Test threw exception:  Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: No se puede convertir implícitamente el tipo 'System.Dynamic.ExpandoObject' en 'Walmart.Common.Models.ErrorMessages'.
