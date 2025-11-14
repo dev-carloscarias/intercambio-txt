@@ -24,6 +24,8 @@ namespace com.InnovaMD.Provider.Models.ClinicalConsultations.Requests
         public bool isRecreate { get; set; }
 
         public string OriginalClinicalConsultationId { get; set; }
+
+        public string RecreateFrom { get; set; }
     }
 
     public class SubmitRequestingProvider

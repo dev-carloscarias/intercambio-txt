@@ -106,6 +106,9 @@ namespace com.InnovaMD.Provider.Models.SystemConfiguration
         public string PPN_REASON => GetConfigValue(ConfigurationConstants.PPN_REASON, "");
         public string CreateConsultationSubmitValidationMsg => GetConfigValue(ConfigurationConstants.CREATE_CONSULTATION_SUBMIT_VALIDATION_MSG, "");
         public int CreateClinicalConsultationExpirationDate => GetConfigValue(ConfigurationConstants.PROVIDER_PORTAL_CONSULTATION_EXPIRATION_DATE, 90);
+        public string CreateClinicalConsultationSuccessfulSubmitMessage => GetConfigValue(ConfigurationConstants.PROVIDER_PORTAL_CONSULTATION_SUCCESSFUL_SUBMIT_MESSAGE, "");
+        public string CreateClinicalConsultationSubmitDisclosureMessage => GetConfigValue(ConfigurationConstants.PROVIDER_PORTAL_CONSULTATION_SUBMIT_DISCLOSURE_MESSAGE, "");
+        public int RecreateConsultationPanelsuggestionsValue => GetConfigValue(ConfigurationConstants.RECREATE_CONSULTATION_PANEL_SUGGESTIONS_VALUE, 10);
 
     }
 }

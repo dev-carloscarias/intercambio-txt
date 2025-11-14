@@ -13,10 +13,10 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
                        ,r.[ClinicalConsultationDate]
                        ,r.[IsConsultation]
                        ,r.[CreatedBy]
+                       ,r.[CreatedDate]
                        ,r.[AnyContractedSpecialist]
                        ,r.[ServicingProviderSpecialtyId] SpecialtyId
                        ,s.[Name]
-                       ,r.[CreatedDate]
                        ,vl.[ViewedOn]
                        ,sp.[Name] 
                        ,rp.[Name]

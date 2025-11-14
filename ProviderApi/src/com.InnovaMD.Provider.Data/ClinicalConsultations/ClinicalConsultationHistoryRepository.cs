@@ -47,7 +47,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                         var currentClinicalConsultation = new ClinicalConsultation();
                         var currentProcedureBundles = new List<ClinicalConsultationProcedureBundle>();
 
-                        dao.Find<ClinicalConsultation, Specialty, ClinicalConsultationProvider, ClinicalConsultationProvider, ClinicalConsultationProcedureBundle, ClinicalConsultation>(
+                        dao.Find<ClinicalConsultation, ClinicalConsultationProviderSpecialty, ClinicalConsultationProvider, ClinicalConsultationProvider, ClinicalConsultationProcedureBundle, ClinicalConsultation>(
                             QueriesClinicalConsultation.GetBeneficiaryClinicalConsultations(searchCriteria),
                             (clinicalConsultation, servicingSpecialty, servicing, requesting, procedureBundle) =>
                             {
@@ -108,7 +108,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
 
                     if (gridReader != null)
                     {
-                        var consultation = gridReader.Read<ClinicalConsultation, AdditionalHealthPlan, Specialty, ClinicalConsultationProcedureBundle, ClinicalConsultation>(
+                        var consultation = gridReader.Read<ClinicalConsultation, AdditionalHealthPlan, ClinicalConsultationProviderSpecialty, ClinicalConsultationProcedureBundle, ClinicalConsultation>(
                             (cc, ahp, s, p) =>
                         {
                             cc.Procedures = new List<ClinicalConsultationProcedureBundle>() { p };

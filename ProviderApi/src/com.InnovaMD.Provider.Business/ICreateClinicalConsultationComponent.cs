@@ -31,5 +31,9 @@ namespace com.InnovaMD.Provider.Business
         public IEnumerable<AdditionalHealthPlan> GetHealthPlans();
 
         SubmitClinicalConsultationResponse SubmitClinicalConsultation(SubmitClinicalConsultationRequest request, IdentityUserExtended user);
+
+        RecreateClinicalConsultation GetClinicalConsultationForRecreate(int clinicalConsultationId);
+
+        public IEnumerable<SuggestionsResponse> GetRecentSuggestions(int beneficiaryId);
     }
 }

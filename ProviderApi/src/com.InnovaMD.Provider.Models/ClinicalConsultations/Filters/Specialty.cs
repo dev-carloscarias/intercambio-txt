@@ -15,6 +15,6 @@ namespace com.InnovaMD.Provider.Models.ClinicalConsultations.Filters
         public int? DefaultRoleId { get; set; }
         public int? ProviderEntityTypeId { get; set; }
         public bool? IsDirectoryDisplay { get; set; }
-        public string? SpecialtyIdProtected { get; set; }
+        public string SpecialtyIdProtected { get; set; }
     }
 }

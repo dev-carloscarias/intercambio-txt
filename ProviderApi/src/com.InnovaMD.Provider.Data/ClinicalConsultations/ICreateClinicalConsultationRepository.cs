@@ -29,5 +29,8 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
         AdditionalHealthPlan GetAdditionalHealthPlanInformationForClinicalConsultation(int additionalHealthPlanId);
         long Insert(ClinicalConsultation clinicalConsultation);
         int GetSequenceNumber(bool isConsultation);
+        RecreateClinicalConsultation GetClinicalConsultationForRecreate(int clinicalConsultationId, int lineOfBusinessId);
+        int FindConsultationBeneficiaryId(int clinicalConsultationId);
+        IEnumerable<SuggestionsResponse> GetRecentSuggestions(int beneficiaryId, int maxAmount);
     }
 }

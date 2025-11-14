@@ -1,7 +1,11 @@
 ﻿using com.InnovaMD.Provider.Data.ClinicalConsultations.SearchCriteria;
 using com.InnovaMD.Provider.Models.ClinicalConsultations;
 using com.InnovaMD.Provider.Models.Security;
+using Hangfire.Annotations;
+using Microsoft.PowerBI.Api.Models;
 using System;
+using static com.InnovaMD.Provider.Data.ClinicalConsultations.Columns;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
 {
@@ -117,7 +121,6 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
                         {(criteria.StateId.HasValue ? " AND p.[StateId] = @StateId" : string.Empty)}
                         {(!string.IsNullOrEmpty(criteria.ZipCode) ? " AND p.[ZipCode] = @ZipCode" : string.Empty)}
                         {(criteria.SpecialtyId.HasValue ? " AND p.[SpecialtyId] = @SpecialtyId" : string.Empty)}
-
             ";
 
             if (count)
@@ -368,6 +371,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
 	                  ,p.[FirstName]
 	                  ,p.[MiddleName]
 	                  ,p.[LastName]
+                      ,p.[BillingProviderName]
 	                  ,{(int)ClinicalConsultationProviderTypes.Requesting} ClinicalConsultationProviderTypeId
 	                  ,p.[AddressId]
                       ,p.[AddressLine1]
@@ -404,7 +408,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
             return $@"
                 DECLARE @ProviderAffiliationId INT, @LineOfBusinessId INT;
 
-                SELECT TOP 1 
+                SELECT TOP 1
                       @ProviderAffiliationId = b.PCPAffiliationId
                     , @LineOfBusinessId = b.LineOfBusinessId  
                   FROM BeneficiaryProfile.vBeneficiary b 
@@ -420,6 +424,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
 	                  ,p.[FirstName]
 	                  ,p.[MiddleName]
 	                  ,p.[LastName]
+                      ,p.[BillingProviderName]
 	                  ,{(int)ClinicalConsultationProviderTypes.PCP} ClinicalConsultationProviderTypeId
 	                  ,p.[AddressId]
                       ,p.[AddressLine1]
@@ -467,6 +472,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
 	                  ,p.[FirstName]
 	                  ,p.[MiddleName]
 	                  ,p.[LastName]
+                      ,p.[BillingProviderName]
 	                  ,{(int)ClinicalConsultationProviderTypes.Servicing} [ClinicalConsultationProviderTypeId]
 	                  ,p.[AddressId]
                       ,p.[AddressLine1]
@@ -558,7 +564,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
               FROM [clinicalconsultation].[AdditionalHealthPlan]
              WHERE AdditionalHealthPlanId = @AdditionalHealthPlanId";
         }
-        
+
         public static string GetClinicalConsultationSequenceNumber()
         {
             return "SELECT NEXT VALUE FOR [dbo].[ClinicalConsultationNumber]";
@@ -585,7 +591,9 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
                    ,[EffectiveDate]
                    ,[AnyContractedSpecialist]
                    ,[ServicingProviderSpecialtyId]
-                   ,[SourceIdentifier])
+                   ,[SourceIdentifier]
+                   ,[IsRecreate]
+                   ,[RecreatedSourceId])
              VALUES
                    (@ClinicalConsultationNumber
                    ,@AdditionalHealthPlanId
@@ -599,7 +607,9 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
                    ,@EffectiveDate
                    ,@AnyContractedSpecialist
                    ,@ServicingProviderSpecialtyId
-                   ,@SourceIdentifier);
+                   ,@SourceIdentifier
+                   ,@IsRecreate
+                   ,@RecreatedSourceId);
 
              SELECT CAST(SCOPE_IDENTITY() as BIGINT);
             ";
@@ -841,10 +851,179 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations.Queries
                        ,[NoPPNReasonId]
                        ,[NoPPNReasonDescription])
                  VALUES
-                       (@ClinicalConsultationId,
-                       ,@NoPPNReasonId,
+                       (@ClinicalConsultationId
+                       ,@NoPPNReasonId
                        ,@NoPPNReasonDescription)
             ";
+        }
+
+        internal static string[] GetClinicalConsutationInformationForRecreate()
+        {
+            var queries = new string[5];
+
+            queries[0] = $@"
+                SELECT
+                      cc.ClinicalConsultationId
+                    , cc.ClinicalConsultationNumber
+	                , cc.ClinicalConsultationDate
+                    , cc.Purpose
+	                , cc.IsConsultation
+                    , cc.AnyContractedSpecialist
+	                , s.SpecialtyId
+	                , s.Name
+                    , s.AllowAnyContractedSpecialist
+                    , cc.AdditionalHealthPlanId
+                    , cc.AdditionalHealthPlanName
+	                , ccppn.NoPPNReasonId ServicingNonPPNReasonId
+	                , ccppn.NoPPNReasonDescription Description
+                FROM clinicalconsultation.ClinicalConsultation cc
+                    JOIN dbo.vSpecialty s ON s.SpecialtyId = cc.ServicingProviderSpecialtyId
+                    LEFT JOIN clinicalconsultation.ClinicalConsultationServicingNonPPNReason ccppn ON ccppn.ClinicalConsultationId = cc.ClinicalConsultationId
+                WHERE cc.ClinicalConsultationId = @ClinicalConsultationId
+            ";
+
+            queries[1] = $@"
+                SELECT 
+                      DiagnosisId
+                    , Code
+	                , Description
+	                , IsPrimary
+                FROM clinicalconsultation.ClinicalConsultationDiagnosis
+               WHERE ClinicalConsultationId = @ClinicalConsultationId
+            ";
+
+            queries[2] = $@"
+                SELECT
+	                  ccpb.ProcedureBundleId
+	                , ccpb.Units
+	                , pb.Description
+	                , pb.LineOfBusinessId
+	                , pb.DefaultUnits
+	                , pb.MinimumUnits
+	                , pb.MaximumUnits
+	                , pb.ReferenceCode
+	                , pb.SortOrder
+	                , pb.ServiceTypeCode
+                FROM clinicalconsultation.ClinicalConsultationProcedureBundle ccpb
+                INNER JOIN procedurebundle.vProcedureBundle pb ON pb.ProcedureBundleId = ccpb.ProcedureBundleId
+                WHERE ccpb.ClinicalConsultationId = @ClinicalConsultationId
+            ";
+
+            queries[3] = $@"
+                SELECT DISTINCT
+	                  ccp.ProviderAffiliationId
+	                , pd.RenderingProviderId
+	                , pd.RenderingProviderNPI
+	                , pd.RenderingProviderName
+	                , pd.BillingProviderId
+	                , pd.BillingProviderNPI
+	                , pd.BillingProviderName 
+	                , CASE WHEN pd.IsMSOClinic = 1 THEN pd.ProviderLocationName ELSE pd.BillingProviderName END FacilityName
+                    , pd.PhoneNumber
+                    , pd.Email
+                    , pd.CityId 
+	                , pd.City Name
+	                , pd.ZipCode
+                    , pd.SpecialtyId
+                    , pd.SpecialtyName Name
+                    , pd.IsPrimarySpecialty
+	                , pd_a.CityId 
+	                , pd_a.City Name
+	                , pd_a.ZipCode
+                FROM clinicalconsultation.ClinicalConsultationProvider ccp
+                  JOIN dbo.ProviderDirectory pd ON pd.ProviderAffiliationId = ccp.ProviderAffiliationId
+                  JOIN dbo.ProductNetworkLineOfBusiness pnlob ON pnlob.NetworkId = pd.NetworkId AND pnlob.LineOfBusinessId = @LineOfBusinessId 
+                  LEFT JOIN dbo.ProviderDirectory pd_a ON pd_a.ProviderAffiliationId = ccp.ProviderAffiliationId AND pd_a.AddressId = ccp.AddressId
+                WHERE ccp.ClinicalConsultationId = @ClinicalConsultationId AND ccp.ClinicalConsultationProviderTypeId = {(int)ClinicalConsultationProviderTypes.Requesting}
+            ";
+
+            queries[4] = $@"
+                SELECT DISTINCT
+                      ccp.ProviderAffiliationId
+                    , pd.RenderingProviderId
+                    , pd.RenderingProviderNPI
+                    , CASE WHEN pd.IsMSOClinic = 1 AND sp.Priority = 1 THEN pd.ProviderLocationName ELSE pd.RenderingProviderName END RenderingProviderName
+                    , pd.BillingProviderId
+                    , pd.BillingProviderNPI
+                    , pd.BillingProviderName 
+                    , CASE WHEN pd.IsMSOClinic = 1 THEN pd.ProviderLocationName ELSE pd.BillingProviderName END FacilityName
+                    , pd.PhoneNumber
+                    , pd.Email
+                    , pd.IsMSOPPN
+                    , pd.IsBestPractice
+                    , pd.IsMSOClinic
+                    , pd.IsCapitated
+                    , sp.Priority
+                    , CASE WHEN sp.Priority = {(int)ServicingProviderPriority.Other} THEN 0 ELSE 1 END PreferredNetwork
+                    , pd.CityId 
+                    , pd.City Name
+                    , pd.ZipCode
+                    , pd.SpecialtyId
+                    , pd.SpecialtyName Name
+                    , pd.IsPrimarySpecialty
+	                , pd_a.CityId 
+	                , pd_a.City Name
+	                , pd_a.ZipCode
+                FROM clinicalconsultation.ClinicalConsultationProvider ccp
+                  JOIN dbo.ProviderDirectory pd ON pd.ProviderAffiliationId = ccp.ProviderAffiliationId
+                  JOIN dbo.ProductNetworkLineOfBusiness pnlob ON pnlob.NetworkId = pd.NetworkId AND pnlob.LineOfBusinessId = @LineOfBusinessId 
+                  JOIN dbo.ServicingProvider sp ON sp.ProviderAffiliationId = ccp.ProviderAffiliationId
+                  LEFT JOIN dbo.ProviderDirectory pd_a ON pd_a.ProviderAffiliationId = ccp.ProviderAffiliationId AND pd_a.AddressId = ccp.AddressId
+                WHERE ccp.ClinicalConsultationId = @ClinicalConsultationId AND ccp.ClinicalConsultationProviderTypeId = {(int)ClinicalConsultationProviderTypes.Servicing}
+            ";
+
+
+            return queries;
+        }
+
+        public static string FindConsultationBeneficiaryId()
+        {
+            return @$"
+               SELECT ccb.BeneficiaryId                  
+                 FROM clinicalconsultation.ClinicalConsultationBeneficiary ccb
+                WHERE ccb.ClinicalConsultationId = @ClinicalConsultationId
+            ";
+        }
+
+        public static string GetRecentSuggestionsBaseData()
+        {
+            return @$"WITH Suggestion AS (
+                            SELECT  ccb.[ClinicalConsultationId]   
+	                             ,cc.ClinicalConsultationNumber
+	                              ,Purpose
+	                              ,cp.Name as 'ProviderName'                 	  
+	                              ,ccd.Code +' ' +ccd.Description 'Diagnosis'
+	                              ,cc.ClinicalConsultationDate
+	                              ,s.SpecialtyId
+	                              ,s.Name as 'Specialty'	  
+	                              ,cc.CreatedDate
+                                  ,cc.AnyContractedSpecialist
+	                              , ROW_NUMBER() OVER (PARTITION BY s.SpecialtyId  ORDER BY cc.CreatedDate DESC) AS rn
+                              FROM [clinicalconsultation].[ClinicalConsultationBeneficiary]ccb  
+                              join  [clinicalconsultation].[ClinicalConsultation]cc on(ccb.ClinicalConsultationId=cc.ClinicalConsultationId)
+                              join [clinicalconsultation].ClinicalConsultationDiagnosis ccd on (ccd.ClinicalConsultationId=cc.ClinicalConsultationId)
+                              join [dbo].vSpecialty s on (cc.ServicingProviderSpecialtyId=s.SpecialtyId)
+                              left join clinicalconsultation.ClinicalConsultationProvider cp on(cp.ClinicalConsultationId=cc.ClinicalConsultationId and cp.ClinicalConsultationProviderTypeId = {(int)ClinicalConsultationProviderTypes.Servicing})
+
+                              where ccb.BeneficiaryId=@BeneficiaryId and ccd.IsPrimary = 1 
+                              group by ccb.ClinicalConsultationId,ccb.BeneficiaryId,cc.Purpose,ccb.Name,cc.CreatedDate,
+                              ccb.LineOfBusinessId,cc.ClinicalConsultationDate,ccd.Description,s.SpecialtyId,s.Name,ccd.DiagnosisId,cp.Name,cc.ClinicalConsultationNumber,ccd.Code,cc.AnyContractedSpecialist
+
+                            )
+                                        select s.ClinicalConsultationId
+                                        ,s.ClinicalConsultationNumber
+                                        ,s.Purpose
+                                        ,s.ProviderName
+                                        ,s.Diagnosis
+                                        ,s.ClinicalConsultationDate
+                                        ,s.SpecialtyId
+                                        ,s.Specialty
+                                        ,s.CreatedDate
+                                         ,s.AnyContractedSpecialist
+                            from Suggestion s
+                            WHERE s.rn = 1
+                            ORDER BY s.ClinicalConsultationDate Desc
+                            OFFSET @Offset ROWS FETCH NEXT @Fetch ROWS ONLY";
         }
     }
 }

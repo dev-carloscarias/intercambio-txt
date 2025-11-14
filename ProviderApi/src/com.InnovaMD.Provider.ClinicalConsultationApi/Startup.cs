@@ -107,7 +107,7 @@ namespace com.InnovaMD.Provider.PortalApi
             }
             else
             {
-                app.ApplicationServices.UseConfigurationCache();
+                //app.ApplicationServices.UseConfigurationCache();  TODO - removed temporarily
                 app.UseExceptionHandler("/error");
             }
 

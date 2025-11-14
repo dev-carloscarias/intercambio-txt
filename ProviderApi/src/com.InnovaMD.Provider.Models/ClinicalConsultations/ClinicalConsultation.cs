@@ -19,7 +19,7 @@ namespace com.InnovaMD.Provider.Models.ClinicalConsultations
         public AdditionalHealthPlan AdditionalHealthPlan { get; set; }
         public bool IsConsultation { get; set; }
         public bool AnyContractedSpecialist { get; set; } 
-        public Specialty ServicingSpecialty { get; set; }
+        public ClinicalConsultationProviderSpecialty ServicingSpecialty { get; set; }
         public ClinicalConsultationServicingNonPPNReason ServicingNonPPNReason { get; set; }
 
         public string CreatedBy { get; set; }

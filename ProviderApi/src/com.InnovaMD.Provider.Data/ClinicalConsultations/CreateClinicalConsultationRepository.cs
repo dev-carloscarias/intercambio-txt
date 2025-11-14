@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static com.InnovaMD.Provider.Data.ClinicalConsultations.Columns;
 using ProviderSpecialty = com.InnovaMD.Provider.Models.ClinicalConsultations.ProviderSpecialty;
+using com.InnovaMD.Utilities.Dates;
 
 namespace com.InnovaMD.Provider.Data.ClinicalConsultations
 {
@@ -66,7 +67,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
 
                             if (requesting.ProviderAffiliationId == provider.ProviderAffiliationId)
                             {
-                                if (!cities.Any((c) => { return c.CityId == city.CityId; }))
+                                if (!cities.Any((c) => { return c.CityId == city.CityId && c.ZipCode == city.ZipCode; }))
                                 {
                                     cities.Add(city);
                                 }
@@ -143,6 +144,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
             }
 
         }
+
         public IEnumerable<ProcedureBundle> GetServices(int lineOfBusinessId)
         {
             using (var conn = new SqlConnection(connectionStringOptions.ClinicalConsultation))
@@ -210,7 +212,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                                 {
                                     p.Cities = cities.Where(c => { return c.ProviderAffiliationId == p.ProviderAffiliationId; }).ToList();
                                     p.Specialties = specialties.Where(s => { return s.ProviderAffiliationId == p.ProviderAffiliationId; }).ToList();
-                                    p.PreferredNetwork = (p.Priority == (int)ServicingProviderPriority.Other ) ? false : true;
+                                    p.PreferredNetwork = (p.Priority == (int)ServicingProviderPriority.Other) ? false : true;
                                 }
                             }
                         }
@@ -220,6 +222,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                 }
             }
         }
+
         public ServicingProviderFiltersResponse GetServicingProviderFiltersDefaults(ServicingProviderSearchCriteria filter, int adminGroupTypeId)
         {
             var response = new ServicingProviderFiltersResponse();
@@ -253,6 +256,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
             }
             return response;
         }
+
         public ServicingProviderFiltersResponse UpdateServicingProviderFilters(ServicingProviderSearchCriteria filter)
         {
             var response = new ServicingProviderFiltersResponse();
@@ -293,7 +297,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                         parameters: new
                         {
                             LineOfBusinessId = lineOfBusinessid,
-                        }).ToList(); 
+                        }).ToList();
 
                     return new ServicingNonPPNReasonResponse
                     {
@@ -302,9 +306,6 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                 }
             }
         }
-
-
-
 
         public Models.ClinicalConsultations.ClinicalConsultationBeneficiary GetBeneficiaryInformationForClinicalConsultation(int beneficiaryId)
         {
@@ -352,7 +353,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                             {
                                 specialties = [];
                                 administrationGroups = [];
-                                
+
                                 provider = pcp;
                                 provider.Specialties = specialties;
                                 provider.AdministrationGroups = administrationGroups;
@@ -621,7 +622,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                                     ServicingProviderSpecialtyId = clinicalConsultation.ServicingSpecialty?.SpecialtyId,
                                     SourceIdentifier = new Dapper.DbString() { Value = clinicalConsultation.SourceIdentifier, IsAnsi = true, Length = Columns.ClinicalConsultation.SOURCE_IDENTIFIER },
                                     IsRecreate = clinicalConsultation.IsRecreate,
-                                    OriginalClinicalConsultationId = clinicalConsultation.OriginalClinicalConsultationId,
+                                    RecreatedSourceId = clinicalConsultation.OriginalClinicalConsultationId,
                                 },
                                 transaction: transaction);
 
@@ -888,7 +889,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                                 });
                             }
 
-                            if(clinicalConsultation.ServicingNonPPNReason != null)
+                            if (clinicalConsultation.ServicingNonPPNReason != null)
                             {
                                 dao.Execute(
                                     QueriesCreateClinicalConsultation.InsertClinicalConsultationServicingNonPPNReason(),
@@ -936,5 +937,179 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
             }
 
         }
+
+        public RecreateClinicalConsultation GetClinicalConsultationForRecreate(int clinicalConsultationId, int lineOfBusinessId)
+        {
+
+            using (var conn = new SqlConnection(connectionStringOptions.ClinicalConsultation))
+            {
+                using (var dao = new Dao(conn))
+                {
+                    RecreateClinicalConsultation consultation = null;
+                    var parameters = new
+                    {
+                        ClinicalConsultationId = clinicalConsultationId,
+                        LineOfBusinessId = lineOfBusinessId
+                    };
+
+                    var reader = dao.FindMultiple(QueriesCreateClinicalConsultation.GetClinicalConsutationInformationForRecreate(), parameters);
+
+                    if (reader != null)
+                    {
+                        consultation = setConsultationDataFromReader(reader);
+                    }
+                    return consultation;
+                }
+            }
+        }
+
+       
+
+        public int FindConsultationBeneficiaryId(int clinicalConsultationId)
+        {
+            using (var conn = new SqlConnection(connectionStringOptions.ClinicalConsultation))
+            {
+                using (var dao = new Dao(conn))
+                {
+                    var query = QueriesCreateClinicalConsultation.FindConsultationBeneficiaryId();
+
+                    var parameters = new
+                    {
+                        ClinicalConsultationId = clinicalConsultationId,
+                    };
+
+                    var beneficiaryId = dao.Find<int>(query, parameters).FirstOrDefault();
+
+                    return beneficiaryId;
+                }
+            }
+        }
+
+        public IEnumerable<SuggestionsResponse> GetRecentSuggestions(int beneficiaryId, int maxAmount)
+        {
+            using (var conn = new SqlConnection(connectionStringOptions.ClinicalConsultation))
+            {
+                using (var dao = new Dao(conn))
+                {
+
+                    IEnumerable<SuggestionsResponse> suggestions = null;
+                    var parameters = new
+                    {
+                        BeneficiaryId = beneficiaryId,
+                        Offset = 0,
+                        Fetch = maxAmount
+                    };
+
+                    suggestions = dao.Find<SuggestionsResponse>(
+                                               QueriesCreateClinicalConsultation.GetRecentSuggestionsBaseData(),
+                                               parameters: parameters).ToList();
+
+
+                   
+
+                    return suggestions;
+                }
+            }
+        }
+
+                               
+
+        #region Private
+        private static RecreateClinicalConsultation setConsultationDataFromReader(Dapper.SqlMapper.GridReader reader)
+        {
+            RecreateClinicalConsultation consultation = SetConsultationBaseFields(reader);
+            if (consultation != null)
+            {
+                consultation.Diagnoses = reader.Read<Models.ClinicalConsultations.ClinicalConsultationDiagnosis>().AsEnumerable();
+
+                consultation.Procedure = reader.Read<Models.ClinicalConsultations.ClinicalConsultationProcedureBundle>().FirstOrDefault();
+
+                var specialties = new List<ProviderSpecialty>();
+                var cities = new List<City>();
+
+                SetRequestingProvider(consultation, reader, specialties, cities);
+
+                specialties = new List<ProviderSpecialty>();
+                cities = new List<City>();
+
+                SetSercivingProvider(consultation, reader, specialties, cities);
+            }
+
+            return consultation;
+        }
+
+        private static RecreateClinicalConsultation SetConsultationBaseFields(Dapper.SqlMapper.GridReader reader)
+        {
+            return reader.Read<RecreateClinicalConsultation, ProviderSpecialty, AdditionalHealthPlan, ServicingNonPPNReason, RecreateClinicalConsultation>(
+                (clinicalConsultation, servicingSpecialty, additionalHealthPlan, nonPPNReason) =>
+                {
+                    clinicalConsultation.ServicingSpecialty = servicingSpecialty;
+
+                    if (additionalHealthPlan != null && additionalHealthPlan.AdditionalHealthPlanId != 0)
+                    {
+                        clinicalConsultation.AdditionalHealthPlan = additionalHealthPlan;
+                    }
+
+                    if (nonPPNReason != null && nonPPNReason.ServicingNonPPNReasonId != 0)
+                    {
+                        clinicalConsultation.ServicingNonPPNReason = nonPPNReason;
+                    }
+
+                    return clinicalConsultation;
+                }, splitOn: "ClinicalConsultationId,SpecialtyId,AdditionalHealthPlanId,ServicingNonPPNReasonId"
+            ).FirstOrDefault();
+        }
+
+        private static void SetRequestingProvider(RecreateClinicalConsultation consultation, Dapper.SqlMapper.GridReader reader, List<ProviderSpecialty> specialties, List<City> cities)
+        {
+            reader.Read<RequestingProvider, City, ProviderSpecialty, City, RequestingProvider>(
+                (provider, city, specialty, selectedCity) =>
+                {
+                    if (consultation.RequestingProvider == null)
+                    {
+                        consultation.RequestingProvider = provider;
+                        consultation.RequestingProvider.Cities = cities;
+                        consultation.RequestingProvider.Specialties = specialties;
+                        consultation.RequestingCity = selectedCity;
+                    }
+
+                    SetCityAndSpecialties(specialties, cities, city, specialty);
+
+                    return provider;
+                }, splitOn: "ProviderAffiliationId,CityId,SpecialtyId,CityId");
+        }       
+
+        private static void SetSercivingProvider(RecreateClinicalConsultation consultation, Dapper.SqlMapper.GridReader reader, List<ProviderSpecialty> specialties, List<City> cities)
+        {
+            reader.Read<ServicingProvider, City, ProviderSpecialty, City, ServicingProvider>(
+                (provider, city, specialty, selectedCity) =>
+                {
+                    if (consultation.ServicingProvider == null)
+                    {
+                        consultation.ServicingProvider = provider;
+                        consultation.ServicingProvider.Cities = cities;
+                        consultation.ServicingProvider.Specialties = specialties;
+                        consultation.ServicingCity = selectedCity;
+                    }
+
+                    SetCityAndSpecialties(specialties, cities, city, specialty);
+
+                    return provider;
+                }, splitOn: "ProviderAffiliationId,CityId,SpecialtyId,CityId");
+        }
+
+        private static void SetCityAndSpecialties(List<ProviderSpecialty> specialties, List<City> cities, City city, ProviderSpecialty specialty)
+        {
+            if (!specialties.Any((s) => { return s.SpecialtyId == specialty.SpecialtyId; }))
+            {
+                specialties.Add(specialty);
+            }
+
+            if (!cities.Any((c) => { return c.CityId == city.CityId && c.ZipCode == city.ZipCode; }))
+            {
+                cities.Add(city);
+            }
+        }
+        #endregion
     }
 }

@@ -39,6 +39,9 @@
         ClinicalConsultationProgressClick,
         ConsultationReviewCancelYesClick,
         ConsultationReviewSubmit,
-        ConsultationReviewError
+        ConsultationSubmitRequest,
+        ConsultationReviewError,
+        ConsultationReviewRecreate,
+        RecreateConsultationClick
     }
 }

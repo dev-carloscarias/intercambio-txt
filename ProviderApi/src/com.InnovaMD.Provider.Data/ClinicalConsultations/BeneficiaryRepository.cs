@@ -2,8 +2,10 @@
 using com.InnovaMD.Provider.Data.Common;
 using com.InnovaMD.Provider.Models.ClinicalConsultations;
 using com.InnovaMD.Provider.Models.Common;
+using com.InnovaMD.Provider.Models.Log;
 using com.InnovaMD.Utilities.DistributedCache;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -13,10 +15,12 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
     public class BeneficiaryRepository : RepositoryBase, IBeneficiaryRepository
     {
         private readonly IServerCache _cache;
+        private readonly ILogger<BeneficiaryRepository> _logger;
 
-        public BeneficiaryRepository(ConnectionStringOptions connectionStringOptions, IServerCache cache) : base(connectionStringOptions)
+        public BeneficiaryRepository(ConnectionStringOptions connectionStringOptions, IServerCache cache, ILogger<BeneficiaryRepository> logger) : base(connectionStringOptions)
         {
             _cache = cache;
+            _logger = logger;
         }
 
         public BeneficiaryInformation GetBeneficiaryInformation(int beneficiaryId)
@@ -32,7 +36,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
             }
             catch (Exception e)
             {
-                throw new Exception($"An Error occurred searching for ${cacheKey} in cache", e);
+                _logger.LogError(e, $"An Error occurred searching for {cacheKey} in cache");
             }
 
             using (var conn = new SqlConnection(connectionStringOptions.ClinicalConsultation))
@@ -64,7 +68,7 @@ namespace com.InnovaMD.Provider.Data.ClinicalConsultations
                     }
                     catch (Exception e)
                     {
-                        throw new Exception($"An Error occurred storing ${cacheKey} in cache", e);
+                        _logger.LogError(e, $"An Error occurred storing {cacheKey} in cache");
                     }
 
 

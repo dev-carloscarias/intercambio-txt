@@ -9,15 +9,17 @@ using com.InnovaMD.Provider.Models.ClinicalConsultations.Filters;
 using com.InnovaMD.Provider.Models.ClinicalConsultations.Requests;
 using com.InnovaMD.Provider.Models.ClinicalConsultations.Response;
 using com.InnovaMD.Provider.Models.Common;
+using com.InnovaMD.Provider.Models.Log;
 using com.InnovaMD.Provider.Models.Security;
 using com.InnovaMD.Provider.Models.SystemConfiguration;
 using com.InnovaMD.Utilities.Dates;
+using com.InnovaMD.Utilities.Logging;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static Microsoft.Azure.Amqp.Serialization.SerializableType;
 
 
 namespace com.InnovaMD.Provider.Business
@@ -48,28 +50,14 @@ namespace com.InnovaMD.Provider.Business
 
         }
 
-        #region IDisposable
-        private bool disposedValue = false;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                disposedValue = true;
-            }
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        #endregion
-
         public CreateConsultationConfigurationsResponseModel GetConfigurations()
         {
             var response = new CreateConsultationConfigurationsResponseModel();
             response.CancelConsultationCreateMessage = _clinicalConsultationModel.CancelCreateConsultationMessage;
             response.AlertConsultationCreateCompleteStepMessage = _clinicalConsultationModel.CreateConsultationCompleteStepsValidationMsg;
             response.SubmitValidationMessage = _clinicalConsultationModel.CreateConsultationSubmitValidationMsg;
+            response.SuccessfulSubmitMessage = _clinicalConsultationModel.CreateClinicalConsultationSuccessfulSubmitMessage;
+            response.SubmitDisclosureMessage = _clinicalConsultationModel.CreateClinicalConsultationSubmitDisclosureMessage;
             return response;
         }
         
@@ -280,8 +268,24 @@ namespace com.InnovaMD.Provider.Business
             var response = _createClinicalConsultationRepository.GetHealthPlans();
             return response;
         }
+        
+        public RecreateClinicalConsultation GetClinicalConsultationForRecreate(int clinicalConsultationId)
+        {
+            var beneficiaryId = _createClinicalConsultationRepository.FindConsultationBeneficiaryId(clinicalConsultationId);
+
+            var beneficiaryInfo = _beneficiaryRepository.GetBeneficiaryInformation(beneficiaryId);
+
+            var clinicalConsultation = _createClinicalConsultationRepository.GetClinicalConsultationForRecreate(clinicalConsultationId, beneficiaryInfo.LineOfBusinessId.Value);
+            
+            clinicalConsultation.ClinicalConsultationDate = DateTime.UtcNow.FromUtcToSystemTimezone();
+
+             return clinicalConsultation;
+        }
+
         public SubmitClinicalConsultationResponse SubmitClinicalConsultation(SubmitClinicalConsultationRequest request, IdentityUserExtended user)
         {
+            LogRequest(request);
+
             var beneficiaryInfo = _beneficiaryRepository.GetBeneficiaryInformation(int.Parse(request.BeneficiaryId));
 
             var beneficiary = PrepareBeneficiaryInformation(request);
@@ -318,7 +322,7 @@ namespace com.InnovaMD.Provider.Business
                 ServicingSpecialty = servicingSpecialty,
                 AnyContractedSpecialist = request.ServicingProvider.AllowAnyContractedSpecialist,
                 ServicingNonPPNReason = servicingNonPPNReason,
-                ClinicalConsultationDate = request.ConsultationDate.FromSystemTimezoneToUTC(),
+                ClinicalConsultationDate = request.ConsultationDate,
                 AdditionalHealthPlan = additionalHealthPlan,
                 Purpose = request.Purpose,
 
@@ -333,12 +337,23 @@ namespace com.InnovaMD.Provider.Business
                 OriginalClinicalConsultationId = request.isRecreate ? long.Parse(request.OriginalClinicalConsultationId) : null
             };
 
-            var clinicalConsultationId = _createClinicalConsultationRepository.Insert(clinicalConsultation);
+            clinicalConsultation.ClinicalConsultationId = _createClinicalConsultationRepository.Insert(clinicalConsultation);
+
+            LogSubmit(clinicalConsultation, request);
 
             return new SubmitClinicalConsultationResponse()
             {
-                ClinicalConsultationId = clinicalConsultationId
+                ClinicalConsultationId = clinicalConsultation.ClinicalConsultationId
             };
+        }
+
+        public IEnumerable<SuggestionsResponse> GetRecentSuggestions(int beneficiaryId)
+        {
+
+            int suggestionsLimit = _clinicalConsultationModel.RecreateConsultationPanelsuggestionsValue;            
+            var suggestions = _createClinicalConsultationRepository.GetRecentSuggestions(beneficiaryId, suggestionsLimit);
+           
+            return suggestions;
         }
 
         #region "Submit Helpers"
@@ -413,7 +428,7 @@ namespace com.InnovaMD.Provider.Business
             return procedure;
         }
 
-        private (ClinicalConsultationProvider, Specialty) PrepareServicingProvider(SubmitClinicalConsultationRequest request, int lineOfBusinessId)
+        private (ClinicalConsultationProvider, ClinicalConsultationProviderSpecialty) PrepareServicingProvider(SubmitClinicalConsultationRequest request, int lineOfBusinessId)
         {
             var specialtyId = int.Parse(request.ServicingProvider.SpecialtyId);
 
@@ -423,7 +438,7 @@ namespace com.InnovaMD.Provider.Business
 
                 if (specialty.AllowAnyContractedSpecialist == true)
                 {
-                    return (null, specialty);
+                    return (null, new ClinicalConsultationProviderSpecialty(specialty));
                 }
 
                 throw new Exception("Invalid specialty");
@@ -453,10 +468,7 @@ namespace com.InnovaMD.Provider.Business
                         break;
                 }
 
-                return (provider, new Specialty()
-                {
-                    SpecialtyId = provider.Specialties.First().SpecialtyId,
-                });
+                return (provider, provider.Specialties.First());
             }
         }
 
@@ -538,7 +550,127 @@ namespace com.InnovaMD.Provider.Business
 
             return (false, null);
         }
+        
+        private void LogRequest(SubmitClinicalConsultationRequest request)
+        {
+            _logger.LogAuditEvent(
+                 request
+               , nameof(AuditEventTypes.ConsultationSubmitRequest)
+               , nameof(AuditEventGroups.ClinicalConsultation)
+           );
+        }
 
+        private void LogSubmit(ClinicalConsultation clinicalConsultation, SubmitClinicalConsultationRequest request)
+        {
+            dynamic data = new ExpandoObject();
+            
+            data.ClinicalConsultationId = clinicalConsultation.ClinicalConsultationId;
+            data.ConsultationNumber = clinicalConsultation.ClinicalConsultationNumber;
+            data.IsConsultation = clinicalConsultation.IsConsultation;
+            data.IsRecreate = clinicalConsultation.IsRecreate;
+            data.OriginalClinicalConsultationId = clinicalConsultation.OriginalClinicalConsultationId;
+            data.AnyContractedSpecialist = clinicalConsultation.AnyContractedSpecialist;
+            data.ConsultationDate = clinicalConsultation.ClinicalConsultationDate.FromUtcToSystemTimezone();
+            data.ExpirationDate = clinicalConsultation.ExpirationDate.FromUtcToSystemTimezone();
+            data.Specialty = new
+            {
+                SpecialtyId = clinicalConsultation.ServicingSpecialty.SpecialtyId,
+                SpecialtyName = clinicalConsultation.ServicingSpecialty.Name
+            };
+            data.Beneficiary = new
+            {
+                BeneficiaryName = clinicalConsultation.Beneficiary.Name,
+                BeneficiaryId = clinicalConsultation.Beneficiary.BeneficiaryId
+            };
+            data.RequestingProvider = new
+            {
+                RequestingProviderName = clinicalConsultation.Requesting.Name,
+                RequestingNPI = clinicalConsultation.Requesting.RenderingNPI,
+                BillingName = clinicalConsultation.Requesting.BillingProviderName,
+                BillingNPI = clinicalConsultation.Requesting.BillingNPI,
+                Specialties = clinicalConsultation.Requesting.Specialties.Select(s => new
+                {
+                    SpecialtyId = s.SpecialtyId,
+                    SpecialtyName = s.Name
+                }),
+                City = clinicalConsultation.Requesting.CountyName,
+                PrimaryPhone = clinicalConsultation.Requesting.PhoneNumber,
+                PrimaryEmail = clinicalConsultation.Requesting.Email
+            };
+            data.Diagnoses = clinicalConsultation.Diagnosis.Select(d => new
+            {
+                DiagnosesCode = d.Code,
+                DiagnosesDescription = d.Description,
+                IsPrimary = d.IsPrimary
+            });
+            data.Service = clinicalConsultation.Procedures.Select(s => new
+            {
+                Service = s.Description,
+                ServiceQuantity = s.Units
+            }).First();
+            data.Servicing = new
+            {
+                ServicingProviderName = clinicalConsultation.Servicing?.Name,
+                ServicingNPI = clinicalConsultation.Servicing?.RenderingNPI,
+                BillingName = clinicalConsultation.Servicing?.BillingProviderName,
+                BillingNPI = clinicalConsultation.Servicing?.BillingNPI,
+                Specialties = clinicalConsultation.Servicing?.Specialties.Select(s => new
+                {
+                    SpecialtyId = s.SpecialtyId,
+                    SpecialtyName = s.Name
+                }),
+                City = clinicalConsultation.Servicing?.CountyName,
+                PrimaryPhone = clinicalConsultation.Servicing?.PhoneNumber,
+                PrimaryEmail = clinicalConsultation.Servicing?.Email,
+                AdministrationGroup = clinicalConsultation.Servicing?.AdministrationGroupName,
+                AdministrationGroupId = clinicalConsultation.Servicing?.AdministrationGroupId
+            };
+            data.AdditionalHealthPlan = new
+            {
+                AdditionalHealthPlanId = clinicalConsultation.AdditionalHealthPlan?.AdditionalHealthPlanId,
+                AdditionalHealthPlanName = clinicalConsultation.AdditionalHealthPlan?.AdditionalHealthPlanName
+            };
+            if(clinicalConsultation.PCP?.RenderingProviderId != clinicalConsultation.Requesting.RenderingProviderId)
+            {
+                data.PCP = new
+                {
+                    ProviderNPI = clinicalConsultation.PCP?.RenderingNPI,
+                    ProviderName = clinicalConsultation.PCP?.Name,
+                    BillingNPI = clinicalConsultation.PCP?.BillingNPI,
+                    AdministrationGroup = clinicalConsultation.Servicing?.AdministrationGroupName,
+                    AdministrationGroupId = clinicalConsultation.Servicing?.AdministrationGroupId
+                };
+            }
+
+            if(clinicalConsultation.IsRecreate)
+            {
+                data.IsRecreate = true;
+                data.OriginalClinicalConsultationId = clinicalConsultation.OriginalClinicalConsultationId;
+                data.IsFromHistory = request.RecreateFrom == "ClinicalConsultationHistory" ? "Y" : "N";
+            }
+
+            _logger.LogAuditEvent(
+                  data as object
+                , clinicalConsultation.IsRecreate ? nameof(AuditEventTypes.ConsultationReviewRecreate) : nameof(AuditEventTypes.ConsultationReviewSubmit)
+                , nameof(AuditEventGroups.ClinicalConsultation)
+            );
+        }
+
+        #endregion
+
+        #region IDisposable
+        private bool disposedValue = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
 
     }

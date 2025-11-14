@@ -11,5 +11,8 @@ namespace com.InnovaMD.Provider.Models.ClinicalConsultations.Response
         public string CancelConsultationCreateMessage { get; set; }
         public string AlertConsultationCreateCompleteStepMessage { get; set; }
         public string SubmitValidationMessage { get; set; }
+        public string SuccessfulSubmitMessage { get; set; }
+        public string SubmitDisclosureMessage { get; set; }
+        
     }
 }

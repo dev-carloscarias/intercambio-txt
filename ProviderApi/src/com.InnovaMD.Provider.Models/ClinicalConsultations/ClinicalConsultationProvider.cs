@@ -10,12 +10,14 @@ namespace com.InnovaMD.Provider.Models.ClinicalConsultations
         public int? ProviderAffiliationId { get; set; }
         public int? RenderingProviderId { get; set; }
         public int? BillingProviderId { get; set; }
+
         public string RenderingNPI { get; set; }
         public string BillingNPI { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string BillingProviderName { get; set; }
         public int? AddressId { get; set; }
         public string FullAddress =>  $"{AddressLine1} {AddressLine2 ?? string.Empty} {CountyName}, {StateName} {ZipCode}"; 
         public string AddressLine1 { get; set; }

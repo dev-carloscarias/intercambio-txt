@@ -67,6 +67,20 @@ namespace com.InnovaMD.Provider.ClinicalConsultationApi.Controllers
                 }
             }
 
+            if (responseModel.BeneficiaryPcp != null)
+            {
+                responseModel.BeneficiaryPcp.RenderingProviderIdProtected = Protector.Protect(responseModel.BeneficiaryPcp.RenderingProviderId.ToString());
+                responseModel.BeneficiaryPcp.BillingProviderIdProtected = Protector.Protect(responseModel.BeneficiaryPcp.BillingProviderId.ToString());
+
+                if (responseModel.BeneficiaryPcp.Cities != null)
+                {
+                    foreach (var city in responseModel.BeneficiaryPcp.Cities)
+                    {
+                        city.CityIdProtected = Protector.Protect(city.CityId.ToString());
+                    }
+                }
+            }
+
             return new ObjectResult(responseModel);
         }
 
@@ -304,9 +318,9 @@ namespace com.InnovaMD.Provider.ClinicalConsultationApi.Controllers
 
                 }
             }
-            return new ObjectResult(responseModel);  
+            return new ObjectResult(responseModel);
         }
-      
+
         [HttpGet("servicingprovider/servicingNonPPNReason/{beneficiaryIdProtected}")]
         public IActionResult GetServicingNonPPNReason(string beneficiaryIdProtected)
         {
@@ -317,7 +331,7 @@ namespace com.InnovaMD.Provider.ClinicalConsultationApi.Controllers
             var responseModel = _component.GetServicingNonPPNReason(beneficiaryId);
 
             if (responseModel == null) { return new NoContentResult(); }
-            
+
             if (responseModel.ServicingNonPPNReasons != null)
             {
                 foreach (var reason in responseModel.ServicingNonPPNReasons)
@@ -328,7 +342,6 @@ namespace com.InnovaMD.Provider.ClinicalConsultationApi.Controllers
 
             return new ObjectResult(responseModel);
         }
-
 
         [HttpGet("additionalinfo/configurations")]
         public IActionResult GetAdditionalInformationConfigurations()
@@ -510,5 +523,131 @@ namespace com.InnovaMD.Provider.ClinicalConsultationApi.Controllers
             return Ok(responseModel);
         }
 
+
+        [HttpGet("recreate/consultation/{clinicalConsultationIdProtected}")]
+        public IActionResult GetConsultationForRecreated(string clinicalConsultationIdProtected)
+        {
+            if (!int.TryParse(Protector.Unprotect(clinicalConsultationIdProtected), out int clinicalConsultationId))
+            {
+                return BadRequest();
+            }
+
+            var responseModel = _component.GetClinicalConsultationForRecreate(clinicalConsultationId);
+
+            if (responseModel == null) { return new NoContentResult(); }
+
+            responseModel.ClinicalConsultationIdProtected = Protector.Protect(responseModel.ClinicalConsultationId.ToString());
+
+            if (responseModel.ServicingSpecialty != null)
+            {
+                responseModel.ServicingSpecialty.SpecialtyIdProtected = Protector.Protect(responseModel.ServicingSpecialty.SpecialtyId.ToString());
+            }
+
+            if (responseModel.ServicingCity != null)
+            {
+                responseModel.ServicingCity.CityIdProtected = Protector.Protect(responseModel.ServicingCity.CityId.ToString());
+            }
+
+            if (responseModel.RequestingCity != null)
+            {
+                responseModel.RequestingCity.CityIdProtected = Protector.Protect(responseModel.RequestingCity.CityId.ToString());
+            }
+
+            if (responseModel.ServicingNonPPNReason != null)
+            {
+                responseModel.ServicingNonPPNReason.ServicingNonPPNReasonIdProtected = Protector.Protect(responseModel.ServicingNonPPNReason.ServicingNonPPNReasonId.ToString());
+            }
+
+            if (responseModel.AdditionalHealthPlan != null)
+            {
+                responseModel.AdditionalHealthPlan.AdditionalHealthPlanIdProtected = Protector.Protect(responseModel.AdditionalHealthPlan.AdditionalHealthPlanId.ToString());
+            }
+
+            if (responseModel.Procedure != null)
+            {
+                responseModel.Procedure.ProcedureBundleIdProtected = Protector.Protect(responseModel.Procedure.ProcedureBundleId.ToString());
+            }
+
+            if (responseModel.Diagnoses != null)
+            {
+                foreach(var diagnosis in responseModel.Diagnoses)
+                {
+                    diagnosis.DiagnosisIdProtected = Protector.Protect(diagnosis.DiagnosisId.ToString());
+                }
+            }
+
+            if (responseModel.RequestingProvider != null)
+            {
+                responseModel.RequestingProvider = protectRequestingProvider(responseModel.RequestingProvider);
+            }
+
+            if (responseModel.ServicingProvider != null)
+            {
+                responseModel.ServicingProvider = protecServicingProvider(responseModel.ServicingProvider);
+            }
+
+            return new ObjectResult(responseModel);
+        }
+
+        [HttpGet("suggestions/{beneficiaryIdProtected}")]
+        public IActionResult SearchSuggestions(string beneficiaryIdProtected)
+        {
+            if (!int.TryParse(Protector.Unprotect(beneficiaryIdProtected), out int beneficiaryId))
+            {
+                return BadRequest();
+            }
+            var user = User.GetIdentityUser();
+
+            var responseModel = _component.GetRecentSuggestions(beneficiaryId);
+
+            if (responseModel == null) { return new NoContentResult(); }
+
+            foreach (var consultation in responseModel)
+            {
+
+                consultation.ClinicalConsultationIdProtected = Protector.Protect(consultation.ClinicalConsultationId.ToString());
+
+            }
+            return new ObjectResult(responseModel);
+        }
+
+
+        #region ProtectedRegion
+        private RequestingProvider protectRequestingProvider(RequestingProvider requestingProvider)
+        {
+            requestingProvider.RenderingProviderIdProtected = Protector.Protect(requestingProvider.RenderingProviderId.ToString());
+            requestingProvider.BillingProviderIdProtected = Protector.Protect(requestingProvider.BillingProviderId.ToString());
+
+            foreach (var city in requestingProvider.Cities)
+            {
+                city.CityIdProtected = Protector.Protect(city.CityId.ToString());
+            }
+
+            foreach (var specialty in requestingProvider.Specialties)
+            {
+                specialty.SpecialtyIdProtected = Protector.Protect(specialty.SpecialtyId.ToString());
+            }
+            return requestingProvider;
+        } 
+
+        private ServicingProvider protecServicingProvider(ServicingProvider servicingProvider)
+        {
+
+            servicingProvider.RenderingProviderIdProtected = Protector.Protect(servicingProvider.RenderingProviderId.ToString());
+            servicingProvider.BillingProviderIdProtected = Protector.Protect(servicingProvider.BillingProviderId.ToString());
+
+            foreach (var city in servicingProvider.Cities)
+            {
+                city.CityIdProtected = Protector.Protect(city.CityId.ToString());
+            }
+
+            foreach (var specialty in servicingProvider.Specialties)
+            {
+                specialty.SpecialtyIdProtected = Protector.Protect(specialty.SpecialtyId.ToString());
+            }
+
+            return servicingProvider;
+        }
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -569,6 +570,16 @@ namespace com.InnovaMD.Provider.Business.Test.Components
             var response2 = _component.SubmitClinicalConsultation(request2, user);
             Assert.NotNull(response2);
             Assert.NotEqual(0, response2.ClinicalConsultationId);
+        }
+
+        [Fact]
+        public void GetClinicalConsultationForRecreateTest()
+        {
+            var clinicalConsultationId = 2061;
+
+            var response = _component.GetClinicalConsultationForRecreate(clinicalConsultationId);
+
+            Assert.NotNull(response);
         }
     }
 }
