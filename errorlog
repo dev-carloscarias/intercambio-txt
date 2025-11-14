@@ -1,5 +1,3 @@
-Walmart.FelGTSoft2000.Mvc/App/Components/SftpFileTransfer/Controllers/UploadFile.cs
-Walmart.FelGTSoft2000.Mvc/Common/Helpers/Akeyless/AkeylessHelper.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/DocumentFiscal/Controllers/Index.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/Folio/Controllers/Update.cs
-Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Update.cs
+Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/ActiveCaiController.cs
+Walmart.FelGTSoft2000.Mvc/App/Components/Cai/Controllers/InactiveCaiController.cs
+Walmart.FelGTSoft2000.Mvc/App/Components/Company/Controllers/Index.cs
