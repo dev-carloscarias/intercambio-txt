@@ -1,0 +1,13 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.servicing-provider-item {
+    &-name-anyspecialist {
+        font-size: 0.875rem;
+        font-weight: $font-weight-bold;
+        color: $palette1;
+        margin-bottom: 0.25rem;
+    }
+}

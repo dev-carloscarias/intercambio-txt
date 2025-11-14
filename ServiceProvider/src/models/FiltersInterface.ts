@@ -1,17 +1,15 @@
-export interface FiltersInterface {
-    specialty?: string;
-    city?: string;
-    group?: string;
-    country?: string;
-    zipCode?: string;
-}
+import {
+    AdministrationGroup,
+    County,
+    Specialty,
+    State,
+    ZipCode
+} from '../services/ClinicalConsultationService';
 
-export function hasFilters(filters: FiltersInterface): boolean {
-    for (const key of Object.keys(filters) as (keyof FiltersInterface)[]) {
-        const value = filters[key];
-        if (value !== null && value !== undefined && value !== '') {
-            return true;
-        }
-    }
-    return false;
+export interface FiltersInterface {
+    specialty?: Specialty;
+    city?: County;
+    group?: AdministrationGroup;
+    country?: State;
+    zipCode?: ZipCode;
 }

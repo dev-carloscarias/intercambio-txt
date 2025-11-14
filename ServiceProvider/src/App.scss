@@ -5,6 +5,21 @@
 @import 'variables.scss';
 
 .smartprofile-referral-provider {
+    .servicing-any-specialist-toggle {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+        color: $palette20;
+        font-weight: $font-weight-semibold;
+
+        &-contiainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 3px;
+        }
+    }
+
     > .dropdown-input {
         .dropdown-input-item {
             padding: 1rem;
@@ -57,6 +72,7 @@
         min-width: 240px;
     }
     .btn-smartprofile-referral-provider-filter {
+        display: flex;
         color: $palette2;
         border: $input-border-width solid $input-border-color;
         flex-shrink: 0;
@@ -64,6 +80,15 @@
         font-weight: $font-weight-semibold;
         padding-left: 1rem;
         padding-right: 1rem;
+
+        @include media-breakpoint-down(mobile) {
+            width: 100%;
+            margin-top: 1rem;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            justify-content: center;
+            text-align: center;
+        }
 
         &.btn-outline-secondary:not(:disabled):not(.disabled):hover,
         &.btn-outline-secondary:not(:disabled):not(.disabled):active,
@@ -99,9 +124,25 @@
     }
 }
 
-// Espaciado específico para móvil del botón More Filter
 .more-filter-mobile-spacing {
     @include media-breakpoint-down(md) {
         margin-top: 0.5rem;
+    }
+}
+
+.referral-reason-container {
+    @include media-breakpoint-up(md) {
+        max-width: 60%;
+        width: 60%;
+    }
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .dd-picker {
+        width: 100%;
+        max-width: 100%;
     }
 }

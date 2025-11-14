@@ -1,24 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ServicingProviderItem.scss';
+import { CustomCheckbox, WithTooltip } from '@provider-portal/components';
 import {
-    CustomCheckbox,
-    BottomSheet,
-    BottomSheetList,
-    BottomSheetListItem,
-    BottomSheetTitle,
-    BottomSheetSubtitle,
-    WithTooltip
-} from '@provider-portal/components';
-import {
-    IconAngleDown,
     IconInformation,
     IconStarRounded,
     IconRibbonCheck
 } from '@provider-portal/icons';
-import {
-    CityInterface,
-    ServicingProviderInterface
-} from '../models/ProviderInterface';
 import { useTranslation } from 'react-i18next';
 
 export type ServicingProviderItemProps = {
@@ -29,6 +16,7 @@ export type ServicingProviderItemProps = {
     checked: boolean;
     // display bottom sheet to select city? intended for mobile only
     autoSelectCity?: boolean;
+    activeFilters?: any;
     id?: number;
 };
 
@@ -37,33 +25,39 @@ const ServicingProviderItem: React.FC<ServicingProviderItemProps> = ({
     onCheck,
     checked,
     id,
-    autoSelectCity = false
+    autoSelectCity = false,
+    activeFilters
 }) => {
     const { t } = useTranslation();
-    const [isOpenCitySheet, setIsOpenCitySheet] = useState(false);
-
-    const handleOnSelectCity = (city: CityInterface) => () => {
-        setIsOpenCitySheet(false);
-        const itemWithCity = { ...item };
-        itemWithCity.selectedCity = city;
-        onCheck(itemWithCity);
-    };
-
-    const onClose = () => setIsOpenCitySheet(false);
 
     const handleOnCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
         const state = e.target.checked;
+
         if (state) {
+            const hasZipCodeFilter = activeFilters?.zipCode;
+
             if (
-                autoSelectCity &&
+                hasZipCodeFilter &&
                 (hasMultiple(item.cities, 'name') ||
                     hasMultiple(item.cities, 'zipCode')) &&
                 !item.selectedCity
             ) {
-                e.preventDefault();
-                setIsOpenCitySheet(true);
-            } else onCheck(item);
-        } else onCheck(null);
+                const matchingCity = item.cities?.find(city => {
+                    return city.zipCode === hasZipCodeFilter.zipCodeValue;
+                });
+
+                if (matchingCity) {
+                    const itemWithCity = { ...item };
+                    itemWithCity.selectedCity = matchingCity;
+                    onCheck(itemWithCity);
+                    return;
+                }
+            }
+
+            onCheck(item);
+        } else {
+            onCheck(null);
+        }
     };
 
     const hasMultiple = (arr: any, property: string) => {
@@ -322,34 +316,6 @@ const ServicingProviderItem: React.FC<ServicingProviderItemProps> = ({
                     </div>
                 </div>
             </CustomCheckbox>
-            {hasMultiple(item.cities, 'name') ||
-            hasMultiple(item.cities, 'zipCode') ? (
-                <BottomSheet isOpen={isOpenCitySheet} onClose={onClose}>
-                    <BottomSheetTitle>
-                        {t(
-                            'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY'
-                        )}
-                    </BottomSheetTitle>
-                    <BottomSheetSubtitle>
-                        {t(
-                            'clinicalconsultation:servicing-provider.PROVIDER-SPECIALTY-CITY-MESSAGE'
-                        )}
-                    </BottomSheetSubtitle>
-                    <BottomSheetList>
-                        {item.cities.map((c, i: number) => (
-                            <BottomSheetListItem
-                                key={i}
-                                name={c.name + ' - ' + c.zipCode}
-                                onClick={handleOnSelectCity(c)}
-                                formatItem={(c: CityInterface) =>
-                                    c.name + ' - ' + c.zipCode
-                                }
-                                isActive={c == item.selectedCity}
-                            />
-                        ))}
-                    </BottomSheetList>
-                </BottomSheet>
-            ) : null}
         </>
     );
 };

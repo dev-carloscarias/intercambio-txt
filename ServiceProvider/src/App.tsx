@@ -5,11 +5,12 @@ import {
     CardWidgetSubheading,
     FormFlexInputDynamicSearch,
     CardWidgetTable,
-    CardWidgetTableRemoveIcon,
+    CustomToggle,
     BottomSheetSelect,
     DropdownPicker,
     CONST,
-    LoadingIndicator
+    LoadingIndicator,
+    FormDropdownSelect
 } from '@provider-portal/components';
 import { IconPlus, IconMinus, IconFilterList } from '@provider-portal/icons';
 import {
@@ -24,22 +25,18 @@ import ServicingProviderItem from './ServicingProviderItem/ServicingProviderItem
 import ServicingProviderSelectedItem from './ServicingProviderSelectedItem/ServicingProviderSelectedItem';
 import FilterBar from './FilterBar/FilterBar';
 import BottomSheetCancelNext from './BottomSheetCancelNext/BottomSheetCancelNext';
-import { Consultation } from './models/Consultation';
-import {
-    ProviderInterface,
-    CityInterface,
-    ServicingProviderInterface,
-    SpecialtyInterface
-} from './models/ProviderInterface';
 import ClinicalConsultationService, {
-    BeneficiaryInformation
+    BeneficiaryInformation,
+    ServicingNonPPNReasonInterface,
+    Specialty
 } from './services/ClinicalConsultationService';
 import { Trans, useTranslation } from 'react-i18next';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { AuditEventGroups } from './models/AuditEventGroups';
 import { AuditEventTypes } from './models/AuditEventTypes';
-import { Specialties } from './mock-data';
-import { FiltersInterface, hasFilters } from './models/FiltersInterface';
+
+import { FiltersInterface } from './models/FiltersInterface';
+import AnyContractedSpecialistSelectedItem from './AnyContractedSpecialistSelectedItem/AnyContractedSpecialistSelectedItem';
 
 interface SearchParams {
     searchValue: string;
@@ -48,22 +45,23 @@ interface SearchParams {
 }
 
 function App({
+    eventBus,
     onValidate,
     consultation,
     active,
     beneficiaryId,
-    stepAlertMessage
+    stepAlertMessage,
+    beneficiaryInformation
 }: {
+    eventBus: any;
     onValidate: (c: Consultation) => void;
     consultation: Consultation;
     active: boolean;
     beneficiaryId: string;
     stepAlertMessage: string;
+    beneficiaryInformation: BeneficiaryInformation;
 }) {
     const { t } = useTranslation();
-    const [beneficiaryInformation, setBeneficiaryInformation] =
-        useState<BeneficiaryInformation>(null);
-
     const [isOpenCollapse, setIsOpenCollapse] = useState(false);
     const [isOpenSheet, setIsOpenSheet] = useState(false);
     const [isValidForm, setIsValidForm] = useState(false);
@@ -73,16 +71,23 @@ function App({
     );
     const [hasMore, setHasMore] = useState(false);
     const [selectedProvider, setSelectedProvider] =
-        useState<ProviderInterface>();
+        useState<ConsultationProvider>();
     const [totalRows, setTotalRows] = useState(0);
+    const [referralReason, setReferralReason] =
+        useState<ServicingNonPPNReasonInterface>(null);
+    const [referralReasons, setReferralReasons] = useState<
+        ServicingNonPPNReasonInterface[]
+    >([]);
+    const [isLoadingReasons, setIsLoadingReasons] = useState(false);
+    const [ppnReasonMessage, setPpnReasonMessage] = useState<string>('');
 
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+    const [allowAnyContractedSpecialty, setAllowAnyContractedSpecialty] =
+        useState(false);
 
     const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(false);
     const [isFilterBarOpen, setIsFilterBarOpen] = useState(false);
-    const [filtersCount, setFiltersCount] = useState(0);
-
-    const [searchInitiated, setSearchInitiated] = useState(false);
+    const [filtersCount, setFiltersCount] = useState(1);
 
     const [searchParams, setSearchParams] = useState<SearchParams>({
         searchValue: '',
@@ -90,6 +95,19 @@ function App({
         filters: {}
     });
     const [wasUpdated, setWasUpdated] = useState(false);
+    const [enableFilter, setEnableFilter] = useState(false);
+
+    const [specialties, setSpecialties] = useState<Specialty[]>(null);
+    const [selectedSpecialty, setSelectedSpecialty] = useState<Specialty>(null);
+
+    const [resetSearchBar, setResetSearchBar] = useState(false);
+    const [searchBarKey, setSearchBarKey] = useState(0);
+    const [isCityDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isRecreate, setIsRecreate] = useState(false);
+
+    const [isRecreation, setIsRecreation] = useState(false);
+    const [isSpecialtyDropdownOpen, setIsSpecialtyDropdownOpen] =
+        useState(false);
 
     // Ref to store the current AbortController
     const controllerRef = useRef<AbortController | null>(null);
@@ -107,16 +125,48 @@ function App({
         // prevent click sheets to trigger drodpown toggle
         if (isBottomSheetElement(e.target as Element)) return;
         // do not show empty dropdowns
-        if (providers.length) setIsOpenDropdown(!isOpenDropdown);
+        if (providers.length && isOpenDropdown)
+            setIsOpenDropdown(!isOpenDropdown);
     };
+
+    const loadReferralReasons = async () => {
+        if (referralReasons.length > 0) return;
+
+        setIsLoadingReasons(true);
+        try {
+            const response =
+                await ClinicalConsultationService.getInstance().GetServicingNonPPNReason(
+                    beneficiaryId
+                );
+            if (response?.data?.servicingNonPPNReasons) {
+                setReferralReasons(response.data.servicingNonPPNReasons);
+            }
+        } catch (error) {
+        } finally {
+            setIsLoadingReasons(false);
+        }
+    };
+
+    useEffect(() => {
+        const loadConfigurations = async () => {
+            try {
+                const response =
+                    await ClinicalConsultationService.getInstance().getPPNConfigurations();
+                if (response?.data?.ppnReason) {
+                    setPpnReasonMessage(response.data.ppnReason);
+                }
+            } catch (error) {}
+        };
+
+        loadConfigurations();
+    }, []);
 
     const loadProviders = async (
         term: string,
         page: number,
-        filters: FiltersInterface = null,
+        filters: FiltersInterface = {},
         signal: any
     ) => {
-        //if (isSearchLoading) return;
         if (page === 1) setProviders([]);
         setIsSearchLoading(true);
 
@@ -129,18 +179,17 @@ function App({
                     filters,
                     signal
                 );
-
             if (page === 1) {
                 await ClinicalConsultationService.getInstance().logAuditEvent(
                     AuditEventTypes.ServicingProviderSearch,
                     AuditEventGroups.ClinicalConsultation,
                     {
                         search: term,
-                        city: filters.city,
-                        administrationGroup: filters.group,
-                        state: filters.country,
-                        zipCode: filters.zipCode,
-                        specialty: filters.specialty,
+                        city: filters?.city,
+                        administrationGroup: filters?.group,
+                        state: filters?.country,
+                        zipCode: filters?.zipCode,
+                        specialty: filters?.specialty,
                         totalCount: response?.data?.total,
                         beneficiaryId: beneficiaryInformation?.beneficiaryId,
                         beneficiaryName: beneficiaryInformation?.displayName
@@ -153,11 +202,11 @@ function App({
                     {
                         search: term,
                         page: page,
-                        city: filters.city,
-                        administrationGroup: filters.group,
-                        state: filters.country,
-                        zipCode: filters.zipCode,
-                        specialty: filters.specialty,
+                        city: filters?.city,
+                        administrationGroup: filters?.group,
+                        state: filters?.country,
+                        zipCode: filters?.zipCode,
+                        specialty: filters?.specialty,
                         totalCount: totalRows,
                         beneficiaryId: beneficiaryInformation?.beneficiaryId,
                         beneficiaryName: beneficiaryInformation?.displayName
@@ -190,45 +239,187 @@ function App({
     };
 
     const isMultipleSpecialty = (provider: ServicingProviderInterface) => {
-        return provider.specialties?.length > 1;
+        return (provider.specialties?.length || 0) > 1;
     };
 
     const handleOnCheck = (item: ServicingProviderInterface) => {
-        console.log('App - handleOnCheck called with item:', item);
-        console.log('App - item.specialties:', item.specialties);
-        console.log('App - isMultipleSpecialty:', isMultipleSpecialty(item));
-        
+        if (controllerRef.current) {
+            controllerRef.current.abort();
+            controllerRef.current = null;
+        }
+        setAllowAnyContractedSpecialty(false);
         if (item) {
-            const updatedItem = { ...item };
-            if (!isMultipleCity(item)) updatedItem.selectedCity = item.cities?.[0];
-            if (!isMultipleSpecialty(item)) {
-                console.log('App - Setting first specialty:', item.specialties?.[0]);
-                updatedItem.selectedSpecialty = item.specialties?.[0];
+            const updateItem = { ...item };
+            updateItem.selectedCity = undefined;
+            updateItem.selectedSpecialty = undefined;
+            if (!isMultipleCity(item)) {
+                updateItem.selectedCity = item.cities?.[0];
+            } else {
+                if (searchParams?.filters?.city) {
+                    const matchingCity = item.cities?.find(
+                        city => city.name === searchParams.filters.city.name
+                    );
+                    if (matchingCity) {
+                        updateItem.selectedCity = matchingCity;
+                    } else {
+                        updateItem.selectedCity = undefined;
+                    }
+                } else if (searchParams?.filters?.zipCode) {
+                    const matchingCity = item.cities?.find(
+                        city =>
+                            city.zipCode ===
+                            searchParams.filters.zipCode.zipCodeValue
+                    );
+                    if (matchingCity) {
+                        updateItem.selectedCity = matchingCity;
+                    } else {
+                        // No hay coincidencia con el filtro, no seleccionar ninguna
+                        updateItem.selectedCity = undefined;
+                    }
+                } else {
+                    if (!item.selectedCity) {
+                        updateItem.selectedCity = undefined;
+                    }
+                }
             }
-            console.log('App - Final updatedItem:', updatedItem);
-            setSelectedProvider(updatedItem);
+            if (isMultipleSpecialty(item)) {
+                if (searchParams?.filters?.specialty) {
+                    const matchingSpeciality = item.specialties?.find(
+                        speciality =>
+                            speciality.specialtyId ===
+                            searchParams.filters.specialty.specialtyId
+                    );
+                    if (matchingSpeciality) {
+                        updateItem.selectedSpecialty = matchingSpeciality;
+                    } else {
+                        updateItem.selectedSpecialty = undefined;
+                    }
+                } else {
+                    if (!item.selectedSpecialty) {
+                        updateItem.selectedSpecialty = undefined;
+                    }
+                }
+            } else {
+                updateItem.selectedSpecialty = item.specialties?.[0];
+            }
+            setSelectedProvider(updateItem);
+            setReferralReason(null);
+            setIsOpenDropdown(false);
         } else {
             setSelectedProvider(null);
+        }
+        if (isMobile()) {
+            setTimeout(forceBodyScroll, 100);
         }
     };
 
     useEffect(() => {
+        function expandStep(stepIndex: number) {
+            if (stepIndex == 3) setIsOpenCollapse(true);
+        }
+
+        function recreate(isRecreation: boolean) {
+            if (isRecreation) {
+                handleOnClearSearch();
+                setEnableFilter(false);
+                setIsRecreation(isRecreation);
+            }
+        }
+
+        eventBus.on('clinical-consultation-expand-step', expandStep);
+
+        eventBus.on('clinical-consultation-recreate', recreate);
+
+        return () => {
+            eventBus.off('clinical-consultation-expand-step', expandStep);
+            eventBus.off('clinical-consultation-recreate', recreate);
+        };
+    }, [eventBus]);
+
+    const handleResetInput = useCallback(() => {
+        setSearchParams({ searchValue: '', page: 1, filters: {} });
+        setProviders([]);
+        setSelectedSpecialty(null);
+        setResetSearchBar(true);
+        setFiltersCount(1);
+        setAllowAnyContractedSpecialty(false);
+        setTotalRows(0);
+
+        if (isMobile()) {
+            setIsFilterPanelOpen(false);
+            setEnableFilter(false);
+        }
+
+        setSearchBarKey(prev => prev + 1);
+        handleOnClearSearch();
+    }, []);
+
+    useEffect(() => {
         // when detect providers loaded, trigger dropdown visibility
         setIsOpenDropdown(!!providers.length);
+
+        if (isMobile()) {
+            setTimeout(forceBodyScroll, 100);
+        }
     }, [providers]);
 
     useEffect(() => {
         if (selectedProvider) {
             setIsOpenDropdown(false);
-            if (selectedProvider.selectedCity) {
+
+            // Validar si tiene múltiples ciudades y no se ha seleccionado ninguna
+            const hasMultipleCities = isMultipleCity(selectedProvider);
+            const requiresCity =
+                hasMultipleCities && !selectedProvider.selectedCity;
+
+            // Validar si tiene múltiples especialidades y no se ha seleccionado ninguna
+            const hasMultipleSpecialties =
+                isMultipleSpecialty(selectedProvider);
+            const requiresSpecialty =
+                hasMultipleSpecialties && !selectedProvider.selectedSpecialty;
+
+            if (
+                selectedProvider.anyContractedSpecialist &&
+                selectedProvider.selectedSpecialty
+            ) {
                 setIsValidForm(true);
+            } else if (requiresCity || requiresSpecialty) {
+                setIsValidForm(false);
+            } else if (
+                selectedProvider.selectedCity &&
+                selectedProvider.selectedSpecialty
+            ) {
+                // Tiene ciudad y especialidad seleccionadas
+                if (
+                    selectedProvider.preferredNetwork === false &&
+                    !referralReason
+                ) {
+                    setIsValidForm(false);
+                } else {
+                    setIsValidForm(true);
+                }
+            } else {
+                setIsValidForm(false);
             }
-        } else setIsValidForm(false);
+
+            if (isMobile()) {
+                setTimeout(forceBodyScroll, 100);
+            }
+
+            if (isMobile()) {
+                setTimeout(forceBodyScroll, 100);
+            }
+        } else {
+            setIsValidForm(false);
+            if (wasUpdated) updateWizardProgress();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedProvider]);
+    }, [selectedProvider, referralReason]);
 
     useEffect(() => {
-        if (searchParams.searchValue || searchParams.filters?.specialty) {
+        if (searchParams?.searchValue || searchParams?.filters?.specialty) {
+            setEnableFilter(true);
+
             // Cancelar request anterior si existe
             if (controllerRef.current) {
                 controllerRef.current.abort();
@@ -238,9 +429,9 @@ function App({
             controllerRef.current = controller;
 
             loadProviders(
-                searchParams.searchValue,
+                searchParams?.searchValue,
                 searchParams.page,
-                searchParams.filters,
+                searchParams?.filters,
                 controller.signal
             );
 
@@ -249,11 +440,21 @@ function App({
             };
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchParams, searchInitiated]);
+    }, [searchParams]);
 
-    const onSelectSpecialty = (item: string) => {
+    const onSelectSpecialty = (item: Specialty) => {
+        if (selectedSpecialty) {
+            setFiltersCount(filtersCount);
+        } else {
+            setFiltersCount(filtersCount + 1);
+        }
+
+        setSelectedSpecialty(item);
+        setAllowAnyContractedSpecialty(false);
+
         setSearchParams(prev => {
             var filters = prev.filters;
+
             filters.specialty = item;
 
             return {
@@ -262,7 +463,34 @@ function App({
                 filters: filters
             };
         });
+
+        if (isMobile()) {
+            setTimeout(forceBodyScroll, 100);
+        }
     };
+
+    const handleToggleAnyContractedSpecialty = () => {
+        setAllowAnyContractedSpecialty(prev => !prev);
+    };
+
+    useEffect(() => {
+        if (allowAnyContractedSpecialty) {
+            setSelectedProvider({
+                anyContractedSpecialist: allowAnyContractedSpecialty,
+                selectedSpecialty: {
+                    specialtyId: selectedSpecialty.specialtyId,
+                    specialtyIdProtected:
+                        selectedSpecialty.specialtyIdProtected,
+                    name: selectedSpecialty.name
+                },
+                preferredNetwork: true
+            });
+        } else {
+            setSelectedProvider(prev =>
+                prev?.anyContractedSpecialist === true ? null : prev
+            );
+        }
+    }, [allowAnyContractedSpecialty]);
 
     const handleFilterPanelClose = () => setIsFilterPanelOpen(false);
 
@@ -276,10 +504,10 @@ function App({
                 page: 1,
                 filters: {
                     specialty: prev.filters?.specialty,
-                    city: filters.city,
-                    country: filters.country,
-                    group: filters.group,
-                    zipCode: filters.zipCode
+                    city: filters?.city,
+                    country: filters?.country,
+                    group: filters?.group,
+                    zipCode: filters?.zipCode
                 }
             };
         });
@@ -290,19 +518,35 @@ function App({
     const getConsultation = useCallback(() => {
         return {
             ...consultation,
-            consultationProvider: selectedProvider
+            consultationProvider: selectedProvider,
+            referralReason:
+                selectedProvider?.preferredNetwork == false
+                    ? referralReason
+                    : undefined
         };
-    }, [consultation, selectedProvider]);
+    }, [consultation, selectedProvider, referralReason]);
 
     const updateWizardProgress = () => {
         setWasUpdated(true);
         onValidate(getConsultation());
     };
 
-    const handleClickNext = () => {
+    const handleClickNext = async () => {
+         try {
+            await ClinicalConsultationService.getInstance().logAuditEvent(
+                AuditEventTypes.ServicingProviderNextClick,
+                AuditEventGroups.ClinicalConsultation,
+                {
+                    beneficiaryId: beneficiaryInformation?.beneficiaryId,
+                    cardNumber: beneficiaryInformation?.cardNumber,
+                    beneficiaryName: beneficiaryInformation?.displayName
+                }
+            );
+        } catch (error) {}
         updateWizardProgress();
         setIsOpenSheet(false);
         setIsOpenCollapse(false);
+        setIsRecreation(false);
     };
 
     const handleSelectCity = (city: CityInterface) => {
@@ -315,25 +559,17 @@ function App({
     };
 
     const handleSelectSpecialty = (specialty: SpecialtyInterface) => {
-        console.log('App - handleSelectSpecialty called with specialty:', specialty);
         setSelectedProvider(sp => {
             if (!sp) return sp;
             const p = { ...sp };
             p.selectedSpecialty = specialty;
-            console.log('App - Updated provider with specialty:', p);
             return p;
         });
     };
 
-    const toggleFilterBar = (e: any) => {
-        console.log('toggleFilterBar called, current isFilterBarOpen:', isFilterBarOpen);
-        if (e && e.stopPropagation) {
-            e.stopPropagation(); // prevent button toggle drodpown
-        }
+    const toggleFilterBar = () => {
         setIsOpenDropdown(false); // click always close dropdown dropdown results
-        const newValue = !isFilterBarOpen;
-        setIsFilterBarOpen(newValue);
-        console.log('toggleFilterBar setting isFilterBarOpen to:', newValue);
+        setIsFilterBarOpen(!isFilterBarOpen);
     };
 
     const handleClickSpecialties = (e: React.MouseEvent) => {
@@ -341,20 +577,51 @@ function App({
         setIsOpenDropdown(false); // click always close dropdown dropdown results
     };
 
+    const toggleFilter = (e: React.MouseEvent) => {
+        e.stopPropagation(); // prevent button toggle drodpown
+        isMobile() ? openFilterPanel() : toggleFilterBar();
+    };
+
     useEffect(() => {
-        if (consultation?.consultationProvider?.renderingProviderId) {
+        if (
+            consultation?.consultationProvider?.renderingProviderId ||
+            consultation?.consultationProvider?.anyContractedSpecialist
+        ) {
             const { consultationProvider: provider } = consultation;
             // update selected from recreate if not one selected before
-            const updatedProvider = { 
+            provider.selectedCity =
+                provider.selectedCity ?? provider.cities?.[0];
+            const updateProvider = {
                 ...provider,
                 selectedCity: provider.selectedCity ?? provider.cities?.[0],
-                selectedSpecialty: provider.selectedSpecialty ?? provider.specialties?.[0]
+                selectedSpeciality:
+                    provider.selectedSpecialty ?? provider.specialties?.[0]
             };
-            setSelectedProvider(updatedProvider);
+            setSelectedProvider(updateProvider);
+            setReferralReason(consultation.referralReason);
+            setIsRecreate(consultation.isRecreate);
         }
     }, [consultation]);
 
-    const handleOnCancel = () => setIsOpenSheet(false);
+    useEffect(() => {
+        if (isRecreate) {
+            setIsOpenSheet(false);
+            setIsOpenCollapse(false);
+            setWasUpdated(true);
+        }
+    }, [isRecreate]);
+
+    const handleOnCancel = () => {
+        setIsOpenSheet(false);
+        eventBus.emit('cancel-consultation-create', {
+            auditEvent: AuditEventTypes.ServicingProviderCancelYesClick,
+            auditData: {
+                beneficiaryName: beneficiaryInformation.displayName,
+                beneficiaryId: beneficiaryInformation.beneficiaryId
+            }
+        });
+        setIsOpenSheet(false);
+    };
 
     const handleOnCloseSheet = () => {
         setIsOpenSheet(false);
@@ -367,13 +634,21 @@ function App({
     }, [active]);
 
     useEffect(() => {
-        const shouldOpen = isMobile() && isOpenCollapse && isValidForm;
+        const hasValidProvider = !!(
+            selectedProvider &&
+            ((selectedProvider.anyContractedSpecialist &&
+                selectedProvider.selectedSpecialty) ||
+                (selectedProvider.selectedCity &&
+                    selectedProvider.selectedSpecialty))
+        );
+        const shouldOpen: boolean =
+            isMobile() && isOpenCollapse && isValidForm && hasValidProvider;
         setIsOpenSheet(shouldOpen);
-    }, [isValidForm, isOpenCollapse]);
+    }, [isValidForm, isOpenCollapse, selectedProvider]);
 
     const handleOnSearch = (term: string) =>
         setSearchParams(prev => {
-            return { searchValue: term, page: 1, filters: prev.filters };
+            return { searchValue: term, page: 1, filters: prev?.filters };
         });
     const handleLoadMore = () =>
         setSearchParams(prev => {
@@ -387,6 +662,15 @@ function App({
     const handleOnClearSearch = () => {
         setSearchParams({ searchValue: '', page: 1, filters: {} });
         setProviders([]);
+        setResetSearchBar(true);
+        setFiltersCount(1);
+        setAllowAnyContractedSpecialty(false);
+        setTotalRows(0);
+
+        if (isMobile()) {
+            setIsFilterPanelOpen(false);
+            setEnableFilter(false);
+        }
     };
 
     const handleSearchInputClick = () => {
@@ -395,9 +679,101 @@ function App({
         }
     };
 
+    const handleSearchInputBlur = (e: React.FocusEvent) => {
+        setTimeout(() => {
+            const activeElement = document.activeElement;
+            const dropdownContainer = document.getElementById(
+                'consultation-servicing-provider-search-results-container'
+            );
+
+            if (
+                activeElement &&
+                dropdownContainer &&
+                dropdownContainer.contains(activeElement)
+            ) {
+                return;
+            }
+
+            if (controllerRef.current && isSearchLoading) {
+                controllerRef.current.abort();
+                controllerRef.current = null;
+                setIsSearchLoading(false);
+
+                setProviders([]);
+                setTotalRows(0);
+            }
+
+            if (isOpenDropdown && isSearchLoading) {
+                setIsOpenDropdown(false);
+            }
+        }, 150);
+    };
+
     useEffect(() => {
         setHasMore(totalRows > providers?.length);
     }, [providers, totalRows]);
+
+    useEffect(() => {
+        loadReferralReasons();
+    }, []);
+
+    useEffect(() => {
+        ClinicalConsultationService.getInstance()
+            .GetServicingProviderFilters(beneficiaryId, null)
+            .then(response => {
+                if (response) {
+                    setSpecialties(response.data.specialty);
+                }
+            });
+    }, []);
+
+    const forceBodyScroll = () => {
+        if (isMobile()) {
+            document.body.style.overflow = 'auto';
+            document.body.style.position = 'relative';
+            document.body.style.height = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'relative';
+        }
+    };
+
+    useEffect(() => {
+        forceBodyScroll();
+    }, []);
+
+    useEffect(() => {
+        forceBodyScroll();
+    }, [selectedSpecialty, selectedProvider, isOpenDropdown, providers]);
+
+    useEffect(() => {
+        if (isMobile()) {
+            const interval = setInterval(() => {
+                if (
+                    document.body.style.overflow === 'hidden' ||
+                    document.body.style.position === 'fixed' ||
+                    document.documentElement.style.overflow === 'hidden'
+                ) {
+                    forceBodyScroll();
+                }
+            }, 200);
+
+            return () => clearInterval(interval);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMobile()) {
+            const observer = new MutationObserver(() => {
+                setTimeout(forceBodyScroll, 50);
+            });
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+
+            return () => observer.disconnect();
+        }
+    }, []);
 
     return (
         <>
@@ -456,6 +832,7 @@ function App({
                                         <div className="d-mobile-flex">
                                             <div className="smartprofile-referral-provider-search">
                                                 <FormFlexInputDynamicSearch
+                                                    key={`search-bar-${searchBarKey}`}
                                                     onSearch={handleOnSearch}
                                                     placeholder={t(
                                                         'clinicalconsultation:servicing-provider.SEARCH-PLACEHOLDER'
@@ -464,10 +841,16 @@ function App({
                                                     onClear={
                                                         handleOnClearSearch
                                                     }
+                                                    onBlur={
+                                                        handleSearchInputBlur
+                                                    }
                                                     id="consultation-servicing-provider-search-input-text"
                                                     debounceSearch={true}
                                                     onClick={
                                                         handleSearchInputClick
+                                                    }
+                                                    resetSearchBar={
+                                                        resetSearchBar
                                                     }
                                                 />
                                             </div>
@@ -478,10 +861,9 @@ function App({
                                                             'clinicalconsultation:servicing-provider.SPECIALTIES'
                                                         )}
                                                         selected={
-                                                            searchParams.filters
-                                                                .specialty
+                                                            selectedSpecialty
                                                         }
-                                                        items={Specialties}
+                                                        items={specialties}
                                                         onSelect={
                                                             onSelectSpecialty
                                                         }
@@ -493,39 +875,63 @@ function App({
                                                             isSearchLoading
                                                         }
                                                         id="consultation-servicing-provider-search-specialty-mobile"
+                                                        formatItem={(
+                                                            s: Specialty
+                                                        ) => s.name}
+                                                        formatSelected={(
+                                                            s: Specialty
+                                                        ) => s.name}
+                                                        blockRegex={
+                                                            /[^A-Za-zÝÉÝÓÚÜÑáéíóúüñ\s]/g
+                                                        }
                                                     />
                                                 </div>
+
                                                 <div className="d-none d-mobile-block">
-                                                    <DropdownPicker
-                                                        title={t(
-                                                            'clinicalconsultation:servicing-provider.SPECIALTIES'
-                                                        )}
-                                                        selected={
-                                                            searchParams.filters
-                                                                .specialty
+                                                    <FormDropdownSelect
+                                                        key={`specialty-${
+                                                            selectedSpecialty?.specialtyId ??
+                                                            specialties?.length
+                                                        }`}
+                                                        items={specialties}
+                                                        value={
+                                                            selectedSpecialty
                                                         }
-                                                        items={Specialties}
-                                                        onSelect={
+                                                        onChange={
                                                             onSelectSpecialty
                                                         }
-                                                        placeholder={t(
+                                                        formatItem={(
+                                                            s: Specialty
+                                                        ) => s?.name}
+                                                        formatSelected={(
+                                                            s: Specialty
+                                                        ) => s?.name}
+                                                        filterable={true}
+                                                        disabled={false}
+                                                        noItemsText={t(
+                                                            'clinicalconsultation:servicing-provider.NO-RESULTS'
+                                                        )}
+                                                        placeHolder={t(
                                                             'clinicalconsultation:servicing-provider.SPECIALIST'
                                                         )}
-                                                        disabled={
-                                                            isSearchLoading
+                                                        className={
+                                                            'filter-dropdown '
                                                         }
-                                                        onClick={
-                                                            handleClickSpecialties
+                                                        requiredVisiblePlaceHolder={
+                                                            true
                                                         }
-                                                        id="consultation-servicing-provider-filter-specialty"
+                                                        blockRegex={
+                                                            /[^A-Za-zÝÉÝÓÚÜÑáéíóúüñ\s]/g
+                                                        }
                                                     />
                                                 </div>
                                             </div>
                                             <div className="flex-shrink-0">
                                                 <button
                                                     className="btn btn-smartprofile-referral-provider-filter w-100 d-mobile-block more-filter-mobile-spacing"
-                                                    onClick={toggleFilterBar}
+                                                    onClick={toggleFilter}
                                                     id="consultation-servicing-provider-search-morefilters"
+                                                    disabled={!enableFilter}
                                                 >
                                                     <div className="d-flex align-items-center">
                                                         {t(
@@ -540,7 +946,7 @@ function App({
                                                                 )
                                                             </span>
                                                         ) : null}
-                                                        <div className="fade-toggle-icon ml-2">
+                                                        <div className="fade-toggle-icon ml-2 fade-toggle-icon ml-2 d-none d-mobile-block">
                                                             <Fade
                                                                 in={
                                                                     !isFilterBarOpen
@@ -567,6 +973,54 @@ function App({
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="d-none d-mobile-block px-3">
+                                        <FilterBar
+                                            isOpen={isFilterBarOpen}
+                                            onApply={handleOnApply}
+                                            disabled={isSearchLoading}
+                                            id="consultation-servicing-provider-filterbar"
+                                            beneficiaryId={beneficiaryId}
+                                            resetInput={handleResetInput}
+                                            specialtyPrevSelected={
+                                                selectedSpecialty
+                                            }
+                                        />
+                                    </div>
+                                    {selectedSpecialty &&
+                                    selectedSpecialty.allowAnyContractedSpecialist ? (
+                                        <div
+                                            className="servicing-any-specialist-toggle px-3"
+                                            id="servicing-provider-any-contracted-specialist-container"
+                                        >
+                                            <div
+                                                className="servicing-any-specialist-toggle-contiainer"
+                                                id="servicing-provider-any-contracted-specialist-toggle"
+                                            >
+                                                <CustomToggle
+                                                    type="switch"
+                                                    id="servicing-provider-any-contracted-specialist-switch"
+                                                    checked={
+                                                        allowAnyContractedSpecialty
+                                                    }
+                                                    onChange={
+                                                        handleToggleAnyContractedSpecialty
+                                                    }
+                                                />
+                                                <div
+                                                    onClick={
+                                                        handleToggleAnyContractedSpecialty
+                                                    }
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    id="servicing-provider-any-contracted-specialist-label"
+                                                >
+                                                    {t(
+                                                        'clinicalconsultation:common.ANY-CONTRACTED-SPECIALIST'
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : null}
                                 </DropdownToggle>
                                 <DropdownMenu
                                     id="consultation-servicing-provider-search-results-container"
@@ -588,32 +1042,35 @@ function App({
                                                 Results {totalRows} specialists
                                             </Trans>
                                         </div>
-                                        <div
-                                            className="d-flex align-items-center dropdown-input-results-filter d-mobile-none"
-                                            onClick={openFilterPanel}
-                                            role="button"
-                                            tabIndex={0}
-                                            id="consultation-servicing-provider-search-results-filters"
-                                        >
-                                            <IconFilterList
-                                                width="1rem"
-                                                height="1rem"
-                                                className="mr-1"
-                                                id="consultation-servicing-provider-search-results-filters-icon"
-                                            />
-                                            {t(
-                                                'clinicalconsultation:servicing-provider.MORE-FILTER'
-                                            )}
-                                            {filtersCount ? (
-                                                <span
-                                                    className="ml-1"
-                                                    id="consultation-servicing-provider-search-results-filters-count"
-                                                >
-                                                    ({filtersCount})
-                                                </span>
-                                            ) : null}
-                                        </div>
+                                        {!isMobile() ? (
+                                            <div
+                                                className="d-flex align-items-center dropdown-input-results-filter d-mobile-none"
+                                                onClick={openFilterPanel}
+                                                role="button"
+                                                tabIndex={0}
+                                                id="consultation-servicing-provider-search-results-filters"
+                                            >
+                                                <IconFilterList
+                                                    width="1rem"
+                                                    height="1rem"
+                                                    className="mr-1"
+                                                    id="consultation-servicing-provider-search-results-filters-icon"
+                                                />
+                                                {t(
+                                                    'clinicalconsultation:servicing-provider.MORE-FILTER'
+                                                )}
+                                                {filtersCount ? (
+                                                    <span
+                                                        className="ml-1"
+                                                        id="consultation-servicing-provider-search-results-filters-count"
+                                                    >
+                                                        ({filtersCount})
+                                                    </span>
+                                                ) : null}
+                                            </div>
+                                        ) : null}
                                     </div>
+
                                     <InfiniteScroll
                                         scrollableTarget={
                                             'consultation-servicing-provider-search-results-container'
@@ -623,9 +1080,7 @@ function App({
                                         hasMore={hasMore}
                                         loader={
                                             <LoadingIndicator
-                                                id={
-                                                    'consultation-servicing-provider-search-results-loading-indicator'
-                                                }
+                                                id="consultation-servicing-provider-search-results-loading-indicator"
                                                 loading={isSearchLoading}
                                                 overlay={false}
                                                 inline={true}
@@ -660,6 +1115,9 @@ function App({
                                                         selectedProvider?.providerAffiliationId
                                                     }
                                                     autoSelectCity={isMobile()}
+                                                    activeFilters={
+                                                        searchParams?.filters
+                                                    }
                                                 />
                                             </div>
                                         ))}
@@ -668,20 +1126,6 @@ function App({
                             </Dropdown>
                         </div>
                     </div>
-                </div>
-
-                <div className="px-3">
-                    {(() => {
-                        console.log('FilterBar render - isFilterBarOpen:', isFilterBarOpen);
-                        return (
-                            <FilterBar
-                                isOpen={isFilterBarOpen}
-                                onApply={handleOnApply}
-                                disabled={isSearchLoading}
-                                id="consultation-servicing-provider-filterbar"
-                            />
-                        );
-                    })()}
                 </div>
 
                 <div className="mt-3 px-3">
@@ -701,13 +1145,47 @@ function App({
                                 <tr>
                                     <td>
                                         {(() => {
-                                            console.log('App - About to render ServicingProviderSelectedItem with selectedProvider:', selectedProvider);
+                                            if (
+                                                selectedProvider.anyContractedSpecialist
+                                            ) {
+                                                return (
+                                                    <AnyContractedSpecialistSelectedItem
+                                                        item={selectedProvider}
+                                                        id="consultation-servicing-any-contracted-specialist-item"
+                                                    />
+                                                );
+                                            }
                                             return (
                                                 <ServicingProviderSelectedItem
+                                                    key={
+                                                        selectedProvider?.providerAffiliationId
+                                                    }
                                                     item={selectedProvider}
-                                                    onSelectCity={handleSelectCity}
-                                                    onSelectSpecialty={handleSelectSpecialty}
+                                                    onSelectCity={
+                                                        handleSelectCity
+                                                    }
+                                                    onSelectSpecialty={
+                                                        handleSelectSpecialty
+                                                    }
+                                                    activeFilters={
+                                                        searchParams?.filters
+                                                    }
+                                                    onCityDropdownOpenChange={(
+                                                        open: boolean
+                                                    ) =>
+                                                        setIsDropdownOpen(open)
+                                                    }
+                                                    onSpecialtyDropdownOpenChange={(
+                                                        open: boolean
+                                                    ) =>
+                                                        setIsSpecialtyDropdownOpen(
+                                                            open
+                                                        )
+                                                    }
                                                     id="consultation-servicing-provider-selected-item"
+                                                    isRecreate={
+                                                        consultation.isRecreate
+                                                    }
                                                 />
                                             );
                                         })()}
@@ -716,7 +1194,10 @@ function App({
                             </tbody>
                         ) : null}
                     </CardWidgetTable>
-                    {selectedProvider && !selectedProvider.selectedCity ? (
+                    {selectedProvider &&
+                    !selectedProvider.anyContractedSpecialist &&
+                    !selectedProvider.selectedCity &&
+                    !isCityDropdownOpen ? (
                         <div
                             className="d-none d-mobile-block text-danger text-sm pl-2 pt-2"
                             id="consultation-servicing-provider-selectcity-msg"
@@ -726,15 +1207,89 @@ function App({
                             )}
                         </div>
                     ) : null}
+                    {selectedProvider &&
+                    !selectedProvider.anyContractedSpecialist &&
+                    isMultipleSpecialty(selectedProvider) &&
+                    !selectedProvider.selectedSpecialty &&
+                    !isSpecialtyDropdownOpen ? (
+                        <div
+                            className="d-none d-mobile-block text-danger text-sm pl-2 pt-2"
+                            id="consultation-servicing-provider-selectspecialty-msg"
+                        >
+                            {t(
+                                'clinicalconsultation:servicing-provider.NO-SPECIALTY-SELECTED'
+                            )}
+                        </div>
+                    ) : null}
+
+                    {selectedProvider &&
+                    selectedProvider.preferredNetwork == false ? (
+                        <div className="mt-3 px-3">
+                            <div className="mb-2">
+                                <label
+                                    className="form-label fw-bold"
+                                    style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 'larger'
+                                    }}
+                                >
+                                    {t(
+                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-LABEL'
+                                    )}
+                                </label>
+                            </div>
+                            <div className="dd-picker-referral-reason referral-reason-container">
+                                <DropdownPicker
+                                    title={t(
+                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-LABEL'
+                                    )}
+                                    selected={
+                                        referralReasons.find(
+                                            r =>
+                                                r.servicingNonPPNReasonId ===
+                                                referralReason?.servicingNonPPNReasonId
+                                        ) || null
+                                    }
+                                    items={referralReasons}
+                                    onSelect={reason =>
+                                        setReferralReason(reason)
+                                    }
+                                    formatItem={reason => reason.description}
+                                    formatSelected={reason =>
+                                        reason.description
+                                    }
+                                    placeholder={t(
+                                        'clinicalconsultation:servicing-provider.REFERRAL-REASON-PLACEHOLDER'
+                                    )}
+                                    autoOpen={false}
+                                    disabled={isLoadingReasons}
+                                    id="consultation-servicing-provider-referral-reason"
+                                />
+                                {!referralReason && (
+                                    <div
+                                        className="text-danger text-sm mt-1 fw-bold"
+                                        style={{
+                                            fontWeight: 'bold',
+                                            fontSize: 'larger',
+                                            color: '#dc3545'
+                                        }}
+                                    >
+                                        {ppnReasonMessage}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
-                {!isValidForm && wasUpdated ? (
+                {!isValidForm && wasUpdated && !isRecreation ? (
                     <div
                         className=" d-mobile-block text-danger text-sm pl-2 pt-2 ml-3"
-                        id="clinical-consultation-requesting-provider-alert-message"
+                        id="clinical-consultation-servicing-provider-alert-message"
                     >
                         {stepAlertMessage}
                     </div>
                 ) : null}
+
                 <div className="d-none d-mobile-block px-3 mt-3">
                     <div className="d-flex aling-items-center pt-3">
                         <button
@@ -751,7 +1306,7 @@ function App({
                             type="button"
                             className="btn btn-md btn-outline-secondary rounded-pill px-3 "
                             style={{ width: '133px' }}
-                            disabled={!isValidForm}
+                            onClick={handleOnCancel}
                             id="consultation-servicing-provider-cancel-button"
                         >
                             {t(
@@ -774,9 +1329,14 @@ function App({
                 id="consultation-servicing-provider-filterpanel-mobile"
                 isOpen={isFilterPanelOpen}
                 onClose={handleFilterPanelClose}
-                searchTerm={searchParams.searchValue}
+                searchTerm={searchParams?.searchValue}
                 onApply={handleOnApply}
                 totalResults={totalRows}
+                beneficiaryId={beneficiaryId}
+                resetInput={handleResetInput}
+                specialtiesPrev={specialties}
+                specialtyPrevSelected={selectedSpecialty}
+                handleSpecialty={onSelectSpecialty}
             />
         </>
     );

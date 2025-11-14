@@ -3,4 +3,7 @@ export class AuditEventTypes {
     public static ServicingProviderSearch = 'ServicingProviderSearch';
     public static ServicingProviderSearchLoadMore =
         'ServicingProviderSearchLoadMore';
+    public static ServicingProviderCancelYesClick =
+        'ServicingProviderCancelYesClick';
+    public static ServicingProviderNextClick = 'ServicingProviderNextClick';
 }
