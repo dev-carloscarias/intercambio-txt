@@ -1,6 +1,39 @@
-Test	Duration	Traits	Error Message
-Update_Get_ValidModel_SV_Simplified Failed	39 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_SV_Simplified threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	90 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	90 ms		
-Class: FolioControllerTest Failed (2)	90 ms		
-Update_Get_ValidModel_GT_Simplified Failed	51 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_GT_Simplified threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+ Diagnostic_Test_CheckDeserialization
+   Source: FolioControllerTest.cs line 425
+   Duration: 1.5 sec
+
+  Message: 
+Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Diagnostic_Test_CheckDeserialization threw exception: 
+Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: t. Path 'Check', line 1, position 10.
+
+  Stack Trace: 
+JsonTextReader.ReadNumberValue(ReadType readType)
+JsonTextReader.ReadAsInt32()
+JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
+JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+FolioControllerTest.Diagnostic_Test_CheckDeserialization() line 481
+
+  Standard Output: 
+
+
+Debug Trace:
+ERROR: JsonReaderException
+Message: Unexpected character encountered while parsing value: t. Path 'Check', line 1, position 10.
+StackTrace:    en Newtonsoft.Json.JsonTextReader.ReadNumberValue(ReadType readType)
+   en Newtonsoft.Json.JsonTextReader.ReadAsInt32()
+   en Newtonsoft.Json.JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
+   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   en Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   en Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   en Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   en Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Diagnostic_Test_CheckDeserialization() en C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-web\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\FolioControllerTest.cs:línea 431
+
