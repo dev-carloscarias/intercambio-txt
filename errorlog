@@ -1,6 +1,6 @@
 Test	Duration	Traits	Error Message
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	330 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	330 ms		
-Class: FolioControllerTest Failed (2)	330 ms		
-Update_Get_ValidModel_GT_CubreFlujoNormalGT Failed	254 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_GT_CubreFlujoNormalGT threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_ValidModel_SV_CubreRamaELSalvador Failed	76 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_SV_CubreRamaELSalvador threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_ValidModel_SV_Simplified Failed	39 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_SV_Simplified threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	90 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	90 ms		
+Class: FolioControllerTest Failed (2)	90 ms		
+Update_Get_ValidModel_GT_Simplified Failed	51 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ValidModel_GT_Simplified threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
