@@ -1,39 +1,134 @@
- Diagnostic_Test_CheckDeserialization
-   Source: FolioControllerTest.cs line 425
-   Duration: 1.5 sec
+//-----------------------------------------------------------------------    
+// <copyright file="CaiViewModel.cs" company="Walmart México y Centroamérica">    
+//   Copyright (c) Deny to distribute this code.    
+// </copyright>    
+// <author>Santiago Mendez (shm000g) SoftwareFactory-CAM</author>    
+//----------------------------------------------------------------------- 
+namespace Walmart.FelGTSoft2000.Mvc.Components
+{
+    #region Using
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web;
+    #endregion
 
-  Message: 
-Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Diagnostic_Test_CheckDeserialization threw exception: 
-Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: t. Path 'Check', line 1, position 10.
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
 
-  Stack Trace: 
-JsonTextReader.ReadNumberValue(ReadType readType)
-JsonTextReader.ReadAsInt32()
-JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
-JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
-JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
-JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
-JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
-JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
-JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
-JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
-FolioControllerTest.Diagnostic_Test_CheckDeserialization() line 481
+    /// <summary>
+    /// Cai view model
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Reviewed.")]
+    public class FolioViewModel
+    {
+        /// <summary>
+        /// Gets or sets Check
+        /// </summary>
 
-  Standard Output: 
+        [Display(Order =1)]
+        public int Check { get; set; }
 
 
-Debug Trace:
-ERROR: JsonReaderException
-Message: Unexpected character encountered while parsing value: t. Path 'Check', line 1, position 10.
-StackTrace:    en Newtonsoft.Json.JsonTextReader.ReadNumberValue(ReadType readType)
-   en Newtonsoft.Json.JsonTextReader.ReadAsInt32()
-   en Newtonsoft.Json.JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
-   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
-   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
-   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
-   en Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
-   en Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
-   en Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
-   en Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
-   en Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Diagnostic_Test_CheckDeserialization() en C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-web\Walmart.FelGTSoft2000.Mvc.Tests\App\Components\Folio\Controllers\FolioControllerTest.cs:línea 431
+        [Display(Name = "Idcai", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        public string Idcai { get; set; }
+
+        /// <summary>
+        /// Gets or set NumeroCai
+        /// </summary>
+        [Display(Order = 2, Name = "NumeroCai", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "NumeroCaiRequired")]
+        [RegularExpression(@"^[A-Z0-9-]{1,45}$", ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "OnlyAlphabetNumbers")]
+        public string NumeroCai { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoInicial
+        /// </summary>
+        [Display(Order = 3, Name = "CorrelativoInicial", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "CorrelativoInicialRequired")]
+        [RegularExpression(@"^[0-9-]{1,45}$", ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "OnlyNumbers")]
+        public string CorrelativoInicial { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoInicial
+        /// </summary>
+        [Display(Order = 4, Name = "CorrelativoFinal", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "CorrelativoFinalRequired")]
+        [RegularExpression(@"^[0-9-]{1,45}$", ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "OnlyNumbers")]
+        public string CorrelativoFinal { get; set; }
+
+        /// <summary>
+        /// Gets or set NumeroCai
+        /// </summary>
+        [Display(Order = 5, Name = "NumeroSerie", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "NumeroSerieRequired")]
+        [RegularExpression(@"^[A-Z0-9-]{1,45}$", ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "OnlyAlphabetNumbers")]
+        public string NumeroSerie { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoInicial
+        /// </summary>
+        [Display(Order = 6, Name = "LimiteEmision", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "LimiteEmisionRequired")]
+        public string LimiteEmision { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoActual
+        /// </summary>
+        [Display(Order = 7, Name = "CorrelativoActual", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        public string CorrelativoActual { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoInicial
+        /// </summary>
+        [Display(Order = 8, Name = "NombreTipoDocumento", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Components.Folio.Views.CreateFolio), ErrorMessageResourceName = "NombreTipoDocumentoRequired")]
+        public string NombreTipoDocumento { get; set; }
+
+        ///<summary>
+        /// Gets or sets CorrelativoInicial
+        /// </summary>
+        [Display(Order = 9, Name = "Estado", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        public string Estado { get; set; }
+
+        /// <summary>
+        /// Gets or sets IdPais property
+        /// </summary>
+        [Display(Name = "IdPais", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        public long IdPais { get; set; }
+
+        /// <summary>
+        /// Gets or sets internal model messages
+        /// </summary>
+        [Display(Name = "Messages", ResourceType = typeof(Resources.Components.Folio.ViewModels.FolioViewModel))]
+        public Collection<string> Messages { get; set; }
+
+        /// <summary>
+        /// Gets or sets column icon Active
+        /// </summary>
+        public string Active { get; set; }
+
+        /// <summary>
+        /// Gets or sets column icon Inactive
+        /// </summary>
+        public string Inactive { get; set; }
+       
+        [NotMapped]
+
+        /// <summary>
+        /// Gets or sets Pais property
+        /// </summary>
+        [Display(Name = "IdPais", ResourceType = typeof(Resources.Components.Vendor.ViewModels.VendorViewModel))]
+        public string Pais { get; set; }
+
+    }
+}
+
+
+
+
 
