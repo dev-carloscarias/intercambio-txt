@@ -1,7 +1,3 @@
-Validated that:
-
-Is available for MA and GHP Line of Business (LOB)
-Clinical Consultation will function accordingly with all its components after a beneficiary is selected by the user.
 Data displayed should be the following:
 Location: Requesting Provider
 Scenario 1
@@ -19,20 +15,3 @@ Mobile Version:
 For the alerts from Scenario 1, the validations messages will be triggered for the scenario a user removes required components for the completion of the step after a step is completed.
 The alerts will be triggered for the section when the user presses "Submit" in the "Consultation Review" step of the process.
 For more detailed information, see "PBI-72324".
-Mockup images are not final and are subject to change.
-Responsiveness
-Functionalities are working as expected for the following resolutions:
-1920x1080, 1366x768, 1280x720, 390x844, 1440x900, 1280x1024
-Colors & Fonts are in accordance with URL/Screenshot attached (detail of colors/fonts)
-All static elements on the screen must have fixed ID, which will be used for Automation Purposes
-Log Action
-When the button is pressed, save action to Action Log, include the following:
-auditEventType: RequestingProviderNextClickError
-auditEventGroup: Clinical Consultation
-applicationDomain: Provider Portal
-User
-Event Data:
-BeneficiaryName
-BeneficiaryId
-EventDate
-Field Name + Error Message
