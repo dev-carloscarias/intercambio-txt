@@ -1,0 +1,625 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import './App.scss';
+import {
+    CardWidgetHeading,
+    CardWidgetSubheading,
+    CONST,
+    CustomToggle,
+    FormFlexInputDynamicSearch,
+    CardWidgetTable
+} from '@provider-portal/components';
+import { IconPlus, IconMinus } from '@provider-portal/icons';
+import {
+    Collapse,
+    Dropdown,
+    DropdownMenu,
+    DropdownToggle,
+    Tooltip
+} from 'reactstrap';
+import BottomSheetCancelNext from './BottomSheetCancelNext/BottomSheetCancelNext';
+import { RequestingProviderInterface } from './RequestingProviderItem/RequestingProviderItem';
+import RequestingProviderSelectedItem from './RequestingProviderSelectedItem/RequestingProviderSelectedItem';
+import { useTranslation } from 'react-i18next';
+import ClinicalConsultationService, {
+    BeneficiaryInformation
+} from './services/ClinicalConsultationService';
+import { AuditEventTypes } from './models/AuditEventTypes';
+import { AuditEventGroups } from './models/AuditEventGroups';
+import SearchResults from './SearchResults/SearchResults';
+
+interface SearchParams {
+    searchValue: string;
+    page: number;
+}
+
+function App({
+    eventBus,
+    onValidate,
+    consultation,
+    active,
+    beneficiaryId,
+    stepAlertMessage,
+    beneficiaryInformation
+}: {
+    eventBus: any;
+    onValidate: (c: Consultation) => void;
+    consultation: Consultation;
+    active: boolean;
+    beneficiaryId: string;
+    stepAlertMessage: string;
+    beneficiaryInformation: BeneficiaryInformation;
+}) {
+    const { t } = useTranslation();
+    const [isOpenCollapse, setIsOpenCollapse] = useState(false);
+    const [isOpenSheet, setIsOpenSheet] = useState(false);
+    const [isValidForm, setIsValidForm] = useState(false);
+    const [requestingProvider, setRequestingProvider] =
+        useState<ProviderInterface>();
+    const [isActiveBeneficiaryPCP, setIsActiveBeneficiaryPcp] = useState(false);
+
+    const [searchParams, setSearchParams] = useState<SearchParams>({
+        searchValue: '',
+        page: 1
+    });
+    const [isSearchLoading, setIsSearchLoading] = useState(false);
+    const [isOpenDropdown, setIsOpenDropdown] = useState(false);
+    const [providers, setProviders] = useState<RequestingProviderInterface[]>(
+        []
+    );
+    const [totalRows, setTotalRows] = useState(0);
+    const [allowSearch, setAllowSearch] = useState(false);
+    const [beneficiaryPCP, setBeneficiaryPCP] = useState<ProviderInterface>();
+    const [isOpenCitySheet, setIsOpenCitySheet] = useState(false);
+    const [noPCP, setNoPCP] = useState(false);
+    const [noPCPCMessage, setNoPCPMessage] = useState(null);
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+    const [wasUpdated, setWasUpdated] = useState(false);
+    const [isRecreate, setIsRecreate] = useState(false);
+
+    const isMobile = () => !!window.matchMedia(CONST.MQ_MOBILE_DOWN).matches;
+
+    // return an updated consultation object
+    const getConsultation = useCallback(() => {
+        return {
+            ...consultation,
+            requestingProvider: requestingProvider
+        };
+    }, [consultation, requestingProvider]);
+
+    useEffect(() => {
+        // close dropdown right after select item
+
+        if (requestingProvider) {
+            setIsOpenDropdown(false);
+            if (!allowSearch) {
+                handleAutosSelectForPCP();
+            } else if (isMultipleCity(requestingProvider)) {
+                if (requestingProvider.selectedCity) {
+                    setIsValidForm(true);
+                    if (isMobile()) {
+                        setIsOpenSheet(true);
+                        setIsOpenCitySheet(false);
+                    }
+                } else {
+                    setIsValidForm(false);
+                    if (isMobile()) {
+                        setIsOpenCitySheet(true);
+                    }
+                }
+            } else {
+                setIsValidForm(true);
+                if (isMobile()) {
+                    setIsOpenSheet(true);
+                    setIsOpenCitySheet(false);
+                }
+            }
+        } else {
+            setIsValidForm(false);
+        }
+        if (wasUpdated) {
+            updateWizardProgress();
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [requestingProvider]);
+
+    useEffect(() => {
+        initialize();
+    }, []);
+
+    useEffect(() => {
+        function expandStep(stepIndex: number) {
+            if (stepIndex == 0) setIsOpenCollapse(true);
+        }
+        eventBus.on('clinical-consultation-expand-step', expandStep);
+        return () => {
+            eventBus.off('clinical-consultation-expand-step', expandStep);
+        };
+    }, [eventBus]);
+
+    const updateWizardProgress = () => {
+        setWasUpdated(true);
+        onValidate(getConsultation());
+    };
+
+    useEffect(() => {
+        const shouldOpen = isMobile() && isOpenCollapse && isValidForm;
+        setIsOpenSheet(shouldOpen);
+    }, [isValidForm, isOpenCollapse]);
+
+    const handleAutosSelectForPCP = () => {
+        setIsValidForm(true);
+        updateWizardProgress();
+        if (isMobile()) {
+            setIsOpenSheet(false);
+            setIsOpenCitySheet(false);
+        }
+        setIsOpenCollapse(false);
+    };
+
+    const handleNextClick = () => {
+        ClinicalConsultationService.getInstance().logAuditEvent(
+            AuditEventTypes.RequestingProviderNextClick,
+            AuditEventGroups.ClinicalConsultation,
+            {
+                beneficiaryId: beneficiaryInformation?.beneficiaryId,
+                cardNumber: beneficiaryInformation?.cardNumber,
+                beneficiaryName: beneficiaryInformation?.displayName
+            }
+        );
+        updateWizardProgress();
+        setIsOpenSheet(false);
+        setIsOpenCollapse(false);
+    };
+
+    const handleCancelClick = () => {
+        setIsOpenSheet(false);
+        eventBus.emit('cancel-consultation-create', {
+            auditEvent: AuditEventTypes.RequestingProviderCancelYesClick,
+            auditData: {
+                beneficiaryName: beneficiaryInformation.displayName,
+                beneficiaryId: beneficiaryInformation.beneficiaryId
+            }
+        });
+    };
+
+    const handleOnClose = () => {
+        setIsOpenSheet(false);
+    };
+
+    useEffect(() => {
+        if (consultation && consultation.requestingProvider) {
+            if (consultation.requestingProvider?.providerAffiliationId) {
+                setRequestingProvider(consultation.requestingProvider);
+            }
+            setIsRecreate(consultation.isRecreate);
+        }
+    }, [consultation]);
+
+    useEffect(() => {
+        if (isRecreate) {
+            setIsOpenSheet(false);
+            setIsOpenCitySheet(false);
+            setIsOpenCollapse(false);
+            setWasUpdated(true);
+        }
+    }, [isRecreate]);
+
+    const handleToggleBeneficiaryPCP = () => {
+        if (noPCP) {
+            ClinicalConsultationService.getInstance().logAuditEvent(
+                AuditEventTypes.BeneficiaryPCPButtonError,
+                AuditEventGroups.ClinicalConsultation,
+                {
+                    beneficiaryId: beneficiaryInformation.beneficiaryId,
+                    beneficiaryName: beneficiaryInformation.displayName,
+                    errorMessage: noPCPCMessage
+                }
+            );
+            return null;
+        }
+        if (allowSearch) {
+            setIsActiveBeneficiaryPcp(prev => !prev);
+            if (isMobile()) {
+                setIsOpenSheet(prev => !prev);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (isActiveBeneficiaryPCP) {
+            setTooltipOpen(false);
+            if (!isMultipleCity(beneficiaryPCP))
+                beneficiaryPCP.selectedCity = beneficiaryPCP?.cities[0];
+            setRequestingProvider(beneficiaryPCP);
+            setTooltipOpen(false);
+        } else {
+            setRequestingProvider(null);
+        }
+    }, [isActiveBeneficiaryPCP]);
+
+    const initialize = async () => {
+        try {
+            let service = ClinicalConsultationService.getInstance();
+
+            const optionsResponse = await service.GetRequestingProvider(
+                beneficiaryId
+            );
+
+            let options = optionsResponse.data;
+
+            setAllowSearch(options.allowSearch);
+            setNoPCP(options.noPCP);
+            setNoPCPMessage(options.noPCPMessage);
+
+            if (!options.allowSearch) {
+                if (options.requestingProvider) {
+                    var requesting = options.requestingProvider;
+                    requesting.selectedCity = requesting?.cities[0];
+                    setRequestingProvider(requesting);
+                    ClinicalConsultationService.getInstance().logAuditEvent(
+                        AuditEventTypes.RequestingProviderAutoselect,
+                        AuditEventGroups.ClinicalConsultation,
+                        {
+                            beneficiaryId: beneficiaryInformation.beneficiaryId,
+                            cardNumber: beneficiaryInformation.cardNumber,
+                            beneficiaryName: beneficiaryInformation.displayName
+                        }
+                    );
+                }
+            } else {
+                setBeneficiaryPCP(options.beneficiaryPcp);
+            }
+        } catch {}
+    };
+
+    const loadProviders = async (term: string, page: number) => {
+        if (isSearchLoading) return;
+        if (page === 1) setProviders([]);
+        setIsSearchLoading(true);
+        //setIsValidForm(false);
+
+        // if (wasUpdated) {
+        //     updateWizardProgress();
+        // }
+
+        const response =
+            await ClinicalConsultationService.getInstance().SearchRequestingProvider(
+                beneficiaryId,
+                page,
+                term
+            );
+
+        if (page === 1) {
+            await ClinicalConsultationService.getInstance().logAuditEvent(
+                AuditEventTypes.RequestingProviderSearch,
+                AuditEventGroups.ClinicalConsultation,
+                {
+                    search: term,
+                    totalCount: response?.data?.total,
+                    beneficiaryId: beneficiaryInformation?.beneficiaryId,
+                    beneficiaryName: beneficiaryInformation?.displayName
+                }
+            );
+        } else {
+            await ClinicalConsultationService.getInstance().logAuditEvent(
+                AuditEventTypes.RequestingProviderSearchLoadMore,
+                AuditEventGroups.ClinicalConsultation,
+                {
+                    search: term,
+                    page: page,
+                    totalCount: response?.data?.total,
+                    beneficiaryId: beneficiaryInformation?.beneficiaryId,
+                    beneficiaryName: beneficiaryInformation?.displayName
+                }
+            );
+        }
+
+        if (response?.data) {
+            if (page === 1) {
+                setProviders(response?.data?.requestingProviders || []);
+            } else {
+                setProviders(prev => [
+                    ...prev,
+                    ...response?.data?.requestingProviders
+                ]);
+            }
+            setTotalRows(response.data.total);
+        }
+        setIsSearchLoading(false);
+    };
+
+    const handleOnSearch = (term: string) => {
+        setSearchParams({ searchValue: term, page: 1 });
+    };
+
+    const handleLoadMore = () =>
+        setSearchParams(prev => {
+            return { searchValue: prev.searchValue, page: prev.page + 1 };
+        });
+
+    const handleOnClearSearch = () => {
+        setSearchParams({ searchValue: '', page: 1 });
+        setProviders([]);
+    };
+
+    const handleSearchInputClick = () => {
+        if (providers && providers.length == 0) {
+            setSearchParams({ searchValue: '', page: 1 });
+        } else {
+            setIsOpenDropdown(true);
+        }
+    };
+
+    useEffect(() => {
+        // when detect providers loaded, trigger dropdown visibility
+        setIsOpenDropdown(!!providers.length);
+    }, [providers]);
+
+    useEffect(() => {
+        if (allowSearch)
+            loadProviders(searchParams.searchValue, searchParams.page);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, allowSearch]);
+
+    const isMultipleCity = (provider: RequestingProviderInterface) => {
+        return provider?.cities?.length > 1;
+    };
+
+    const handleOnCheck = (item: RequestingProviderInterface) => {
+        if (item) {
+            if (!isMultipleCity(item)) item.selectedCity = item.cities[0];
+            setRequestingProvider(item);
+        } else {
+            setRequestingProvider(null);
+            setIsValidForm(false);
+        }
+    };
+
+    const toggle = event => {
+        if (
+            event?.target?.id ===
+            'clinical-consultation-requesting-provider-search-input-text'
+        )
+            return; //click event of the search input will handle the display of the dropdown.
+
+        // do not show empty dropdowns
+        if (providers.length) setIsOpenDropdown(!isOpenDropdown);
+    };
+
+    const toggleCollapse = () => setIsOpenCollapse(!isOpenCollapse);
+
+    const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+
+    useEffect(() => {
+        setIsOpenCollapse(active);
+    }, [active]);
+
+    const providerIsSelected = (p: RequestingProviderInterface) =>
+        p?.providerAffiliationId == requestingProvider?.providerAffiliationId;
+
+    const handleSelectCity = (city: CityInterface) => {
+        setRequestingProvider(sp => {
+            const p = { ...sp };
+            p.selectedCity = city;
+            return p;
+        });
+    };
+
+    return (
+        <div className="px-3">
+            <div
+                className="d-flex align-items-center"
+                role="button"
+                tabIndex={0}
+                onClick={toggleCollapse}
+            >
+                <div>
+                    <CardWidgetHeading id="clinical-consultation-requesting-provider-header">
+                        {t('clinicalconsultation:requesting-provider.HEADER')}
+                    </CardWidgetHeading>
+                    <CardWidgetSubheading id="clinical-consultation-requesting-provider-subheader">
+                        {t(
+                            'clinicalconsultation:requesting-provider.SUBHEADER'
+                        )}
+                    </CardWidgetSubheading>
+                </div>
+                <div className="ml-auto mr-3">
+                    {isOpenCollapse ? (
+                        <IconMinus
+                            width="1.5rem"
+                            height="1.5rem"
+                            id="clinical-consultation-requesting-provider-icon-minus"
+                        />
+                    ) : (
+                        <IconPlus
+                            width="1.5rem"
+                            height="1.5rem"
+                            id="clinical-consultation-requesting-provider-icon-plus"
+                        />
+                    )}
+                </div>
+            </div>
+            <Collapse isOpen={isOpenCollapse}>
+                {allowSearch ? (
+                    <>
+                        <div
+                            className="requesting-provider-toggle"
+                            id="requesting-provider-container"
+                        >
+                            <div
+                                className="requesting-provider-toggle-contiainer"
+                                id="requesting-provider-toggle"
+                            >
+                                <CustomToggle
+                                    type="switch"
+                                    id={`clinical-consultation-requesting-provider-switch-beneficiary-pcp`}
+                                    checked={isActiveBeneficiaryPCP}
+                                    onChange={handleToggleBeneficiaryPCP}
+                                />
+                                <div
+                                    onClick={handleToggleBeneficiaryPCP}
+                                    role="button"
+                                    tabIndex={0}
+                                    id={`clinical-consultation-requesting-provider-switch-beneficiary-pcp-label`}
+                                >
+                                    {t(
+                                        'clinicalconsultation:requesting-provider.Beneficiary-PCP'
+                                    )}
+                                </div>
+                            </div>
+                            {noPCP ? (
+                                <Tooltip
+                                    placement="auto"
+                                    isOpen={tooltipOpen}
+                                    target="requesting-provider-toggle"
+                                    toggle={toggleTooltip}
+                                    trigger="hover focus"
+                                    flip={true}
+                                    autohide={true}
+                                >
+                                    {noPCPCMessage}
+                                </Tooltip>
+                            ) : null}
+                        </div>
+
+                        <div className="mt-3">
+                            <div className="row">
+                                <div className="col-12 col-mobile-6">
+                                    <div className="consultation-requesting-provider">
+                                        <Dropdown
+                                            isOpen={isOpenDropdown}
+                                            toggle={toggle}
+                                            className="dropdown-input"
+                                        >
+                                            <DropdownToggle tag="div">
+                                                <FormFlexInputDynamicSearch
+                                                    label={t(
+                                                        'clinicalconsultation:requesting-provider.SEARCH-TITTLE'
+                                                    )}
+                                                    onSearch={handleOnSearch}
+                                                    placeholder={t(
+                                                        'clinicalconsultation:requesting-provider.SEARCH-PLACEHOLDER'
+                                                    )}
+                                                    disabled={
+                                                        isActiveBeneficiaryPCP
+                                                    }
+                                                    isLoading={isSearchLoading}
+                                                    onClear={
+                                                        handleOnClearSearch
+                                                    }
+                                                    id="clinical-consultation-requesting-provider-search-input-text"
+                                                    debounceSearch={true}
+                                                    onClick={
+                                                        handleSearchInputClick
+                                                    }
+                                                />
+                                            </DropdownToggle>
+                                            <DropdownMenu
+                                                className="consultation-requesting-provider-dropdown-menu"
+                                                id="consultation-requesting-provider-search-results-container"
+                                            >
+                                                <SearchResults
+                                                    providers={providers}
+                                                    totalRows={totalRows}
+                                                    id="consultation-requesting-provider-search-results"
+                                                    containerId="consultation-requesting-provider-search-results-container"
+                                                    handleLoadMore={
+                                                        handleLoadMore
+                                                    }
+                                                    handleOnCheck={
+                                                        handleOnCheck
+                                                    }
+                                                    isChecked={
+                                                        providerIsSelected
+                                                    }
+                                                    isLoading={isSearchLoading}
+                                                />
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                ) : null}
+
+                <div className="mt-3">
+                    <CardWidgetTable
+                        headers={[
+                            t(
+                                'clinicalconsultation:requesting-provider.SELECTED'
+                            )
+                        ]}
+                        placeholder={t(
+                            'clinicalconsultation:requesting-provider.NO-PROVIDER'
+                        )}
+                        id="clinical-consultation-requesting-provider-selected-header"
+                    >
+                        {requestingProvider ? (
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <RequestingProviderSelectedItem
+                                            item={requestingProvider}
+                                            onSelectCity={handleSelectCity}
+                                            isMobile={isMobile()}
+                                            onCheck={handleOnCheck}
+                                            isOpenCitySheet={isOpenCitySheet}
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ) : null}
+                    </CardWidgetTable>
+                    {requestingProvider && !requestingProvider.selectedCity ? (
+                        <div className="d-none d-mobile-block text-danger text-sm pl-2 pt-2">
+                            {t(
+                                'clinicalconsultation:requesting-provider.PROVIDER-SELECT-CITY-REQUIRE-MSG'
+                            )}
+                        </div>
+                    ) : null}
+                </div>
+                {!isValidForm && wasUpdated ? (
+                    <div
+                        className="d-mobile-block text-danger text-sm pl-2 pt-2 ml-1"
+                        id="clinical-consultation-requesting-provider-alert-message"
+                    >
+                        {stepAlertMessage}
+                    </div>
+                ) : null}
+                <div className="d-none d-mobile-flex aling-items-center pt-4">
+                    <button
+                        type="button"
+                        className="btn btn-md btn-info btn-info-gradient rounded-pill px-3 mr-3"
+                        style={{ width: '133px' }}
+                        onClick={handleNextClick}
+                        disabled={!isValidForm}
+                        id="clinical-consultation-requesting-provider-next-button"
+                    >
+                        {t('clinicalconsultation:requesting-provider.NEXT')}
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-md btn-outline-secondary rounded-pill px-3 "
+                        style={{ width: '133px' }}
+                        onClick={handleCancelClick}
+                        id="clinical-consultation-requesting-provider-cancel-button"
+                    >
+                        {t('clinicalconsultation:requesting-provider.CANCEL')}
+                    </button>
+                </div>
+            </Collapse>
+            <BottomSheetCancelNext
+                isOpen={isOpenSheet}
+                id="clinical-consultation-requesting-provider-mobile"
+                onClose={handleOnClose}
+                onCancel={handleCancelClick}
+                onNext={handleNextClick}
+                isValid={!isValidForm}
+            />
+        </div>
+    );
+}
+
+export default App;

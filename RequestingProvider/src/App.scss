@@ -1,0 +1,80 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.requesting-provider-toggle {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    color: $palette20;
+    font-weight: $font-weight-semibold;
+}
+
+.consultation-requesting-provider {
+    > .dropdown-input {
+        .dropdown-input-item {
+            padding: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid $palette11;
+            &:last-child {
+                border-bottom: 0;
+                margin-bottom: 0;
+            }
+            &:hover {
+                background-color: $palette21;
+            }
+        }
+
+        .consultation-requesting-provider-dropdown-menu {
+            width: 100%;
+            max-height: 350px;
+            overflow: auto;
+            padding-left: 0;
+            padding-right: 0;
+            @include media-breakpoint-up(mobile) {
+                min-width: 700px;
+            }
+        }
+
+        .custom-checkbox {
+            .custom-control-input {
+                ~ .custom-control-label {
+                    width: 100%;
+                    &::before {
+                        border-color: $palette2;
+                    }
+                }
+                &:checked ~ .custom-control-label::before {
+                    color: #fff;
+                    background-color: $palette2;
+                    box-shadow: 0 0 0 2px rgba($palette2, 0.25);
+                }
+            }
+        }
+
+        .dropdown-input-end-results  {
+            font-size: 0.75rem;
+            color: $palette18;
+            padding: 0 1rem;
+        }
+    }
+}
+
+.consultation-requesting-provider-dropdown-menu {
+    .dropdown-input-results {
+        display: flex;
+        align-items: center;
+        padding: 0 1rem;
+        &-total {
+            font-size: 0.75rem;
+            color: $palette20;
+        }
+    }
+}
+.requesting-provider-toggle-contiainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 3px;
+}

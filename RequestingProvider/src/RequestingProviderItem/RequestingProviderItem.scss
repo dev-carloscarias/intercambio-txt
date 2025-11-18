@@ -1,0 +1,49 @@
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'variables.scss';
+
+.requesting-provider-item {
+    &-name {
+        font-size: 0.875rem;
+        font-weight: $font-weight-bold;
+        color: $palette1;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+        margin-top: 0.1rem;
+    }
+    &-data {
+        display: flex;
+        //align-items: center;
+        font-size: 0.875rem;
+        color: $palette18;
+        margin-right: 0.5rem;
+        min-height: 1.5rem;
+        &-name {
+            font-weight: $font-weight-semibold;
+            margin-right: 0.25rem;
+        }
+        &-value {
+            display: flex;
+            //align-items: center;
+        }
+        &-link {
+            position: relative;
+            color: $palette2;
+            z-index: 100;
+        }
+    }
+    &-icon {
+        &-feature {
+            position: absolute;
+            top: -4px;
+            right: 0;
+            color: #b7b7b7;
+        }
+        &-information {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
