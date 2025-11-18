@@ -1,10 +1,7 @@
 Test	Duration	Traits	Error Message
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (5)	165 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (5)	165 ms		
-Class: FolioControllerTest Failed (3)	121 ms		
-Update_Get_ModelCompleto_CubreTodasLasAsignaciones Failed	49 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ModelCompleto_CubreTodasLasAsignaciones threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_PaisGuatemala_CubreElseTipoDocumento Failed	35 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_PaisGuatemala_CubreElseTipoDocumento threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_PaisSalvador_CubreIfTipoDocumento Failed	37 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_PaisSalvador_CubreIfTipoDocumento threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Class: UploadFileTest Failed (2)	44 ms		
-UploadFile_Get_Alternative_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.UploadFileTest.UploadFile_Get_Alternative_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-UploadFile_Get_Test Failed	40 ms		Assert.Fail failed. Controller method failed to execute: No se puede implementar el método o la operación.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	918 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (2)	918 ms		
+Class: FolioControllerTest Failed (1)	912 ms		
+Class: UploadFileTest Failed (1)	6 ms		
+Update_Get_ModelNull_CubreBreadcrumbYIfNull Failed	912 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.FolioControllerTest.Update_Get_ModelNull_CubreBreadcrumbYIfNull threw exception:  System.AggregateException: Se han producido uno o varios errores. ---> System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+UploadFile_Get_Simplified_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.UploadFileTest.UploadFile_Get_Simplified_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
