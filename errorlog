@@ -1,7 +1,38 @@
-Test	Duration	Traits	Error Message
-InactiveCai_NombreTipoDocumento_UrlOrIPRegex_Test Failed	148 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_NombreTipoDocumento_UrlOrIPRegex_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IContextService.get_GetIdentityName(); Expected #0, Actual #1.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	337 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	337 ms		
-Class: CaiControllerTest Failed (3)	337 ms		
-InactiveCai_NombreTipoDocumento_LocalhostRegex_Test Failed	146 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_NombreTipoDocumento_LocalhostRegex_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IContextService.get_GetIdentityName(); Expected #0, Actual #1.
-InactiveCai_NumeroCai_UrlOrIPRegex_Test Failed	43 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CaiControllerTest.InactiveCai_NumeroCai_UrlOrIPRegex_Test threw exception:  Rhino.Mocks.Exceptions.ExpectationViolationException: IContextService.get_GetIdentityName(); Expected #0, Actual #1.
+Validated that:
+
+Is available for MA and GHP Line of Business (LOB)
+Clinical Consultation will function accordingly with all its components after a beneficiary is selected by the user.
+Data displayed should be the following:
+Location: Requesting Provider
+Scenario 1
+If a user hasn't selected a provider or removes it from the "Provider Search" and presses the "Next" button, the "No provider has been selected" message from the selection box will be displayed in red lettering. (Only applies for Web Version)
+Image
+The "Provider Search" field will be displayed red around triggering the field to be used for the user to select a provider.
+Image
+Scenario 2
+If the data entered by the user doesn't match any results from the "Provider Search",the search grid will close, and an error message will be displayed below the "Provider Search" in red lettering. The error will be configurable and display the following message: "No results were found for the search criteria provided".
+The "Provider Search" field will be displayed red around triggering the field with the error.
+Image
+The "Next" button will be displayed as disabled and will be clickable when required information is incomplete in the corresponding section.
+Image
+Mobile Version:
+For the alerts from Scenario 1, the validations messages will be triggered for the scenario a user removes required components for the completion of the step after a step is completed.
+The alerts will be triggered for the section when the user presses "Submit" in the "Consultation Review" step of the process.
+For more detailed information, see "PBI-72324".
+Mockup images are not final and are subject to change.
+Responsiveness
+Functionalities are working as expected for the following resolutions:
+1920x1080, 1366x768, 1280x720, 390x844, 1440x900, 1280x1024
+Colors & Fonts are in accordance with URL/Screenshot attached (detail of colors/fonts)
+All static elements on the screen must have fixed ID, which will be used for Automation Purposes
+Log Action
+When the button is pressed, save action to Action Log, include the following:
+auditEventType: RequestingProviderNextClickError
+auditEventGroup: Clinical Consultation
+applicationDomain: Provider Portal
+User
+Event Data:
+BeneficiaryName
+BeneficiaryId
+EventDate
+Field Name + Error Message
