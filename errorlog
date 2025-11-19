@@ -1,11 +1,11 @@
 Test	Duration	Traits	Error Message
-Update_Get_ValidModel_Salvador_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Salvador_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (7)	35 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (7)	35 ms		
-Class: CompanyControllerTest Failed (7)	35 ms		
-Update_Get_AllProperties_Test Failed	2 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_AllProperties_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_EmptyJsonArray_Test Failed	1 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_EmptyJsonArray_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_UnknownCountryCode_Test Failed	1 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_UnknownCountryCode_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_ValidModel_Guatemala_Test Failed	1 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Guatemala_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_ValidModel_Honduras_Test Failed	1 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Honduras_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
-Update_Get_ValidModel_Nicaragua_Test Failed	27 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Nicaragua_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (7)	56 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (7)	56 ms		
+Class: CompanyControllerTest Failed (7)	56 ms		
+Update_Get_AllProperties_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_AllProperties_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_EmptyJsonArray_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_EmptyJsonArray_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_UnknownCountryCode_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_UnknownCountryCode_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_ValidModel_Guatemala_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Guatemala_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_ValidModel_Honduras_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Honduras_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_ValidModel_Nicaragua_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Nicaragua_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_ValidModel_Salvador_Test Failed	24 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.CompanyControllerTest.Update_Get_ValidModel_Salvador_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
