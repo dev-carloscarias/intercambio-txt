@@ -1,7 +1,7 @@
 Test	Duration	Traits	Error Message
-Update_Get_Complete_Coverage_Test Failed	22 ms		Assert.AreEqual failed. Expected:<99>. Actual:<0>. IdImpuesto debe ser 99
-Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	55 ms		
-Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	55 ms		
-Class: TaxControllerTest Failed (3)	55 ms		
-Update_Get_EmptyFechaVigencia_Test Failed	27 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_EmptyFechaVigencia_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Project: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	38 ms		
+Namespace: Walmart.FelGTSoft2000.Mvc.Tests Failed (3)	38 ms		
+Class: TaxControllerTest Failed (3)	38 ms		
+Update_Get_Complete_Coverage_Test Failed	7 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_Complete_Coverage_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
+Update_Get_EmptyFechaVigencia_Test Failed	25 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_EmptyFechaVigencia_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
 Update_Get_NullModel_Test Failed	6 ms		Test method Walmart.FelGTSoft2000.Mvc.Tests.TaxControllerTest.Update_Get_NullModel_Test threw exception:  System.NullReferenceException: Referencia a objeto no establecida como instancia de un objeto.
