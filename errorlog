@@ -1,17 +1,20 @@
-Microsoft.Naming : The compound word 'UpDate' in member name 'CreditNotesControllerTest.Post_UpDate_SqlException_Test()' exists as a discrete term. If your usage is intended to be single word, case it as 'Update' or strip the first token entirely if it represents any sort of Hungarian notation.
-Microsoft.Design : Consider merging the types defined in 'Walmart.FelGTSoft2000.Api.Tests.App_Start' with another namespace.
-Microsoft.Performance : It appears that field 'RequestLoggingHandlerTest._logMock' is never used or is only ever assigned to. Use this field or remove it.
-Microsoft.Design : Consider merging the types defined in 'Walmart.FelGTSoft2000.Api.Tests.Common.Helpers' with another namespace.
-Microsoft.Usage : 'CreditNotesControllerTest.Get_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Usage : 'CreditNotesControllerTest.GetDocuments_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Usage : 'CreditNotesControllerTest.Post_Generate_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Performance : 'CreditNotesControllerTest.Post_CreditNoteEntity_SqlException_Test()' declares a variable, 'queryableResult', of type 'IQueryable<CreditNote>', which is never used or is only assigned to. Use this variable or remove it.
-Microsoft.Usage : 'CreditNotesControllerTest.Post_CreditNoteEntity_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Naming : The compound word 'UpDate' in member name 'CreditNotesControllerTest.Post_UpDate_AllCountries_Success_Test()' exists as a discrete term. If your usage is intended to be single word, case it as 'Update' or strip the first token entirely if it represents any sort of Hungarian notation.
-Microsoft.Naming : The compound word 'UpDate' in member name 'CreditNotesControllerTest.Post_UpDate_Exception_Test()' exists as a discrete term. If your usage is intended to be single word, case it as 'Update' or strip the first token entirely if it represents any sort of Hungarian notation.
-Microsoft.Usage : 'CreditNotesControllerTest.Post_UpDate_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Performance : 'DocumentsControllerTest.UpdateConsecutivo_SuccessGT_Test()' declares a variable, 'returnFolio', of type 'Folio', which is never used or is only assigned to. Use this variable or remove it.
-Microsoft.Usage : 'DocumentsControllerTest.UpdateConsecutivo_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Usage : 'VendorsControllerTest.Get_ExceptionTest()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Usage : 'VendorsControllerTest.GetItem_WithCode_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
-Microsoft.Usage : 'VendorsControllerTest.GetItem_WithoutCode_Exception_Test()' creates an exception of type 'Exception', an exception type that is not sufficiently specific and should never be raised by user code. If this exception instance might be thrown, use a different exception type.
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
+The type or namespace name 'Helpers' does not exist in the namespace 'Walmart.FelGTSoft2000.Api.Tests.Common' (are you missing an assembly reference?)
