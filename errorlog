@@ -1,5 +1,13 @@
-Severity	Code	Description	Project	File	Line	Suppression State
-Error		Microsoft.Naming : The compound word 'SecretIn' in member name 'AkeylessHelperTest.GetSecret_SecretInCache_ReturnsCachedValue()' exists as a discrete term. If your usage is intended to be single word, case it as 'Secretin' or strip the first token entirely if it represents any sort of Hungarian notation.	Walmart.FelGTSoft2000.Api.Tests	C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-api\Walmart.FelGTSoft2000.Api.Tests\Common\Helpers\Akeyless\AkeylessHelperTest.cs	130	
-Error		Microsoft.Performance : 'AkeylessHelperTest.GetSecret_SecretInCache_ReturnsCachedValue()' declares a variable, 'result', of type 'string', which is never used or is only assigned to. Use this variable or remove it.	Walmart.FelGTSoft2000.Api.Tests	C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-api\Walmart.FelGTSoft2000.Api.Tests\Common\Helpers\Akeyless\AkeylessHelperTest.cs	150	
-Error		Microsoft.Naming : Replace the term 'Login' in member name 'AkeylessHelperTest.GetSecret_LoginFails_ReturnsEmptyString()' with the preferred alternate 'LogOn'.	Walmart.FelGTSoft2000.Api.Tests	C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-api\Walmart.FelGTSoft2000.Api.Tests\Common\Helpers\Akeyless\AkeylessHelperTest.cs	174	
-Error		Microsoft.Performance : 'CreditNotesControllerTest.GetTest()' declares a variable, 'queryable', of type 'IQueryable<CreditNote>', which is never used or is only assigned to. Use this variable or remove it.	Walmart.FelGTSoft2000.Api.Tests	C:\Users\vn59hu3\Documents\Proyectos\efi-sof2020-api\Walmart.FelGTSoft2000.Api.Tests\WebApi\V1\CreditNotes\Controllers\CreditNotesControllerTest.cs	142	
+Test	Duration	Traits	Error Message
+Project: Walmart.FelGTSoft2000.Api.Tests Failed (5)	135 ms		
+Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (5)	135 ms		
+Class: DocumentDetailsByNameControllerTest Failed (1)	6 ms		
+GetItem_NullResultTest Failed	6 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Class: DocumentLinesControllerTest Failed (1)	4 ms		
+GetItem_NullResultTest Failed	4 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Class: DocumentsControllerTest Failed (1)	4 ms		
+UpdateConsecutivo_NullResultTest Failed	4 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Class: ValueListDetailsControllerTest Failed (1)	4 ms		
+GetItem_NullResultTest Failed	4 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Class: ValueListMastersControllerTest Failed (1)	117 ms		
+GetItem_NullResultTest Failed	117 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
