@@ -10,7 +10,7 @@ import {
     DropdownPicker,
     CONST,
     LoadingIndicator,
-    FormDropdownSelect
+    FormDropdownSelectV2
 } from '@provider-portal/components';
 import { IconPlus, IconMinus, IconFilterList } from '@provider-portal/icons';
 import {
@@ -105,7 +105,7 @@ function App({
     const [isCityDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isRecreate, setIsRecreate] = useState(false);
 
-    const [isRecreation, setIsRecreation] = useState(false);
+    const [isPartialRecreation, setIsPartialRecreation] = useState(false);
     const [isSpecialtyDropdownOpen, setIsSpecialtyDropdownOpen] =
         useState(false);
 
@@ -322,7 +322,8 @@ function App({
             if (isRecreation) {
                 handleOnClearSearch();
                 setEnableFilter(false);
-                setIsRecreation(isRecreation);
+                setIsPartialRecreation(isRecreation);
+                setIsOpenCollapse(true);
             }
         }
 
@@ -531,22 +532,20 @@ function App({
         onValidate(getConsultation());
     };
 
-    const handleClickNext = async () => {
-         try {
-            await ClinicalConsultationService.getInstance().logAuditEvent(
-                AuditEventTypes.ServicingProviderNextClick,
-                AuditEventGroups.ClinicalConsultation,
-                {
-                    beneficiaryId: beneficiaryInformation?.beneficiaryId,
-                    cardNumber: beneficiaryInformation?.cardNumber,
-                    beneficiaryName: beneficiaryInformation?.displayName
-                }
-            );
-        } catch (error) {}
+    const handleClickNext = () => {
+        ClinicalConsultationService.getInstance().logAuditEvent(
+            AuditEventTypes.ServicingProviderNextClick,
+            AuditEventGroups.ClinicalConsultation,
+            {
+                beneficiaryId: beneficiaryInformation?.beneficiaryId,
+                cardNumber: beneficiaryInformation?.cardNumber,
+                beneficiaryName: beneficiaryInformation?.displayName
+            }
+        );
         updateWizardProgress();
         setIsOpenSheet(false);
         setIsOpenCollapse(false);
-        setIsRecreation(false);
+        setIsPartialRecreation(false);
     };
 
     const handleSelectCity = (city: CityInterface) => {
@@ -630,7 +629,9 @@ function App({
     const toggleCollapse = () => setIsOpenCollapse(!isOpenCollapse);
 
     useEffect(() => {
-        setIsOpenCollapse(active);
+        var shouldOpen =
+            active && (!consultation?.isRecreate || isPartialRecreation);
+        setIsOpenCollapse(shouldOpen);
     }, [active]);
 
     useEffect(() => {
@@ -666,6 +667,8 @@ function App({
         setFiltersCount(1);
         setAllowAnyContractedSpecialty(false);
         setTotalRows(0);
+        setSelectedProvider(null);
+        setSelectedSpecialty(null);
 
         if (isMobile()) {
             setIsFilterPanelOpen(false);
@@ -888,7 +891,7 @@ function App({
                                                 </div>
 
                                                 <div className="d-none d-mobile-block">
-                                                    <FormDropdownSelect
+                                                    <FormDropdownSelectV2
                                                         key={`specialty-${
                                                             selectedSpecialty?.specialtyId ??
                                                             specialties?.length
@@ -1281,7 +1284,7 @@ function App({
                         </div>
                     ) : null}
                 </div>
-                {!isValidForm && wasUpdated && !isRecreation ? (
+                {!isValidForm && wasUpdated && !isPartialRecreation ? (
                     <div
                         className=" d-mobile-block text-danger text-sm pl-2 pt-2 ml-3"
                         id="clinical-consultation-servicing-provider-alert-message"
