@@ -1,7 +1,5 @@
-Test	Duration	Traits	Error Message
-Project: Walmart.FelGTSoft2000.Api.Tests Failed (3)	14 ms		
-Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (3)	14 ms		
-Class: CreditNotesControllerTest Failed (3)	14 ms		
-Get_WebException_BadRequest_DefaultCase_ThrowsExceptionTest Failed	4 ms		Test method did not throw expected exception System.Net.WebException. 
-Get_WebException_Forbidden_DefaultCase_ThrowsExceptionTest Failed	8 ms		Test method did not throw expected exception System.Net.WebException. 
-Get_WebException_Unauthorized_DefaultCase_ThrowsExceptionTest Failed	2 ms		Test method did not throw expected exception System.Net.WebException. 
+Walmart.FelGTSoft2000.Api/WebApi/V1/Soft2000/Controllers/Get.cs
+Walmart.FelGTSoft2000.Api/WebApi/V1/Vendors/Controllers/Get.cs
+Walmart.FelGTSoft2000.Api/WebApi/V1/TaxRates/Controllers/Get.cs
+Walmart.FelGTSoft2000.Api/WebApi/V1/Soft2000/Controllers/Post.cs
+Walmart.FelGTSoft2000.Api/WebApi/V1/Companies/Controllers/Get.cs
