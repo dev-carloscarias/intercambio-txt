@@ -1,57 +1,6 @@
-Validated that:
-
-Is available for MA and GHP Line of Business (LOB)
-Clinical Consultation will function accordingly with all its components after a beneficiary is selected by the user.
-Data displayed should be the following:
-Location: Servicing Provider
-Scenario 1
-An alert will be displayed if a user presses the "Next" button and a reason hasn't been selected for a provider configured as "Out of Preferred Network".
-The reason field will be displayed red around triggering the field to be used for the user to select a reason.
-The alert will be configurable and display the following message: "*A no PPN provider reason must be selected." in red lettering. 
-The alert will be located below the "Reason" field at the left side. (Only applies for Web Version)
-Scenario 2
-If the data entered by the user doesn't match any results from the "Provider Search",the search grid will close, and an error message will be displayed below the "Provider Search" in red lettering. The error will be configurable and display the following message: "No results were found for the search criteria provided".
-The "Provider Search" field will be displayed red around triggering the field with the error.
-Image
-Scenario 3
-If the user presses the "Apply Button" and the data entered by the user doesn't match any of the filter results from the "More Filter" options, an error message will be displayed at the left an upper side of the selection box in red lettering.
-The error will be configurable and display the following message: "No results were found for the criteria provided".
-The dropdown filter selected will be displayed red around triggering the field with the error.
-Image
-The "Next" button will be displayed as disabled and will be clickable when required information is incomplete in the corresponding section.
-Image
-Mockup images are not final and are subject to change.
-Responsiveness
-Functionalities are working as expected for the following resolutions:
-1920x1080, 1366x768, 1280x720, 390x844, 1440x900, 1280x1024
-Colors & Fonts are in accordance with URL/Screenshot attached (detail of colors/fonts)
-All static elements on the screen must have fixed ID, which will be used for Automation Purposes
-Log Action
-When the button is pressed, save action to Action Log, include the following:
-auditEventType: ServicingProviderNextClickError
-auditEventGroup: Clinical Consultation
-applicationDomain: Provider Portal
-User
-Event Data:
-BeneficiaryName
-BeneficiaryId
-EventDate
-Field Name + ErrorMessage
-auditEventType: ServicingProviderApplyFilterError
-auditEventGroup: Clinical Consultation
-applicationDomain: Provider Portal
-User
-Event Data:
-BeneficiaryName
-BeneficiaryId
-EventDate
-Field Name + ErrorMessage
-auditEventType: ServicingProviderFilterEntryError
-auditEventGroup: Clinical Consultation
-applicationDomain: Provider Portal
-User
-Event Data:
-BeneficiaryName
-BeneficiaryId
-EventDate
-Field Name + ErrorMessage
+Test	Duration	Traits	Error Message
+Get_SqlException_ReturnBadRequestTest Failed	5 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Project: Walmart.FelGTSoft2000.Api.Tests Failed (2)	26 ms		
+Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (2)	26 ms		
+Class: VendorsControllerTest Failed (2)	26 ms		
+GetItem_WithVendorCodigo_NullResult_VerifyBadRequestTest Failed	21 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
