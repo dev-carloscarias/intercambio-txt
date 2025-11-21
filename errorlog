@@ -1,9 +1,7 @@
 Test	Duration	Traits	Error Message
-Class: Soft2000ControllerTest Failed (1)	4 ms		
-Project: Walmart.FelGTSoft2000.Api.Tests Failed (3)	100 ms		
-Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (3)	100 ms		
-Class: CreditNotesControllerTest Failed (1)	91 ms		
-Get_WebException_DefaultStatusTest Failed	91 ms		Assert.IsNotNull failed. Expected WebException but got: null
-Class: DocumentDetailsByNameCaiControllerTest Failed (1)	5 ms		
-Log_Getter_WhenNull_Test Failed	5 ms		Test method Walmart.FelGTSoft2000.Api.Tests.DocumentDetailsByNameCaiControllerTest.Log_Getter_WhenNull_Test threw exception:  System.ArgumentNullException: Value cannot be null. Parameter name: name
-Log_Getter_WhenNull_Test Failed	4 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Soft2000ControllerTest.Log_Getter_WhenNull_Test threw exception:  System.ArgumentNullException: Value cannot be null. Parameter name: name
+Project: Walmart.FelGTSoft2000.Api.Tests Failed (3)	14 ms		
+Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (3)	14 ms		
+Class: CreditNotesControllerTest Failed (3)	14 ms		
+Get_WebException_BadRequest_DefaultCase_ThrowsExceptionTest Failed	4 ms		Test method did not throw expected exception System.Net.WebException. 
+Get_WebException_Forbidden_DefaultCase_ThrowsExceptionTest Failed	8 ms		Test method did not throw expected exception System.Net.WebException. 
+Get_WebException_Unauthorized_DefaultCase_ThrowsExceptionTest Failed	2 ms		Test method did not throw expected exception System.Net.WebException. 
