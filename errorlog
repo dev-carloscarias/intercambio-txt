@@ -1,6 +1,9 @@
 Test	Duration	Traits	Error Message
-Get_SqlException_ReturnBadRequestTest Failed	5 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
-Project: Walmart.FelGTSoft2000.Api.Tests Failed (2)	26 ms		
-Namespace: Walmart.FelGTSoft2000.Api.Tests Failed (2)	26 ms		
-Class: VendorsControllerTest Failed (2)	26 ms		
-GetItem_WithVendorCodigo_NullResult_VerifyBadRequestTest Failed	21 ms		Assert.IsInstanceOfType failed.  Expected type:<System.Web.Http.Results.BadRequestErrorMessageResult>. Actual type:<Walmart.FelGTSoft2000.Api.CustomInvalidModelStateResult>.
+Project: Walmart.FelGTSoft2000.Api.Tests Failed (5)	92 ms		
+Namespace: Walmart.FelGTSoft2000.Api.Tests.Common.Helpers Failed (5)	92 ms		
+Class: AppConfigConnectionStringProviderTest Failed (5)	92 ms		
+GetConnectionString_CR_ReturnsCnxCR Failed	89 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Common.Helpers.AppConfigConnectionStringProviderTest.GetConnectionString_CR_ReturnsCnxCR threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+GetConnectionString_GT_ReturnsCnxGT Failed	1 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Common.Helpers.AppConfigConnectionStringProviderTest.GetConnectionString_GT_ReturnsCnxGT threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+GetConnectionString_HN_ReturnsCnxHN Failed	1 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Common.Helpers.AppConfigConnectionStringProviderTest.GetConnectionString_HN_ReturnsCnxHN threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+GetConnectionString_NI_ReturnsCnxNI Failed	< 1 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Common.Helpers.AppConfigConnectionStringProviderTest.GetConnectionString_NI_ReturnsCnxNI threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+GetConnectionString_SV_ReturnsCnxSV Failed	1 ms		Test method Walmart.FelGTSoft2000.Api.Tests.Common.Helpers.AppConfigConnectionStringProviderTest.GetConnectionString_SV_ReturnsCnxSV threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
