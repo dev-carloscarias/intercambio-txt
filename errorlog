@@ -1,4 +1,11 @@
-
+Log Action
+When the button is pressed, save action to Action Log, include the following:
+auditEventType: ServicingProviderNextClickError
+auditEventGroup: Clinical Consultation
+applicationDomain: Provider Portal
+User
+Event Data:
+BeneficiaryName
 BeneficiaryId
 EventDate
 Field Name + ErrorMessage
@@ -16,6 +23,27 @@ auditEventGroup: Clinical Consultation
 applicationDomain: Provider Portal
 User
 Event Data:
+Log Action
+When the button is pressed, save action to Action Log, include the following:
+auditEventType: ServicingProviderNextClickError
+auditEventGroup: Clinical Consultation
+applicationDomain: Provider Portal
+User
+Event Data:
+BeneficiaryName
+BeneficiaryId
+EventDate
+Field Name + ErrorMessage
+auditEventType: ServicingProviderApplyFilterError
+auditEventGroup: Clinical Consultation
+applicationDomain: Provider Portal
+User
+Event Data:
+BeneficiaryName
+BeneficiaryId
+EventDate
+Field Name + ErrorMessage
+auditEventType: Servic
 BeneficiaryName
 BeneficiaryId
 EventDate
