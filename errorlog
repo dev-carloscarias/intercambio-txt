@@ -1,8 +1,1 @@
-Test	Duration	Traits	Error Message
-RsaEncrypt_WithValidText_ShouldReturnBase64String Failed	1.7 sec		Test method Walmart.PushDocSV.Business.Tests.RsaEncryptionManagerTest.RsaEncrypt_WithValidText_ShouldReturnBase64String threw exception:  System.InvalidCastException: No se puede convertir un objeto de tipo 'Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair' al tipo 'Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters'.
-Project: Walmart.PushDocSV.Business.Tests Failed (3)	2 sec		
-Namespace: Walmart.PushDocSV.Business.Tests Failed (3)	2 sec		
-Class: PushDocJobConfigTest Failed (1)	324 ms		
-Start_ShouldConfigureScheduler Failed	324 ms		Test method Walmart.PushDocSV.Business.Tests.PushDocJobConfigTest.Start_ShouldConfigureScheduler threw exception:  System.TypeInitializationException: The type initializer for 'Quartz.Impl.StdSchedulerFactory' threw an exception. ---> System.TypeInitializationException: The type initializer for 'Common.Logging.LogManager' threw an exception. ---> System.Security.VerificationException: Operation could destabilize the runtime.
-Class: RsaEncryptionManagerTest Failed (2)	1.7 sec		
-Constructor_WithValidPemKey_ShouldInitialize Failed	15 ms		Test method Walmart.PushDocSV.Business.Tests.RsaEncryptionManagerTest.Constructor_WithValidPemKey_ShouldInitialize threw exception:  System.InvalidCastException: No se puede convertir un objeto de tipo 'Org.BouncyCastle.Crypto.AsymmetricCipherKeyPair' al tipo 'Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters'.
+https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTYxYzU1MDMtZTYyZi00YTY3LWFmNWYtZDQ1M2Q1NDg1Yzgy%40thread.v2/0?context=%7b%22Tid%22%3a%220a469cd4-d225-4002-86ce-c93477e1fa44%22%2c%22Oid%22%3a%2290782e9a-f491-4275-b069-a7914c5dad9c%22%7d
