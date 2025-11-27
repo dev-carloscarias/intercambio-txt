@@ -1,8 +1,8 @@
 Test	Duration	Traits	Error Message
-GenerateObject_Generic_WithNullXml_ShouldReturnNull Failed	4 ms		Test method Walmart.PushDocSV.Business.Tests.ToolTest.GenerateObject_Generic_WithNullXml_ShouldReturnNull threw exception:  System.ArgumentNullException: Value cannot be null. Parameter name: s
-Project: Walmart.PushDocSV.Business.Tests Failed (4)	74 ms		
-Namespace: Walmart.PushDocSV.Business.Tests Failed (4)	74 ms		
-Class: ToolTest Failed (4)	74 ms		
-DeserializeXml_WithNullXml_ShouldReturnNull Failed	< 1 ms		Test method Walmart.PushDocSV.Business.Tests.ToolTest.DeserializeXml_WithNullXml_ShouldReturnNull threw exception:  System.ArgumentNullException: Value cannot be null. Parameter name: s
-GenerateObject_Generic_WithEmptyXml_ShouldReturnNull Failed	2 ms		Test method Walmart.PushDocSV.Business.Tests.ToolTest.GenerateObject_Generic_WithEmptyXml_ShouldReturnNull threw exception:  System.Xml.XmlException: Falta el elemento raíz.
-RemoveAllNamespaces_WithXmlStringWithoutElements_ShouldRemoveNamespaces Failed	68 ms		Test method Walmart.PushDocSV.Business.Tests.ToolTest.RemoveAllNamespaces_WithXmlStringWithoutElements_ShouldRemoveNamespaces threw exception:  System.Xml.XmlException: No se puede volver a definir el prefijo '' de '' a 'http://example.com' dentro de la misma etiqueta de elemento inicial.
+Project: Walmart.PushDocSV.Business.Tests Failed (3)	65 ms		
+Namespace: Walmart.PushDocSV.Business.Tests Failed (3)	65 ms		
+Class: ListenerDeleteProcessTest Failed (2)	22 ms		
+ExecuteRequestDeleteLogDocumentAndLogError_WhenExceptionThrown_ShouldCatchAndLogError Failed	2 ms		Test method Walmart.PushDocSV.Business.Tests.ListenerDeleteProcessTest.ExecuteRequestDeleteLogDocumentAndLogError_WhenExceptionThrown_ShouldCatchAndLogError threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+ExecuteRequestDeleteLogDocumentAndLogError_WithNullInnerException_ShouldHandleGracefully Failed	20 ms		Test method Walmart.PushDocSV.Business.Tests.ListenerDeleteProcessTest.ExecuteRequestDeleteLogDocumentAndLogError_WithNullInnerException_ShouldHandleGracefully threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
+Class: ListenerProcessTest Failed (1)	43 ms		
+prueba_ShouldDeserializeXml Failed	43 ms		Assert.IsNotNull failed. 
