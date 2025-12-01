@@ -1,8 +1,1 @@
-Test	Duration	Traits	Error Message
-Project: Walmart.PushDocSV.Business.Tests Failed (3)	65 ms		
-Namespace: Walmart.PushDocSV.Business.Tests Failed (3)	65 ms		
-Class: ListenerDeleteProcessTest Failed (2)	22 ms		
-ExecuteRequestDeleteLogDocumentAndLogError_WhenExceptionThrown_ShouldCatchAndLogError Failed	2 ms		Test method Walmart.PushDocSV.Business.Tests.ListenerDeleteProcessTest.ExecuteRequestDeleteLogDocumentAndLogError_WhenExceptionThrown_ShouldCatchAndLogError threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-ExecuteRequestDeleteLogDocumentAndLogError_WithNullInnerException_ShouldHandleGracefully Failed	20 ms		Test method Walmart.PushDocSV.Business.Tests.ListenerDeleteProcessTest.ExecuteRequestDeleteLogDocumentAndLogError_WithNullInnerException_ShouldHandleGracefully threw exception:  System.NullReferenceException: Object reference not set to an instance of an object.
-Class: ListenerProcessTest Failed (1)	43 ms		
-prueba_ShouldDeserializeXml Failed	43 ms		Assert.IsNotNull failed. 
+https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDMzMTdmNTctZjdiNC00NDkwLTgyMzAtYWJmMTk1OGFjZTc3%40thread.v2/0?context=%7b%22Tid%22%3a%223cbcc3d3-094d-4006-9849-0d11d61f484d%22%2c%22Oid%22%3a%22b429f931-7592-43e2-860a-14f151d276bc%22%7d
