@@ -1,140 +1,132 @@
-node: vs2022
-
-tools:
-  nuget: 4.1.0
-  maven: 3.5.0
-  jdk:
-    version: 17 #or 8 or 17 
-    flavor: azul 
-  sonarscanner-msbuild: 5.13.0.66756 #4.6.2.2108
-
-envs:
-  global:
-    variables:
-      ALLOW_ARTIFACTORY: true
-      sonarProject: efi-pushdocgt-winservice
-      testFilePattern: "./Walmart.PushDocGT.Business.Tests/bin/Debug/Walmart.PushDoc.Business.Tests.dll"
-      solution: Walmart.PushDocGT.Service.sln
- 
-      
-branches:
-  - spec: main
-    triggers:
-      - pr:
-          disabled: true
-  - spec: release
-    triggers:
-      - push:
-          call: ReleaseFlow
-      - manual:
-          name: Make Release flow
-          call: ReleaseFlow
-      - pr:
-          disabled: true
-  - spec: stage
-    triggers:
-      - push:
-          call: StageFlow
-      - manual:
-          name: Make Stage flow
-          call: StageFlow
-      - pr:
-          disabled: true
-  - spec: develop
-    triggers:
-      - push:
-          call: DevFlow
-      - manual:
-          name: Make Dev flow
-          call: DevFlow
-      - pr:
-          disabled: false
-  - spec: feature_*
-    triggers:
-      - push:
-          call: featureFlow
-      - manual:
-          name: Make feature flow
-          call: featureFlow
-      - pr:
-          disabled: true
-  - spec: fix/*
-    triggers:
-      - push:
-          call: DevFlow
-      - manual:
-          name: Make feature flow
-          call: DevFlow
-      - pr:
-          disabled: true
-      
-triggers:
-  - manual: Run default
-
-flows:
-  ReleaseFlow:
-    - echo "Starting Release process"    
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - call: sonar
-    - call: hygieia-publish
-  StageFlow:
-    - echo "Starting stage process"    
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - call: sonar
-    - call: hygieia-publish
-  DevFlow:
-    - echo "Starting Dev process"    
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - call: sonar
-    - call: hygieia-publish
-  featureFlow:
-    - echo "Starting feature process"
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - call: sonar
-    - call: hygieia-publish
-  default:
-    - call: setup
-    - call: build
-    - call: package
-    - call: deploy
-    - call: sonar
-    - call: hygieia-publish
-  setup:
-      - nuget restore "${solution}"
-  build:
-      - MSBuild.exe /t:restore,Rebuild "${solution}"
-  package:
-    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
-  deploy:
-    - var(pom = "-DpomFile=pom.xml")
-    - var(file = "-Dfile=build.zip")
-    - var(url = "-Durl=https://mvn.ci.artifacts.walmart.com/artifactory/camts-mvn")
-    - var(id = "-DrepositoryId=af-snapshot")
-    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
-  hygieia-publish:
-    - hygieia.publishBuild() 
-    - hygieia.publishSonar()
-  sonar:
-    - (name Installing coverage tools) nuget install OpenCover -Version 4.7.922 -OutputDirectory tools
-    - (name Installing ReportGenerator) nuget install ReportGenerator -Version 4.8.12 -OutputDirectory tools
-    - (name Installing Microsoft.TestPlatform) nuget install Microsoft.TestPlatform -Version 16.6.1 -OutputDirectory tools
-    - |
-      (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:efi-pushdocgt-winservice /n:efi-pushdocgt-winservice /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions="**Tests*.cs"
-    - (name restore) Nuget.exe restore "${solution}"
-    - (name msbuild) MSBuild.exe /t:Rebuild /p:Configuration=Debug "${solution}"
-    - |
-      (name Run tests with coverage) tools\OpenCover.4.7.922\tools\OpenCover.Console.exe -target:"tools\Microsoft.TestPlatform.16.6.1\tools\net451\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" -targetargs:"Walmart.PushDocGT.Business.Tests\bin\Debug\Walmart.PushDocGT.Business.Tests.dll /Logger:trx" -register:user -filter:"+[Walmart.PushDocGT.*]* -[*Tests]*" -output:coverage.xml
-    - (name Generate coverage report) tools\ReportGenerator.4.8.12\tools\net47\ReportGenerator.exe -reports:coverage.xml -targetdir:coveragereport -reporttypes:Html
-    - (name sonar end) SonarScanner.MSBuild.exe end
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84D33BC0-B4E1-46AC-A03A-A11E3628C93A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Walmart.PushDoc.Business.Tests</RootNamespace>
+    <AssemblyName>Walmart.PushDoc.Business.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsTestProject>true</IsTestProject>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <RunSettingsFilePath>
+    </RunSettingsFilePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.20.72.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.20.72\lib\net462\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App2AppHeaderFormatterTest.cs" />
+    <Compile Include="ConnectionStringNamesTest.cs" />
+    <Compile Include="CustomConfigurationSectionTest.cs" />
+    <Compile Include="ListenerProcessTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="CodeCoverage.runsettings">
+     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+   </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Walmart.PushDocGT.Business\Walmart.PushDocGT.Business.csproj">
+      <Project>{b2179609-5903-42b6-b726-5f188cce7e71}</Project>
+      <Name>Walmart.PushDocGT.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Walmart.PushDocGT.Common\Walmart.PushDocGT.Common.csproj">
+      <Project>{aaaadbc6-380c-4adf-81bf-fdd6ffef8a20}</Project>
+      <Name>Walmart.PushDocGT.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Walmart.PushDocGT.Persistence\Walmart.PushDocGT.Persistence.csproj">
+      <Project>{b2ed12a9-b9b0-42c7-82e4-e4c654fa3b11}</Project>
+      <Name>Walmart.PushDocGT.Persistence</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
