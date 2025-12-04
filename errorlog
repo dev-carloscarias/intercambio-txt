@@ -1,1 +1,140 @@
-https://mmmhc.zoom.us/j/92060685685?pwd=V2g1Y2hTMnpzcUFvZFRCdGx0dlRHdz09&from=addon
+node: vs2022
+
+tools:
+  nuget: 4.1.0
+  maven: 3.5.0
+  jdk:
+    version: 17 #or 8 or 17 
+    flavor: azul 
+  sonarscanner-msbuild: 5.13.0.66756 #4.6.2.2108
+
+envs:
+  global:
+    variables:
+      ALLOW_ARTIFACTORY: true
+      sonarProject: efi-pushdocgt-winservice
+      testFilePattern: "./Walmart.PushDocGT.Business.Tests/bin/Debug/Walmart.PushDoc.Business.Tests.dll"
+      solution: Walmart.PushDocGT.Service.sln
+ 
+      
+branches:
+  - spec: main
+    triggers:
+      - pr:
+          disabled: true
+  - spec: release
+    triggers:
+      - push:
+          call: ReleaseFlow
+      - manual:
+          name: Make Release flow
+          call: ReleaseFlow
+      - pr:
+          disabled: true
+  - spec: stage
+    triggers:
+      - push:
+          call: StageFlow
+      - manual:
+          name: Make Stage flow
+          call: StageFlow
+      - pr:
+          disabled: true
+  - spec: develop
+    triggers:
+      - push:
+          call: DevFlow
+      - manual:
+          name: Make Dev flow
+          call: DevFlow
+      - pr:
+          disabled: false
+  - spec: feature_*
+    triggers:
+      - push:
+          call: featureFlow
+      - manual:
+          name: Make feature flow
+          call: featureFlow
+      - pr:
+          disabled: true
+  - spec: fix/*
+    triggers:
+      - push:
+          call: DevFlow
+      - manual:
+          name: Make feature flow
+          call: DevFlow
+      - pr:
+          disabled: true
+      
+triggers:
+  - manual: Run default
+
+flows:
+  ReleaseFlow:
+    - echo "Starting Release process"    
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - call: sonar
+    - call: hygieia-publish
+  StageFlow:
+    - echo "Starting stage process"    
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - call: sonar
+    - call: hygieia-publish
+  DevFlow:
+    - echo "Starting Dev process"    
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - call: sonar
+    - call: hygieia-publish
+  featureFlow:
+    - echo "Starting feature process"
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - call: sonar
+    - call: hygieia-publish
+  default:
+    - call: setup
+    - call: build
+    - call: package
+    - call: deploy
+    - call: sonar
+    - call: hygieia-publish
+  setup:
+      - nuget restore "${solution}"
+  build:
+      - MSBuild.exe /t:restore,Rebuild "${solution}"
+  package:
+    - (name Zip build) powershell "Compress-Archive -Path . -DestinationPath build.zip -Update"
+  deploy:
+    - var(pom = "-DpomFile=pom.xml")
+    - var(file = "-Dfile=build.zip")
+    - var(url = "-Durl=https://mvn.ci.artifacts.walmart.com/artifactory/camts-mvn")
+    - var(id = "-DrepositoryId=af-snapshot")
+    - (name Deploy archive) mvn -B deploy:deploy-file ${pom} -Dpackaging=zip ${file} ${url} ${id}
+  hygieia-publish:
+    - hygieia.publishBuild() 
+    - hygieia.publishSonar()
+  sonar:
+    - (name Installing coverage tools) nuget install OpenCover -Version 4.7.922 -OutputDirectory tools
+    - (name Installing ReportGenerator) nuget install ReportGenerator -Version 4.8.12 -OutputDirectory tools
+    - (name Installing Microsoft.TestPlatform) nuget install Microsoft.TestPlatform -Version 16.6.1 -OutputDirectory tools
+    - |
+      (name sonar begin) SonarScanner.MSBuild.exe begin /d:sonar.verbose=true /d:sonar.host.url=https://sonar.looper.prod.walmartlabs.com/ /k:efi-pushdocgt-winservice /n:efi-pushdocgt-winservice /v:1.0 /d:sonar.scm.enabled=false /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions="**Tests*.cs"
+    - (name restore) Nuget.exe restore "${solution}"
+    - (name msbuild) MSBuild.exe /t:Rebuild /p:Configuration=Debug "${solution}"
+    - |
+      (name Run tests with coverage) tools\OpenCover.4.7.922\tools\OpenCover.Console.exe -target:"tools\Microsoft.TestPlatform.16.6.1\tools\net451\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" -targetargs:"Walmart.PushDocGT.Business.Tests\bin\Debug\Walmart.PushDocGT.Business.Tests.dll /Logger:trx" -register:user -filter:"+[Walmart.PushDocGT.*]* -[*Tests]*" -output:coverage.xml
+    - (name Generate coverage report) tools\ReportGenerator.4.8.12\tools\net47\ReportGenerator.exe -reports:coverage.xml -targetdir:coveragereport -reporttypes:Html
+    - (name sonar end) SonarScanner.MSBuild.exe end
