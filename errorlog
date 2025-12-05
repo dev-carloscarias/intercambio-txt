@@ -1,1 +1,43 @@
-https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDMzMTdmNTctZjdiNC00NDkwLTgyMzAtYWJmMTk1OGFjZTc3%40thread.v2/0?context=%7b%22Tid%22%3a%223cbcc3d3-094d-4006-9849-0d11d61f484d%22%2c%22Oid%22%3a%22b429f931-7592-43e2-860a-14f151d276bc%22%7d
+ <add key="vault" value="false" />
+    <add key="guatefacturas_username" value="test_user" />
+    <add key="guatefacturas_password" value="test_pass" />
+    <add key="fel_usuario" value="test_fel_user" />
+    <add key="fel_password" value="test_fel_pass" />
+
+
+   
+            // Initialize SharedSecrets to avoid NullReferenceException
+            InitializeSharedSecrets();
+        }
+
+        private void InitializeSharedSecrets()
+        {
+            var sharedSecretsField = typeof(AppSecureStartup).GetField("SharedSecrets", BindingFlags.NonPublic | BindingFlags.Static);
+            if (sharedSecretsField != null)
+            {
+                var sharedSecrets = sharedSecretsField.GetValue(null) as Dictionary<string, string>;
+                if (sharedSecrets == null)
+                {
+                    sharedSecrets = new Dictionary<string, string>();
+                    sharedSecretsField.SetValue(null, sharedSecrets);
+                }
+                
+                // Add test secrets if they don't exist
+                if (!sharedSecrets.ContainsKey("guatefacturas_username"))
+                {
+                    sharedSecrets["guatefacturas_username"] = "test_user";
+                }
+                if (!sharedSecrets.ContainsKey("guatefacturas_password"))
+                {
+                    sharedSecrets["guatefacturas_password"] = "test_pass";
+                }
+                if (!sharedSecrets.ContainsKey("fel_usuario"))
+                {
+                    sharedSecrets["fel_usuario"] = "test_fel_user";
+                }
+                if (!sharedSecrets.ContainsKey("fel_password"))
+                {
+                    sharedSecrets["fel_password"] = "test_fel_pass";
+                }
+            }
+        }
